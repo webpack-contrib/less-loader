@@ -1,0 +1,16 @@
+{
+	"name": "less-loader",
+	"version": "0.1.0",
+	"author": "Tobias Koppers @sokra",
+	"description": "less loader module for webpack",
+	"dependencies": {
+		"less": "1.3.x"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://www.opensource.org/licenses/mit-license.php"
+		}
+	],
+	"license": "MIT"
+}
