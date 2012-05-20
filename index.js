@@ -6,6 +6,7 @@ var less = require("less");
 var path = require("path");
 var fs = require("fs");
 module.exports = function(input) {
+	this.cacheable && this.cacheable();
 	var options = this;
 	var cb = this.async();
 	less.Parser.importer = function (file, paths, callback, env) {
@@ -14,6 +15,7 @@ module.exports = function(input) {
 				options.callback(err);
 				return;
 			}
+			options.dependency && options.dependency(filename);
 			if(cb) {
 				// The default (asynchron)
 				fs.readFile(filename, 'utf-8', function(e, data) {
