@@ -5,6 +5,10 @@
 var less = require("less");
 var path = require("path");
 var fs = require("fs");
+function formatLessError(e, filename) {
+	return new Error(e.message + "\n @ " + filename +
+		" (line " + e.line + ", column " + e.column + ")");
+}
 module.exports = function(input) {
 	this.cacheable && this.cacheable();
 	var options = this;
@@ -21,33 +25,45 @@ module.exports = function(input) {
 				fs.readFile(filename, 'utf-8', function(e, data) {
 					if (e) return callback(e);
 
-					new(less.Parser)({
-						filename: filename,
-						paths: [],
-						compress: env.compress
-					}).parse(data, function (e, root) {
-						callback(e, root, data);
-					});
+					try {
+						new(less.Parser)({
+							// filename: filename,
+							paths: [],
+							compress: env.compress
+						}).parse(data, function (e, root) {
+							callback(e, root, data);
+						});
+					} catch(e) {
+						try {
+							callback(e);
+						} catch(e) {
+							options.callback(formatLessError(e, filename));
+						}
+					}
 				});
 			} else {
 				// Make it synchron
 				try {
 					var data = fs.readFileSync(filename, 'utf-8');
 					new(less.Parser)({
-						filename: filename,
+						// filename: filename,
 						paths: [],
 						compress: env.compress
 					}).parse(data, function (e, root) {
 						callback(e, root, data);
 					});
 				} catch(e) {
-					callback(e);
+					try {
+						callback(e);
+					} catch(e) {
+						options.callback(formatLessError(e, filename));
+					}
 				}
 			}
 		});
 	}
 	var resultcb = this.callback;
-	
+
 	less.render(input, {
 		filename: this.filenames[0],
 		paths: [],
