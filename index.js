@@ -14,7 +14,7 @@ module.exports = function(input) {
 	var options = this;
 	var cb = this.async();
 	less.Parser.importer = function (file, paths, callback, env) {
-		options.resolve(path.dirname(env.filename), urlToRequire(file), function(err, filename) {
+		options.resolve(path.dirname(env._parentFilename || env.filename), urlToRequire(file), function(err, filename) {
 			if(err) {
 				options.callback(err);
 				return;
@@ -27,7 +27,7 @@ module.exports = function(input) {
 
 					try {
 						new(less.Parser)({
-							// filename: filename,
+							_parentFilename: filename,
 							paths: [],
 							compress: env.compress
 						}).parse(data, function (e, root) {
@@ -46,7 +46,7 @@ module.exports = function(input) {
 				try {
 					var data = fs.readFileSync(filename, 'utf-8');
 					new(less.Parser)({
-						// filename: filename,
+						_parentFilename: filename,
 						paths: [],
 						compress: env.compress
 					}).parse(data, function (e, root) {
