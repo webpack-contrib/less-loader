@@ -13,14 +13,17 @@ module.exports = function(input) {
 	this.cacheable && this.cacheable();
 	var options = this;
 	var cb = this.async();
+	var resolve = cb ? options.resolve : options.resolve.sync;
 	less.Parser.importer = function (file, paths, callback, env) {
-		options.resolve(path.dirname(env._parentFilename || env.filename), urlToRequire(file), function(err, filename) {
-			if(err) {
-				options.callback(err);
-				return;
-			}
-			options.dependency && options.dependency(filename);
-			if(cb) {
+		var context = path.dirname(env._parentFilename || env.filename);
+		var moduleName = urlToRequire(file)
+		if(cb) {
+			options.resolve(context, moduleName, function(err, filename) {
+				if(err) {
+					options.callback(err);
+					return;
+				}
+				options.dependency && options.dependency(filename);
 				// The default (asynchron)
 				fs.readFile(filename, 'utf-8', function(e, data) {
 					if (e) return callback(e);
@@ -41,28 +44,29 @@ module.exports = function(input) {
 						}
 					}
 				});
-			} else {
-				// Make it synchron
+			});
+		} else {
+			var filename = options.resolve.sync(context, moduleName);
+			// Make it synchron
+			try {
+				var data = fs.readFileSync(filename, 'utf-8');
+				new(less.Parser)({
+					_parentFilename: filename,
+					paths: [],
+					compress: env.compress
+				}).parse(data, function (e, root) {
+					callback(e, root, data);
+				});
+			} catch(e) {
 				try {
-					var data = fs.readFileSync(filename, 'utf-8');
-					new(less.Parser)({
-						_parentFilename: filename,
-						paths: [],
-						compress: env.compress
-					}).parse(data, function (e, root) {
-						callback(e, root, data);
-					});
+					callback(e);
 				} catch(e) {
-					try {
-						callback(e);
-					} catch(e) {
-						options.callback(formatLessError(e, filename));
-					}
+					options.callback(formatLessError(e, filename));
 				}
 			}
-		});
+		}
 	}
-	var resultcb = this.callback;
+	var resultcb = cb || this.callback;
 
 	less.render(input, {
 		filename: this.filenames[0],
