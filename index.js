@@ -82,3 +82,4 @@ function urlToRequire(url) {
 	else
 		return "./"+url;
 }
+module.exports.seperableIfResolve = true;
