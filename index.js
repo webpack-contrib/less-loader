@@ -14,13 +14,16 @@ module.exports = function(input) {
 	var options = this;
 	var cb = this.async();
 	var resolve = cb ? options.resolve : options.resolve.sync;
+	var errored = false;
 	less.Parser.importer = function (file, paths, callback, env) {
 		var context = path.dirname(env._parentFilename || env.filename);
 		var moduleName = urlToRequire(file)
 		if(cb) {
 			options.resolve(context, moduleName, function(err, filename) {
 				if(err) {
-					options.callback(err);
+					if(!errored)
+						options.callback(err);
+					errored = true;
 					return;
 				}
 				options.dependency && options.dependency(filename);
