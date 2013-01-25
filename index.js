@@ -11,22 +11,21 @@ function formatLessError(e, filename) {
 }
 module.exports = function(input) {
 	this.cacheable && this.cacheable();
-	var options = this;
+	var loaderContext = this;
 	var cb = this.async();
-	var resolve = cb ? options.resolve : options.resolve.sync;
 	var errored = false;
 	less.Parser.importer = function (file, paths, callback, env) {
 		var context = path.dirname(env._parentFilename || env.filename);
 		var moduleName = urlToRequire(file)
 		if(cb) {
-			options.resolve(context, moduleName, function(err, filename) {
+			loaderContext.resolve(context, moduleName, function(err, filename) {
 				if(err) {
 					if(!errored)
-						options.callback(err);
+						loaderContext.callback(err);
 					errored = true;
 					return;
 				}
-				options.dependency && options.dependency(filename);
+				loaderContext.dependency && loaderContext.dependency(filename);
 				// The default (asynchron)
 				fs.readFile(filename, 'utf-8', function(e, data) {
 					if (e) return callback(e);
@@ -43,13 +42,13 @@ module.exports = function(input) {
 						try {
 							callback(e);
 						} catch(e) {
-							options.callback(formatLessError(e, filename));
+							loaderContext.callback(formatLessError(e, filename));
 						}
 					}
 				});
 			});
 		} else {
-			var filename = options.resolve.sync(context, moduleName);
+			var filename = loaderContext.resolveSync(context, moduleName);
 			// Make it synchron
 			try {
 				var data = fs.readFileSync(filename, 'utf-8');
@@ -64,7 +63,7 @@ module.exports = function(input) {
 				try {
 					callback(e);
 				} catch(e) {
-					options.callback(formatLessError(e, filename));
+					loaderContext.callback(formatLessError(e, filename));
 				}
 			}
 		}
@@ -72,7 +71,7 @@ module.exports = function(input) {
 	var resultcb = cb || this.callback;
 
 	less.render(input, {
-		filename: this.filenames[0],
+		filename: this.resource,
 		paths: [],
 		compress: !!this.minimize
 	}, function(e, result) {
