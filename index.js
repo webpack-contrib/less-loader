@@ -75,7 +75,8 @@ module.exports = function(input) {
 		paths: [],
 		compress: !!this.minimize
 	}, function(e, result) {
-		resultcb(e, e ? null : "module.exports =\n\t" + JSON.stringify(result) + ";");
+		if(e) return resultcs(e);
+		resultcb(null, result);
 	});
 }
 function urlToRequire(url) {
