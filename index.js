@@ -75,7 +75,7 @@ module.exports = function(input) {
 		paths: [],
 		compress: !!this.minimize
 	}, function(e, result) {
-		if(e) return resultcs(e);
+		if(e) return resultcb(e);
 		resultcb(null, result);
 	});
 }
@@ -85,4 +85,3 @@ function urlToRequire(url) {
 	else
 		return "./"+url;
 }
-module.exports.seperableIfResolve = true;
