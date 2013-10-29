@@ -14,8 +14,14 @@ module.exports = function(input) {
 	var loaderContext = this;
 	var cb = this.async();
 	var errored = false;
-	less.Parser.importer = function (file, paths, callback, env) {
-		var context = path.dirname(env._parentFilename || env.filename);
+	less.Parser.fileLoader = function (file, currentFileInfo, callback, env) {
+		var newFileInfo = {
+			relativeUrls: env.relativeUrls,
+			entryPath: currentFileInfo.entryPath,
+			rootpath: currentFileInfo.rootpath,
+			rootFilename: currentFileInfo.rootFilename
+		};
+		var context = currentFileInfo.currentDirectory;
 		var moduleName = urlToRequire(file)
 		if(cb) {
 			loaderContext.resolve(context, moduleName, function(err, filename) {
@@ -25,40 +31,29 @@ module.exports = function(input) {
 					errored = true;
 					return;
 				}
-				loaderContext.dependency && loaderContext.dependency(filename);
+				newFileInfo.filename = filename;
+				newFileInfo.currentDirectory = path.dirname(filename);
 				// The default (asynchron)
-				fs.readFile(filename, 'utf-8', function(e, data) {
-					if (e) return callback(e);
-
-					try {
-						new(less.Parser)({
-							_parentFilename: filename,
-							paths: [],
-							compress: env.compress
-						}).parse(data, function (e, root) {
-							callback(e, root, data);
-						});
-					} catch(e) {
-						try {
-							callback(e);
-						} catch(e) {
-							loaderContext.callback(formatLessError(e, filename));
-						}
+				loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
+					if(err) {
+						if(!errored)
+							loaderContext.callback(err);
+						errored = true;
+						return;
 					}
+
+					callback(null, JSON.parse(data), filename, newFileInfo);
 				});
 			});
 		} else {
 			var filename = loaderContext.resolveSync(context, moduleName);
+			loaderContext.dependency && loaderContext.dependency(filename);
+			newFileInfo.filename = filename;
+			newFileInfo.currentDirectory = path.dirname(filename);
 			// Make it synchron
 			try {
 				var data = fs.readFileSync(filename, 'utf-8');
-				new(less.Parser)({
-					_parentFilename: filename,
-					paths: [],
-					compress: env.compress
-				}).parse(data, function (e, root) {
-					callback(e, root, data);
-				});
+				callback(null, data, filename, newFileInfo);
 			} catch(e) {
 				try {
 					callback(e);
