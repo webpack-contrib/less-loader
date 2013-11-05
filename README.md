@@ -5,7 +5,7 @@
 ``` javascript
 var css = require("!raw!less!./file.less");
 // => returns compiled css code from file.less, resolves imports
-var css = require("!css!less!./file.less);
+var css = require("!css!less!./file.less");
 // => returns compiled css code from file.less, resolves imports and url(...)s
 ```
 
