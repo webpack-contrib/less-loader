@@ -21,7 +21,7 @@ module.exports = function(input) {
 			rootpath: currentFileInfo.rootpath,
 			rootFilename: currentFileInfo.rootFilename
 		};
-		var context = currentFileInfo.currentDirectory;
+		var context = currentFileInfo.currentDirectory.replace(/[\\\/]$/, "");
 		var moduleName = urlToRequire(file)
 		if(cb) {
 			loaderContext.resolve(context, moduleName, function(err, filename) {
