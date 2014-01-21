@@ -14,15 +14,16 @@ module.exports = function(input) {
 	var loaderContext = this;
 	var cb = this.async();
 	var errored = false;
+	var rootContext = this.context;
 	less.Parser.fileLoader = function (file, currentFileInfo, callback, env) {
+		var context = currentFileInfo.currentDirectory.replace(/[\\\/]$/, "");
 		var newFileInfo = {
-			relativeUrls: env.relativeUrls,
+			relativeUrls: env.relativeUrls || true,
 			entryPath: currentFileInfo.entryPath,
-			rootpath: currentFileInfo.rootpath,
 			rootFilename: currentFileInfo.rootFilename
 		};
 		var context = currentFileInfo.currentDirectory.replace(/[\\\/]$/, "");
-		var moduleName = urlToRequire(file)
+		var moduleName = urlToRequire(file);
 		if(cb) {
 			loaderContext.resolve(context, moduleName, function(err, filename) {
 				if(err) {
@@ -33,6 +34,7 @@ module.exports = function(input) {
 				}
 				newFileInfo.filename = filename;
 				newFileInfo.currentDirectory = path.dirname(filename);
+				newFileInfo.rootpath = "./" + path.relative(rootContext, newFileInfo.currentDirectory) + "/";
 				// The default (asynchron)
 				loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
 					if(err) {
@@ -50,6 +52,7 @@ module.exports = function(input) {
 			loaderContext.dependency && loaderContext.dependency(filename);
 			newFileInfo.filename = filename;
 			newFileInfo.currentDirectory = path.dirname(filename);
+			newFileInfo.rootpath = "./" + path.relative(rootContext, newFileInfo.currentDirectory) + "/";
 			// Make it synchron
 			try {
 				var data = fs.readFileSync(filename, 'utf-8');
