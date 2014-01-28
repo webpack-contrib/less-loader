@@ -22,7 +22,6 @@ module.exports = function(input) {
 			entryPath: currentFileInfo.entryPath,
 			rootFilename: currentFileInfo.rootFilename
 		};
-		var context = currentFileInfo.currentDirectory.replace(/[\\\/]$/, "");
 		var moduleName = urlToRequire(file);
 		if(cb) {
 			loaderContext.resolve(context, moduleName, function(err, filename) {
@@ -32,9 +31,7 @@ module.exports = function(input) {
 					errored = true;
 					return;
 				}
-				newFileInfo.filename = filename;
-				newFileInfo.currentDirectory = path.dirname(filename);
-				newFileInfo.rootpath = "./" + path.relative(rootContext, newFileInfo.currentDirectory) + "/";
+				updateFileInfo(newFileInfo, rootContext, filename);
 				// The default (asynchron)
 				loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
 					if(err) {
@@ -50,9 +47,7 @@ module.exports = function(input) {
 		} else {
 			var filename = loaderContext.resolveSync(context, moduleName);
 			loaderContext.dependency && loaderContext.dependency(filename);
-			newFileInfo.filename = filename;
-			newFileInfo.currentDirectory = path.dirname(filename);
-			newFileInfo.rootpath = "./" + path.relative(rootContext, newFileInfo.currentDirectory) + "/";
+			updateFileInfo(newFileInfo, rootContext, filename);
 			// Make it synchron
 			try {
 				var data = fs.readFileSync(filename, 'utf-8');
@@ -82,4 +77,13 @@ function urlToRequire(url) {
 		return url.substring(1);
 	else
 		return "./"+url;
+}
+function updateFileInfo(fileInfo, rootContext, filename) {
+	fileInfo.filename = filename;
+	fileInfo.currentDirectory = path.dirname(filename);
+	fileInfo.rootpath = "./";
+	var relativePath = path.relative(rootContext, fileInfo.currentDirectory);
+	if(relativePath) {
+		fileInfo.rootpath += relativePath + "/";
+	}
 }
