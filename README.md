@@ -2,6 +2,8 @@
 
 ## Usage
 
+[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+
 ``` javascript
 var css = require("!raw!less!./file.less");
 // => returns compiled css code from file.less, resolves imports
