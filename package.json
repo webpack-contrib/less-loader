@@ -4,7 +4,7 @@
 	"author": "Tobias Koppers @sokra",
 	"description": "less loader module for webpack",
 	"dependencies": {
-		"less": "1.5.x"
+		"less": "1.7.x"
 	},
 	"licenses": [
 		{
