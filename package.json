@@ -1,10 +1,10 @@
 {
 	"name": "less-loader",
-	"version": "0.7.1",
+	"version": "0.7.2",
 	"author": "Tobias Koppers @sokra",
 	"description": "less loader module for webpack",
-	"dependencies": {
-		"less": "1.5.x"
+	"peerDependencies": {
+		"less": "^1.5"
 	},
 	"licenses": [
 		{
