@@ -84,6 +84,6 @@ function updateFileInfo(fileInfo, rootContext, filename) {
 	fileInfo.rootpath = "./";
 	var relativePath = path.relative(rootContext, fileInfo.currentDirectory);
 	if(relativePath) {
-		fileInfo.rootpath += relativePath + "/";
+		fileInfo.rootpath += relativePath.replace(/\\/g, "/") + "/";
 	}
 }
