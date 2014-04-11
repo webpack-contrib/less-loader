@@ -31,7 +31,8 @@ module.exports = function(input) {
 					errored = true;
 					return;
 				}
-				updateFileInfo(newFileInfo, rootContext, filename);
+				newFileInfo.filename = filename;
+				newFileInfo.currentDirectory = path.dirname(filename);
 				// The default (asynchron)
 				loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
 					if(err) {
@@ -47,7 +48,8 @@ module.exports = function(input) {
 		} else {
 			var filename = loaderContext.resolveSync(context, moduleName);
 			loaderContext.dependency && loaderContext.dependency(filename);
-			updateFileInfo(newFileInfo, rootContext, filename);
+			newFileInfo.filename = filename;
+			newFileInfo.currentDirectory = path.dirname(filename);
 			// Make it synchron
 			try {
 				var data = fs.readFileSync(filename, 'utf-8');
@@ -66,6 +68,8 @@ module.exports = function(input) {
 	less.render(input, {
 		filename: this.resource,
 		paths: [],
+		rootpath: this.context,
+		relativeUrls: true,
 		compress: !!this.minimize
 	}, function(e, result) {
 		if(e) return resultcb(e);
@@ -77,13 +81,4 @@ function urlToRequire(url) {
 		return url.substring(1);
 	else
 		return "./"+url;
-}
-function updateFileInfo(fileInfo, rootContext, filename) {
-	fileInfo.filename = filename;
-	fileInfo.currentDirectory = path.dirname(filename);
-	fileInfo.rootpath = "./";
-	var relativePath = path.relative(rootContext, fileInfo.currentDirectory);
-	if(relativePath) {
-		fileInfo.rootpath += relativePath + "/";
-	}
 }
