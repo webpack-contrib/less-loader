@@ -11,5 +11,9 @@
 			"type": "MIT",
 			"url": "http://www.opensource.org/licenses/mit-license.php"
 		}
-	]
+	],
+	"repository": { 
+		"type": "git",
+		"url" : "https://github.com/webpack/less-loader.git"
+	}
 }
