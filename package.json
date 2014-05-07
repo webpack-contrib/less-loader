@@ -1,19 +1,33 @@
 {
-	"name": "less-loader",
-	"version": "0.7.2",
-	"author": "Tobias Koppers @sokra",
-	"description": "less loader module for webpack",
-	"peerDependencies": {
-		"less": "^1.5"
-	},
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "http://www.opensource.org/licenses/mit-license.php"
-		}
-	],
-	"repository": { 
-		"type": "git",
-		"url" : "https://github.com/webpack/less-loader.git"
-	}
+  "name": "less-loader",
+  "version": "0.7.2",
+  "author": "Tobias Koppers @sokra",
+  "description": "less loader module for webpack",
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha -R spec"
+  },
+  "peerDependencies": {
+    "less": "^1.5"
+  },
+  "devDependencies": {
+    "should": "^3.3.1",
+    "mocha": "^1.18.2",
+    "less": "^1.5",
+    "webpack": "^1.1.8",
+    "raw-loader": "^0.5.1",
+    "enhanced-require": "^0.5.0-beta6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/webpack/less-loader.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "dependencies": {
+    "loader-utils": "^0.2.2"
+  }
 }
