@@ -3,6 +3,7 @@
 var should = require("should");
 var path = require("path");
 var webpack = require("webpack");
+var enhancedReq = require("enhanced-require")(module);
 var fs = require("fs");
 
 var CR = /\r/g;
@@ -13,10 +14,17 @@ function readCss(id) {
 
 function test(name, id) {
 	it(name, function (done) {
+		var css = readCss(id);
+		var lessFile = "raw!" +
+			path.resolve(__dirname, "../index.js") + "!" +
+			path.resolve(__dirname, "./less/" + id + ".less");
+
+		// run synchronously
+		enhancedReq(lessFile).should.eql(css);
+
+		// run asynchronously
 		webpack({
-			entry: "raw!" +
-				path.resolve(__dirname, "../index.js") + "!" +
-				path.resolve(__dirname, "./less/" + id + ".less"),
+			entry: lessFile,
 			output: {
 				path: __dirname + "/output",
 				filename: "bundle.js",
@@ -33,7 +41,7 @@ function test(name, id) {
 				return done(stats.compilation.warnings[0]);
 			}
 			delete require.cache[path.resolve(__dirname, "./output/bundle.js")];
-			require("./output/bundle.js").should.eql(readCss(id));
+			require("./output/bundle.js").should.eql(css);
 			done();
 		});
 	});

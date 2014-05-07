@@ -5,8 +5,9 @@
 var less = require("less");
 var path = require("path");
 var fs = require("fs");
+var loaderUtils = require("loader-utils");
 
-var startsWithTilde = /^~/;
+var backslash = /\\/g;
 var trailingSlash = /[\\\/]$/;
 
 function formatLessError(e, filename) {
@@ -19,8 +20,7 @@ module.exports = function(input) {
 	var loaderContext = this;
 	var cb = this.async();
 	var errored = false;
-	var rootContext = this.context;
-	less.Parser.fileLoader = function (file, currentFileInfo, callback) {
+	less.Parser.fileLoader = function (url, currentFileInfo, callback) {
 		var context = currentFileInfo.currentDirectory.replace(trailingSlash, "");
 		var newFileInfo = {
 			relativeUrls: true,
@@ -28,17 +28,19 @@ module.exports = function(input) {
 			rootpath: currentFileInfo.rootpath,
 			rootFilename: currentFileInfo.rootFilename
 		};
-		var moduleName = urlToRequire(file);
+		var moduleRequest = loaderUtils.urlToRequest(url, currentFileInfo.rootpath);
 
 		if(cb) {
-			loaderContext.resolve(context, moduleName, function(err, filename) {
+			loaderContext.resolve(context, moduleRequest, function(err, filename) {
 				if(err) {
 					if(!errored)
 						loaderContext.callback(err);
 					errored = true;
 					return;
 				}
-				updateFileInfo(newFileInfo, rootContext, filename);
+				loaderContext.dependency && loaderContext.dependency(filename);
+				filename = normalizePath(filename);
+				updateFileInfo(newFileInfo, filename);
 				// The default (asynchronous)
 				loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
 					if(err) {
@@ -52,11 +54,12 @@ module.exports = function(input) {
 				});
 			});
 		} else {
-			var filename = loaderContext.resolveSync(context, moduleName);
-			loaderContext.dependency && loaderContext.dependency(filename);
-			updateFileInfo(newFileInfo, rootContext, filename);
 			// Make it synchronous
 			try {
+				var filename = loaderContext.resolveSync(context, moduleRequest);
+				loaderContext.dependency && loaderContext.dependency(filename);
+				filename = normalizePath(filename);
+				updateFileInfo(newFileInfo, filename);
 				var data = fs.readFileSync(filename, 'utf-8');
 				callback(null, data, filename, newFileInfo);
 			} catch(e) {
@@ -71,28 +74,26 @@ module.exports = function(input) {
 	var resultcb = cb || this.callback;
 
 	less.render(input, {
-		filename: this.resource,
+		filename: normalizePath(this.resource),
 		paths: [],
-		rootpath: this.context,
+		rootpath: normalizePath(this.context) + "/",
 		compress: !!this.minimize
 	}, function(e, result) {
 		if(e) return resultcb(e);
 		resultcb(null, result);
 	});
 }
-function urlToRequire(url) {
-	if(startsWithTilde.test(url))
-		return url.substring(1);
-	else
-		return "./"+url;
-}
 
-function updateFileInfo(fileInfo, rootContext, filename) {
+function updateFileInfo(fileInfo, filename) {
 	fileInfo.filename = filename;
 	fileInfo.currentDirectory = path.dirname(filename);
-	fileInfo.rootpath = "./";
-	var relativePath = path.relative(rootContext, fileInfo.currentDirectory);
-	if(relativePath) {
-		fileInfo.rootpath += relativePath.replace(/\\/g, "/") + "/";
+	fileInfo.rootpath = path.relative(fileInfo.rootpath, fileInfo.currentDirectory) + "/";
+}
+
+function normalizePath(path) {
+	if (path.sep === "\\") {
+		path = path.replace(backslash, "/");
 	}
+
+	return path;
 }
