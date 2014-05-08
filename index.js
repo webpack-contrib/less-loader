@@ -76,6 +76,7 @@ module.exports = function(input) {
 	less.render(input, {
 		filename: normalizePath(this.resource),
 		paths: [],
+		relativeUrls: true,
 		rootpath: normalizePath(this.context) + "/",
 		compress: !!this.minimize
 	}, function(e, result) {
@@ -87,7 +88,7 @@ module.exports = function(input) {
 function updateFileInfo(fileInfo, filename) {
 	fileInfo.filename = filename;
 	fileInfo.currentDirectory = path.dirname(filename);
-	fileInfo.rootpath = path.relative(fileInfo.rootpath, fileInfo.currentDirectory) + "/";
+	fileInfo.rootpath = path.relative(fileInfo.rootpath, fileInfo.currentDirectory).replace(/\\/g, "/") + "/";
 }
 
 function normalizePath(path) {

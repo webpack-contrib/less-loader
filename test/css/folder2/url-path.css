@@ -1,0 +1,6 @@
+.img {
+  background: url(../folder/some/img.jpg);
+}
+.img2 {
+  background: url(../img.jpg);
+}

@@ -52,4 +52,5 @@ describe("less-loader", function () {
 	test("should resolve all imports of less-files", "imports");
 	test("should transform urls", "url-path");
 	test("should transform urls to files above the current directory", "folder/url-path");
+	test("should transform urls to files above the sibling directory", "folder2/url-path");
 });
