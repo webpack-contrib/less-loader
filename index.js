@@ -20,12 +20,12 @@ module.exports = function(input) {
 	var loaderContext = this;
 	var cb = this.async();
 	var errored = false;
+	var rootContext = this.context;
 	less.Parser.fileLoader = function (url, currentFileInfo, callback) {
 		var context = currentFileInfo.currentDirectory.replace(trailingSlash, "");
 		var newFileInfo = {
 			relativeUrls: true,
 			entryPath: currentFileInfo.entryPath,
-			rootpath: currentFileInfo.rootpath,
 			rootFilename: currentFileInfo.rootFilename
 		};
 		var moduleRequest = loaderUtils.urlToRequest(url, currentFileInfo.rootpath);
@@ -40,7 +40,7 @@ module.exports = function(input) {
 				}
 				loaderContext.dependency && loaderContext.dependency(filename);
 				filename = normalizePath(filename);
-				updateFileInfo(newFileInfo, filename);
+				updateFileInfo(newFileInfo, rootContext, filename);
 				// The default (asynchronous)
 				loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
 					if(err) {
@@ -59,7 +59,7 @@ module.exports = function(input) {
 				var filename = loaderContext.resolveSync(context, moduleRequest);
 				loaderContext.dependency && loaderContext.dependency(filename);
 				filename = normalizePath(filename);
-				updateFileInfo(newFileInfo, filename);
+				updateFileInfo(newFileInfo, rootContext, filename);
 				var data = fs.readFileSync(filename, 'utf-8');
 				callback(null, data, filename, newFileInfo);
 			} catch(e) {
@@ -77,7 +77,6 @@ module.exports = function(input) {
 		filename: normalizePath(this.resource),
 		paths: [],
 		relativeUrls: true,
-		rootpath: normalizePath(this.context) + "/",
 		compress: !!this.minimize
 	}, function(e, result) {
 		if(e) return resultcb(e);
@@ -85,10 +84,10 @@ module.exports = function(input) {
 	});
 }
 
-function updateFileInfo(fileInfo, filename) {
+function updateFileInfo(fileInfo, rootContext, filename) {
 	fileInfo.filename = filename;
 	fileInfo.currentDirectory = path.dirname(filename);
-	fileInfo.rootpath = path.relative(fileInfo.rootpath, fileInfo.currentDirectory).replace(/\\/g, "/") + "/";
+	fileInfo.rootpath = (path.relative(rootContext, fileInfo.currentDirectory).replace(/\\/g, "/") || ".") + "/";
 }
 
 function normalizePath(path) {
