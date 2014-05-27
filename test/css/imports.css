@@ -1,5 +1,11 @@
+@import "css.css";
+@import "css.css";
 #it-works {
   color: hotpink;
+}
+.classical-css,
+#it-works {
+  background: hotpink;
 }
 .box {
   color: #fe33ac;

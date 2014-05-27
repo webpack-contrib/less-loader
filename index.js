@@ -82,7 +82,7 @@ module.exports = function(input) {
 		if(e) return resultcb(e);
 		resultcb(null, result);
 	});
-}
+};
 
 function updateFileInfo(fileInfo, rootContext, filename) {
 	fileInfo.filename = filename;
@@ -91,7 +91,7 @@ function updateFileInfo(fileInfo, rootContext, filename) {
 }
 
 function normalizePath(path) {
-	if (path.sep === "\\") {
+	if(path.sep === "\\") {
 		path = path.replace(backslash, "/");
 	}
 
