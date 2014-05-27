@@ -1,0 +1,12 @@
+@import "~some/css.css";
+@import "~some/css.css";
+#it-works {
+  color: hotpink;
+}
+.bower-classical-css,
+#it-works {
+  background: hotpink;
+}
+#it-works {
+  margin: 10px;
+}
