@@ -14,13 +14,17 @@ function readCss(id) {
 
 function test(name, id) {
 	it(name, function (done) {
-		var css = readCss(id);
+		var expectedCss = readCss(id);
 		var lessFile = "raw!" +
 			path.resolve(__dirname, "../index.js") + "!" +
 			path.resolve(__dirname, "./less/" + id + ".less");
+		var actualCss;
 
 		// run synchronously
-		enhancedReq(lessFile).should.eql(css);
+		actualCss = enhancedReq(lessFile);
+		// writing the actual css to output-dir for better debugging
+		fs.writeFileSync(__dirname + "/output/" + name + ".sync.css", actualCss, "utf8");
+		actualCss.should.eql(expectedCss);
 
 		// run asynchronously
 		webpack({
@@ -41,7 +45,12 @@ function test(name, id) {
 				return done(stats.compilation.warnings[0]);
 			}
 			delete require.cache[path.resolve(__dirname, "./output/bundle.js")];
-			require("./output/bundle.js").should.eql(css);
+
+			actualCss = require("./output/bundle.js");
+			// writing the actual css to output-dir for better debugging
+			fs.writeFileSync(__dirname + "/output/" + name + ".async.css", actualCss, "utf8");
+			actualCss.should.eql(expectedCss);
+
 			done();
 		});
 	});
