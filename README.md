@@ -54,34 +54,6 @@ is the same as
 @import "./file";
 ```
 
-### Importing css files
-
-The described resolving mechanism doesn't work on css-files because less ignores all import statements of css-files.
-
-```css
-@import "~css/module.css"
-```
-
-yields to
-
-```css
-@import "~css/module.css"
-```
-
-which is probably not what you expected.
-
-If you're trying to import a css-file in less, use the [`(less)`](http://lesscss.org/features/#import-options-less)-option:
-
-```css
-@import (less) "~css/module.css"
-```
-
-```css
-/* content of css/module.css */
-```
-
-In rare cases the imported css is no valid less syntax. Then you need to use the [`(inline)`](http://lesscss.org/features/#import-options-inline)-option.
-
 ## Contribution
 
 Don't hesitate to create a pull request. Every contribution is appreciated. In development you can start the tests by calling `npm test`.
