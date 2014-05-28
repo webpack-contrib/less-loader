@@ -18,6 +18,7 @@ function formatLessError(e, filename) {
 module.exports = function(input) {
 	this.cacheable && this.cacheable();
 	var loaderContext = this;
+	var query = loaderUtils.parseQuery(this.query);
 	var cb = this.async();
 	var errored = false;
 	var rootContext = this.context;
@@ -28,7 +29,7 @@ module.exports = function(input) {
 			entryPath: currentFileInfo.entryPath,
 			rootFilename: currentFileInfo.rootFilename
 		};
-		var moduleRequest = loaderUtils.urlToRequest(url, currentFileInfo.rootpath);
+		var moduleRequest = loaderUtils.urlToRequest(url, query.root);
 
 		if(cb) {
 			loaderContext.resolve(context, moduleRequest, function(err, filename) {
