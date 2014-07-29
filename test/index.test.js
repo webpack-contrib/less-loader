@@ -15,6 +15,15 @@ function readCss(id) {
 	return fs.readFileSync(path.resolve(__dirname, "./css/" + id + ".css") ,"utf8").replace(CR, "");
 }
 
+function tryMkdirSync(dirname) {
+	try {
+		fs.mkdirSync(dirname);
+	} catch(e) {
+		if (!e || e.code != 'EEXIST')
+			throw e;
+	}
+}
+
 function test(name, id) {
 	it(name, function (done) {
 		var expectedCss = readCss(id);
@@ -30,6 +39,7 @@ function test(name, id) {
 		// run synchronously
 		actualCss = enhancedReq(lessFile);
 		// writing the actual css to output-dir for better debugging
+		tryMkdirSync(__dirname + "/output/");
 		fs.writeFileSync(__dirname + "/output/" + name + ".sync.css", actualCss, "utf8");
 		actualCss.should.eql(expectedCss);
 
