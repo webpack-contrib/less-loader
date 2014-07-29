@@ -10,9 +10,33 @@ var loaderUtils = require("loader-utils");
 var backslash = /\\/g;
 var trailingSlash = /[\\\/]$/;
 
-function formatLessError(e, filename) {
+function formatLessLoaderError(e, filename) {
 	return new Error(e.message + "\n @ " + filename +
 		" (line " + e.line + ", column " + e.column + ")");
+}
+
+function formatLessRenderError(e) {
+	// Example ``e``:
+	//	{ type: 'Name',
+	//	  message: '.undefined-mixin is undefined',
+	//	  filename: '/path/to/style.less',
+	//	  index: 352,
+	//	  line: 31,
+	//	  callLine: NaN,
+	//	  callExtract: undefined,
+	//	  column: 6,
+	//	  extract:
+	//	   [ '    .my-style {',
+	//		 '      .undefined-mixin;',
+	//		 '      display: block;' ] }
+	var extract = e.extract? "\n near lines:\n   " + e.extract.join("\n   ") : "";
+	return {
+		"message": (
+			e.message + "\n @ " + e.filename +
+			" (line " + e.line + ", column " + e.column + ")" +
+			extract
+		)
+	};
 }
 
 module.exports = function(input) {
@@ -67,7 +91,7 @@ module.exports = function(input) {
 				try {
 					callback(e);
 				} catch(e) {
-					loaderContext.callback(formatLessError(e, filename));
+					loaderContext.callback(formatLessLoaderError(e, filename));
 				}
 			}
 		}
@@ -80,7 +104,7 @@ module.exports = function(input) {
 		relativeUrls: true,
 		compress: !!this.minimize
 	}, function(e, result) {
-		if(e) return resultcb(e);
+		if(e) return resultcb(formatLessRenderError(e));
 		resultcb(null, result);
 	});
 };
