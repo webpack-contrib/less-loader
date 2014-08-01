@@ -30,13 +30,13 @@ function formatLessRenderError(e) {
 	//		 '      .undefined-mixin;',
 	//		 '      display: block;' ] }
 	var extract = e.extract? "\n near lines:\n   " + e.extract.join("\n   ") : "";
-	return {
-		"message": (
-			e.message + "\n @ " + e.filename +
-			" (line " + e.line + ", column " + e.column + ")" +
-			extract
-		)
-	};
+	var err = new Error(
+		e.message + "\n @ " + e.filename +
+		" (line " + e.line + ", column " + e.column + ")" +
+		extract
+	);
+	err.hideStack = true;
+	return err;
 }
 
 module.exports = function(input) {
