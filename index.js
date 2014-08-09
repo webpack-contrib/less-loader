@@ -91,7 +91,9 @@ module.exports = function(input) {
 				try {
 					callback(e);
 				} catch(e) {
-					loaderContext.callback(formatLessLoaderError(e, filename));
+					if(!errored)
+						loaderContext.callback(formatLessLoaderError(e, filename));
+					errored = true;
 				}
 			}
 		}
@@ -104,6 +106,7 @@ module.exports = function(input) {
 		relativeUrls: true,
 		compress: !!this.minimize
 	}, function(e, result) {
+		if(errored) return;
 		if(e) return resultcb(formatLessRenderError(e));
 		resultcb(null, result);
 	});

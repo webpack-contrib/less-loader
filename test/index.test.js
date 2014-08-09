@@ -81,4 +81,23 @@ describe("less-loader", function () {
 	test("should transform urls", "url-path");
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
+	
+	it("should report error correctly", function(done) {
+		webpack({
+			entry: path.resolve(__dirname, "../index.js") + "!" +
+				path.resolve(__dirname, "./less/error.less"),
+			output: {
+				path: __dirname + "/output",
+				filename: "bundle.js"
+			}
+		}, function(err, stats) {
+			if(err) throw err;
+			var json = stats.toJson();
+			json.warnings.should.be.eql([]);
+			json.errors.length.should.be.eql(1);
+			var theError = json.errors[0];
+			theError.should.match(/not-existing/);
+			done();
+		});
+	});
 });
