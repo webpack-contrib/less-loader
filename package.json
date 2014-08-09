@@ -1,6 +1,6 @@
 {
   "name": "less-loader",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "author": "Tobias Koppers @sokra",
   "description": "less loader module for webpack",
   "scripts": {
