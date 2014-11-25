@@ -1,13 +1,5 @@
-@import "~some/css.css";
-@import "~some/css.css";
 @import "css.css";
 @import "css.css";
-#it-works {
-  color: hotpink;
-}
-.another-classical-css {
-  background: hotpink;
-}
 .classical-css,
 #it-works {
   background: hotpink;
