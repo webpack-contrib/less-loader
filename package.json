@@ -27,6 +27,6 @@
     }
   ],
   "dependencies": {
-    "loader-utils": "^0.2.2"
+    "loader-utils": "^0.2.5"
   }
 }
