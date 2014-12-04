@@ -36,9 +36,12 @@ Then you only need to write: `require("./file.less")`
 
 ### webpack config options
 
+You can pass LESS specific configuration options through to the render function via loader
+parameters.
+
 Acceptable config options that can be appended to the loader as parameters are:
 
-paths, optimization, filename, strictImports, syncImport, dumpLineNumbers, relativeUrls, rootpath, compress, cleancss, cleancssOptions, ieCompat, strictMath, strictUnits, urlArgs, sourceMap, sourceMapFilename, sourceMapURL', sourceMapBasepath, sourceMapRootpath, outputSourceFiles'
+paths, optimization, filename, strictImports, syncImport, dumpLineNumbers, relativeUrls, rootpath, compress, cleancss, cleancssOptions, ieCompat, strictMath, strictUnits, urlArgs, sourceMap, sourceMapFilename, sourceMapURL, sourceMapBasepath, sourceMapRootpath, outputSourceFiles'
 
 ``` javascript
 module.exports = {
@@ -46,7 +49,7 @@ module.exports = {
     loaders: [
     {
       test: /\.less$/,
-      loader: "style-loader!css-loader!less-loader?strictMath"
+      loader: "style-loader!css-loader!less-loader?strictMath&cleancss"
     }
     ]
   }
