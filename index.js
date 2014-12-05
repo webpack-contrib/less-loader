@@ -105,7 +105,7 @@ module.exports = function(input) {
 		'rootpath', 'compress', 'cleancss', 'cleancssOptions', 'ieCompat', 'strictMath', 'strictUnits', 'urlArgs',
 		'sourceMap', 'sourceMapFilename', 'sourceMapURL', 'sourceMapBasepath', 'sourceMapRootpath', 'outputSourceFiles'
 	];
-	
+
 	var config = {
 		filename: normalizePath(this.resource),
 		paths: [],
@@ -113,13 +113,13 @@ module.exports = function(input) {
 		compress: !!this.minimize
 	};
 
-	for (var attr in query) {
+	Object.keys(query).forEach(function(attr) {
 		if (lessOptions.indexOf(attr) >= 0) {
 			config[attr] = query[attr];
 		} else {
-			console.warn('less-loader warning: attr ' + attr + ' is not a valid less configuration option');
+			throw new Error('less-loader: attr ' + attr + ' is not a valid less configuration option')
 		}
-	}
+	});
 
 	less.render(input, config, function(e, result) {
 		if(errored) return;
