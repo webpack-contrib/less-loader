@@ -116,7 +116,7 @@ module.exports = function(input) {
 	Object.keys(query).forEach(function(attr) {
 		if (lessOptions.indexOf(attr) >= 0) {
 			config[attr] = query[attr];
-		} else {
+		} else if(attr !== "root") {
 			throw new Error('less-loader: attr ' + attr + ' is not a valid less configuration option')
 		}
 	});
