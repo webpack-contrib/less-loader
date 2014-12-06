@@ -34,6 +34,29 @@ module.exports = {
 
 Then you only need to write: `require("./file.less")`
 
+### webpack config options
+
+You can pass LESS specific configuration options through to the render function via loader
+parameters.
+
+Acceptable config options that can be appended to the loader as parameters are:
+
+paths, optimization, filename, strictImports, syncImport, dumpLineNumbers, relativeUrls, rootpath, compress, cleancss, cleancssOptions, ieCompat, strictMath, strictUnits, urlArgs, sourceMap, sourceMapFilename, sourceMapURL, sourceMapBasepath, sourceMapRootpath, outputSourceFiles'
+
+``` javascript
+module.exports = {
+  module: {
+    loaders: [
+    {
+      test: /\.less$/,
+      loader: "style-loader!css-loader!less-loader?strictMath&cleancss"
+    }
+    ]
+  }
+};
+```
+
+
 ## Note on imports
 
 webpack provides an [advanced mechanism to resolve files](http://webpack.github.io/docs/resolving.html). The less-loader stubs less' `fileLoader` and passes all queries to the webpack resolving engine. Thus you can import your less-modules from `node_modules` or `bower_components`. Just prepend them with a `~` which tells webpack to look-up the [`modulesDirectories`](http://webpack.github.io/docs/configuration.html#resolve-modulesdirectories)
@@ -46,7 +69,7 @@ It's important to only prepend it with `~`, because `~/` resolves to the home-di
 
 ```css
 @import "file";
-``` 
+```
 
 is the same as
 

@@ -100,12 +100,28 @@ module.exports = function(input) {
 	};
 	var resultcb = cb || this.callback;
 
-	less.render(input, {
+	var lessOptions = [
+		'paths', 'optimization', 'filename', 'strictImports', 'syncImport', 'dumpLineNumbers', 'relativeUrls',
+		'rootpath', 'compress', 'cleancss', 'cleancssOptions', 'ieCompat', 'strictMath', 'strictUnits', 'urlArgs',
+		'sourceMap', 'sourceMapFilename', 'sourceMapURL', 'sourceMapBasepath', 'sourceMapRootpath', 'outputSourceFiles'
+	];
+
+	var config = {
 		filename: normalizePath(this.resource),
 		paths: [],
 		relativeUrls: true,
 		compress: !!this.minimize
-	}, function(e, result) {
+	};
+
+	Object.keys(query).forEach(function(attr) {
+		if (lessOptions.indexOf(attr) >= 0) {
+			config[attr] = query[attr];
+		} else {
+			throw new Error('less-loader: attr ' + attr + ' is not a valid less configuration option')
+		}
+	});
+
+	less.render(input, config, function(e, result) {
 		if(errored) return;
 		if(e) return resultcb(formatLessRenderError(e));
 		resultcb(null, result);
