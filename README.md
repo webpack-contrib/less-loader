@@ -47,10 +47,10 @@ paths, optimization, filename, strictImports, syncImport, dumpLineNumbers, relat
 module.exports = {
   module: {
     loaders: [
-    {
-      test: /\.less$/,
-      loader: "style-loader!css-loader!less-loader?strictMath&cleancss"
-    }
+      {
+        test: /\.less$/,
+        loader: "style-loader!css-loader!less-loader?strictMath&cleancss"
+      }
     ]
   }
 };
