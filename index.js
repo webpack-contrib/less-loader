@@ -63,6 +63,9 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 	WebpackFileManager.prototype.supportsSync = WebpackFileManager.prototype.supports;
 
 	WebpackFileManager.prototype.loadFile = function(filename, currentDirectory, options, environment, callback) {
+		// Unfortunately we don't have any influence on less to call `loadFile` or `loadFileSync`
+		// thus we need to decide for ourselves.
+		// @see https://github.com/less/less.js/issues/2325
 		if (isSync) {
 			try {
 				callback(null, this.loadFileSync(filename, currentDirectory, options, environment));
