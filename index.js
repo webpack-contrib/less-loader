@@ -12,7 +12,7 @@ module.exports = function(input) {
 	var query = loaderUtils.parseQuery(this.query);
 	var cb = this.async();
 	var isSync = typeof cb !== "function";
-	var resultcb = cb || this.callback;
+	var finalCb = cb || this.callback;
 	var config = {
 		filename: this.resource,
 		paths: [],
@@ -40,10 +40,13 @@ module.exports = function(input) {
 	config.plugins.push(webpackPlugin);
 
 	less.render(input, config, function(e, result) {
-		if(e) return resultcb(formatLessRenderError(e));
-		// Prevent occasional double callbacks by less :(
-		resultcb && resultcb(null, result.css);
-		resultcb = null;
+		var cb = finalCb;
+		// Less is giving us double callbacks sometimes :(
+		// Thus we need to mark the callback as "has been called"
+		if(!finalCb) return;
+		finalCb = null;
+		if(e) return cb(formatLessRenderError(e));
+		cb(null, result.css);
 	});
 };
 
