@@ -5,8 +5,50 @@ var path = require("path");
 var webpack = require("webpack");
 var enhancedReqFactory = require("enhanced-require");
 var fs = require("fs");
+var moveModulesDir = require("./helpers/moveModulesDir.js");
 
 var CR = /\r/g;
+var bowerComponents = path.resolve(__dirname, "./bower_components");
+
+describe("less-loader", function() {
+	test("should compile simple less without errors", "basic");
+	test("should resolve all imports", "imports");
+	test("should resolve all imports from bower_components", "imports-bower", {
+		before: function(config) {
+			config.resolve.root.push(bowerComponents);
+		}
+	});
+	test("should resolve all imports from node_modules", "imports-node", {
+		before: function() {
+			moveModulesDir.moveBcToNm();
+		},
+		after: function() {
+			moveModulesDir.moveNmToBc();
+		}
+	});
+	test("should not try to resolve import urls", "imports-url");
+	test("should transform urls", "url-path");
+	test("should transform urls to files above the current directory", "folder/url-path");
+	test("should transform urls to files above the sibling directory", "folder2/url-path");
+	it("should report error correctly", function(done) {
+		webpack({
+			entry: path.resolve(__dirname, "../index.js") + "!" +
+				path.resolve(__dirname, "./less/error.less"),
+			output: {
+				path: __dirname + "/output",
+				filename: "bundle.js"
+			}
+		}, function(err, stats) {
+			if(err) throw err;
+			var json = stats.toJson();
+			json.warnings.should.be.eql([]);
+			json.errors.length.should.be.eql(1);
+			var theError = json.errors[0];
+			theError.should.match(/not-existing/);
+			done();
+		});
+	});
+});
 
 function readCss(id) {
 	return fs.readFileSync(path.resolve(__dirname, "./css/" + id + ".css") ,"utf8").replace(CR, "");
@@ -16,12 +58,12 @@ function tryMkdirSync(dirname) {
 	try {
 		fs.mkdirSync(dirname);
 	} catch(e) {
-		if (!e || e.code != 'EEXIST')
+		if (!e || e.code !== "EEXIST")
 			throw e;
 	}
 }
 
-function test(name, id) {
+function test(name, id, hooks) {
 	it(name, function (done) {
 		var expectedCss = readCss(id);
 		var lessFile = "raw!" +
@@ -31,12 +73,16 @@ function test(name, id) {
 		var config = {
 			resolve: {
 				root: [
-					__dirname,
-					path.resolve(__dirname, "./bower_components")
+					__dirname
 				]
 			}
 		};
-		var enhancedReq = enhancedReqFactory(module, config);
+		var enhancedReq;
+
+		hooks = hooks || {};
+		hooks.before && hooks.before(config);
+
+		enhancedReq = enhancedReqFactory(module, config);
 
 		// run synchronously
 		actualCss = enhancedReq(lessFile);
@@ -71,36 +117,9 @@ function test(name, id) {
 			fs.writeFileSync(__dirname + "/output/" + name + ".async.css", actualCss, "utf8");
 			actualCss.should.eql(expectedCss);
 
+			hooks.after && hooks.after();
+
 			done();
 		});
 	});
 }
-
-describe("less-loader", function () {
-	test("should compile simple less without errors", "basic");
-	test("should resolve all imports", "imports");
-	test("should resolve all imports of bower dependencies", "imports-bower");
-	test("should not try to resolve import urls", "imports-url");
-	test("should transform urls", "url-path");
-	test("should transform urls to files above the current directory", "folder/url-path");
-	test("should transform urls to files above the sibling directory", "folder2/url-path");
-
-	it("should report error correctly", function(done) {
-		webpack({
-			entry: path.resolve(__dirname, "../index.js") + "!" +
-				path.resolve(__dirname, "./less/error.less"),
-			output: {
-				path: __dirname + "/output",
-				filename: "bundle.js"
-			}
-		}, function(err, stats) {
-			if(err) throw err;
-			var json = stats.toJson();
-			json.warnings.should.be.eql([]);
-			json.errors.length.should.be.eql(1);
-			var theError = json.errors[0];
-			theError.should.match(/not-existing/);
-			done();
-		});
-	});
-});

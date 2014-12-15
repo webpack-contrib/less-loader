@@ -3,6 +3,7 @@
 var spawn = require("child_process").spawn;
 var fs = require("fs");
 var path = require("path");
+var moveModulesDir = require("./moveModulesDir.js");
 
 /**
  * This object specifies the replacements for the ~-character per test.
@@ -14,7 +15,8 @@ var path = require("path");
  */
 var tildeReplacements = {
 	"imports": "../node_modules/",
-	"imports-bower": "../bower_components/"
+	"imports-bower": "../bower_components/",
+	"imports-node": "../node_modules/"
 };
 var matchLessFolder = /[\/\\]test[\/\\]less[\/\\]/g;
 var matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
@@ -30,6 +32,10 @@ var lessContent;
 var cssFile;
 var cssContent = "";
 var tildeReplacement = tildeReplacements[testId];
+
+if (testId === "imports-node") {
+	moveModulesDir.moveBcToNm();
+}
 
 console.log("Generating css for " + lessFile);
 
@@ -60,4 +66,8 @@ function processCss() {
 	console.log("Writing css to " + cssFile);
 
 	fs.writeFileSync(cssFile, cssContent, "utf8");
+
+	if (testId === "imports-node") {
+		moveModulesDir.moveNmToBc();
+	}
 }
