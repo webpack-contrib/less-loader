@@ -77,14 +77,14 @@ function test(name, id) {
 }
 
 describe("less-loader", function () {
-	//test("should compile simple less without errors", "basic");
-	//test("should resolve all imports", "imports");
+	test("should compile simple less without errors", "basic");
+	test("should resolve all imports", "imports");
 	test("should resolve all imports of bower dependencies", "imports-bower");
 	test("should not try to resolve import urls", "imports-url");
 	test("should transform urls", "url-path");
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
-	
+
 	it("should report error correctly", function(done) {
 		webpack({
 			entry: path.resolve(__dirname, "../index.js") + "!" +

@@ -7,6 +7,8 @@ var less = require("less");
 var fs = require("fs");
 var loaderUtils = require("loader-utils");
 
+var trailingSlash = /[\\\/]$/;
+
 module.exports = function(input) {
 	var loaderContext = this;
 	var query = loaderUtils.parseQuery(this.query);
@@ -80,8 +82,10 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 		}
 
 		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
+		// Less is giving us trailing slashes, but the context should have no trailing slash
+		var context = currentDirectory.replace(trailingSlash, "");
 
-		loaderContext.resolve(currentDirectory, moduleRequest, function(err, filename) {
+		loaderContext.resolve(context, moduleRequest, function(err, filename) {
 			if(err) {
 				callback(err);
 				return;
@@ -105,9 +109,11 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 
 	WebpackFileManager.prototype.loadFileSync = function(filename, currentDirectory, options, environment) {
 		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
-
+		// Less is giving us trailing slashes, but the context should have no trailing slash
+		var context = currentDirectory.replace(trailingSlash, "");
 		var data;
-		filename = loaderContext.resolveSync(currentDirectory, moduleRequest);
+
+		filename = loaderContext.resolveSync(context, moduleRequest);
 		loaderContext.dependency && loaderContext.dependency(filename);
 		data = fs.readFileSync(filename, "utf8");
 
