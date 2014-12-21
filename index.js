@@ -1,18 +1,129 @@
+"use strict";
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
 var less = require("less");
-var path = require("path");
 var fs = require("fs");
 var loaderUtils = require("loader-utils");
 
-var backslash = /\\/g;
 var trailingSlash = /[\\\/]$/;
 
-function formatLessLoaderError(e, filename) {
-	return new Error(e.message + "\n @ " + filename +
-		" (line " + e.line + ", column " + e.column + ")");
+module.exports = function(input) {
+	var loaderContext = this;
+	var query = loaderUtils.parseQuery(this.query);
+	var cb = this.async();
+	var isSync = typeof cb !== "function";
+	var finalCb = cb || this.callback;
+	var config = {
+		filename: this.resource,
+		paths: [],
+		relativeUrls: true,
+		compress: !!this.minimize
+	};
+	var webpackPlugin = {
+		install: function(less, pluginManager) {
+			var WebpackFileManager = getWebpackFileManager(less, loaderContext, query, isSync);
+
+			pluginManager.addFileManager(new WebpackFileManager());
+		},
+		minVersion: [2, 1, 1]
+	};
+
+	this.cacheable && this.cacheable();
+
+	Object.keys(query).forEach(function(attr) {
+		config[attr] = query[attr];
+	});
+
+	// Now we're adding the webpack plugin, because there might have
+	// been added some before via query-options.
+	config.plugins = config.plugins || [];
+	config.plugins.push(webpackPlugin);
+
+	less.render(input, config, function(e, result) {
+		var cb = finalCb;
+		// Less is giving us double callbacks sometimes :(
+		// Thus we need to mark the callback as "has been called"
+		if(!finalCb) return;
+		finalCb = null;
+		if(e) return cb(formatLessRenderError(e));
+		cb(null, result.css);
+	});
+};
+
+function getWebpackFileManager(less, loaderContext, query, isSync) {
+
+	function WebpackFileManager() {
+		less.FileManager.apply(this, arguments);
+	}
+
+	WebpackFileManager.prototype = Object.create(less.FileManager.prototype);
+
+	WebpackFileManager.prototype.supports = function(filename, currentDirectory, options, environment) {
+		// Our WebpackFileManager handles all the files
+		return true;
+	};
+
+	WebpackFileManager.prototype.supportsSync = WebpackFileManager.prototype.supports;
+
+	WebpackFileManager.prototype.loadFile = function(filename, currentDirectory, options, environment, callback) {
+		// Unfortunately we don't have any influence on less to call `loadFile` or `loadFileSync`
+		// thus we need to decide for ourselves.
+		// @see https://github.com/less/less.js/issues/2325
+		if (isSync) {
+			try {
+				callback(null, this.loadFileSync(filename, currentDirectory, options, environment));
+			} catch (err) {
+				callback(err);
+			}
+
+			return;
+		}
+
+		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
+		// Less is giving us trailing slashes, but the context should have no trailing slash
+		var context = currentDirectory.replace(trailingSlash, "");
+
+		loaderContext.resolve(context, moduleRequest, function(err, filename) {
+			if(err) {
+				callback(err);
+				return;
+			}
+
+			loaderContext.dependency && loaderContext.dependency(filename);
+			// The default (asynchronous)
+			loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
+				if(err) {
+					callback(err);
+					return;
+				}
+
+				callback(null, {
+					contents: JSON.parse(data),
+					filename: filename
+				});
+			});
+		});
+	};
+
+	WebpackFileManager.prototype.loadFileSync = function(filename, currentDirectory, options, environment) {
+		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
+		// Less is giving us trailing slashes, but the context should have no trailing slash
+		var context = currentDirectory.replace(trailingSlash, "");
+		var data;
+
+		filename = loaderContext.resolveSync(context, moduleRequest);
+		loaderContext.dependency && loaderContext.dependency(filename);
+		data = fs.readFileSync(filename, "utf8");
+
+		return {
+			contents: data,
+			filename: filename
+		};
+	};
+
+	return WebpackFileManager;
 }
 
 function formatLessRenderError(e) {
@@ -37,107 +148,4 @@ function formatLessRenderError(e) {
 	);
 	err.hideStack = true;
 	return err;
-}
-
-module.exports = function(input) {
-	this.cacheable && this.cacheable();
-	var loaderContext = this;
-	var query = loaderUtils.parseQuery(this.query);
-	var cb = this.async();
-	var errored = false;
-	var rootContext = this.context;
-	less.Parser.fileLoader = function (url, currentFileInfo, callback) {
-		var context = currentFileInfo.currentDirectory.replace(trailingSlash, "");
-		var newFileInfo = {
-			relativeUrls: true,
-			entryPath: currentFileInfo.entryPath,
-			rootFilename: currentFileInfo.rootFilename
-		};
-		var moduleRequest = loaderUtils.urlToRequest(url, query.root);
-
-		if(cb) {
-			loaderContext.resolve(context, moduleRequest, function(err, filename) {
-				if(err) {
-					if(!errored)
-						loaderContext.callback(err);
-					errored = true;
-					return;
-				}
-				loaderContext.dependency && loaderContext.dependency(filename);
-				filename = normalizePath(filename);
-				updateFileInfo(newFileInfo, rootContext, filename);
-				// The default (asynchronous)
-				loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
-					if(err) {
-						if(!errored)
-							loaderContext.callback(err);
-						errored = true;
-						return;
-					}
-
-					callback(null, JSON.parse(data), filename, newFileInfo);
-				});
-			});
-		} else {
-			// Make it synchronous
-			try {
-				var filename = loaderContext.resolveSync(context, moduleRequest);
-				loaderContext.dependency && loaderContext.dependency(filename);
-				filename = normalizePath(filename);
-				updateFileInfo(newFileInfo, rootContext, filename);
-				var data = fs.readFileSync(filename, 'utf-8');
-				callback(null, data, filename, newFileInfo);
-			} catch(e) {
-				try {
-					callback(e);
-				} catch(e) {
-					if(!errored)
-						loaderContext.callback(formatLessLoaderError(e, filename));
-					errored = true;
-				}
-			}
-		}
-	};
-	var resultcb = cb || this.callback;
-
-	var lessOptions = [
-		'paths', 'optimization', 'filename', 'strictImports', 'syncImport', 'dumpLineNumbers', 'relativeUrls',
-		'rootpath', 'compress', 'cleancss', 'cleancssOptions', 'ieCompat', 'strictMath', 'strictUnits', 'urlArgs',
-		'sourceMap', 'sourceMapFilename', 'sourceMapURL', 'sourceMapBasepath', 'sourceMapRootpath', 'outputSourceFiles'
-	];
-
-	var config = {
-		filename: normalizePath(this.resource),
-		paths: [],
-		relativeUrls: true,
-		compress: !!this.minimize
-	};
-
-	Object.keys(query).forEach(function(attr) {
-		if (lessOptions.indexOf(attr) >= 0) {
-			config[attr] = query[attr];
-		} else if(attr !== "root") {
-			throw new Error('less-loader: attr ' + attr + ' is not a valid less configuration option')
-		}
-	});
-
-	less.render(input, config, function(e, result) {
-		if(errored) return;
-		if(e) return resultcb(formatLessRenderError(e));
-		resultcb(null, result);
-	});
-};
-
-function updateFileInfo(fileInfo, rootContext, filename) {
-	fileInfo.filename = filename;
-	fileInfo.currentDirectory = path.dirname(filename);
-	fileInfo.rootpath = (path.relative(rootContext, fileInfo.currentDirectory).replace(/\\/g, "/") || ".") + "/";
-}
-
-function normalizePath(path) {
-	if(path.sep === "\\") {
-		path = path.replace(backslash, "/");
-	}
-
-	return path;
 }
