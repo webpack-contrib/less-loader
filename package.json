@@ -10,11 +10,11 @@
     "less": "^2.1.1"
   },
   "devDependencies": {
-    "should": "^3.3.1",
-    "mocha": "^1.18.2",
-    "webpack": "^1.1.8",
+    "enhanced-require": "^0.5.0-beta6",
+    "mocha": "^2.0.1",
     "raw-loader": "^0.5.1",
-    "enhanced-require": "^0.5.0-beta6"
+    "should": "^4.4.1",
+    "webpack": "^1.1.8"
   },
   "repository": {
     "type": "git",
