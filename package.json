@@ -4,7 +4,7 @@
   "author": "Tobias Koppers @sokra",
   "description": "less loader module for webpack",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha -R spec"
+    "test": "mocha -R spec"
   },
   "peerDependencies": {
     "less": "^2.1.1"
