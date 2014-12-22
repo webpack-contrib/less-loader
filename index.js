@@ -1,7 +1,9 @@
 "use strict";
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
+	Authors
+		Tobias Koppers @sokra
+		Johannes Ewald @jhnns
 */
 var less = require("less");
 var fs = require("fs");
