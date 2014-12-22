@@ -11,6 +11,7 @@ var CR = /\r/g;
 var bowerComponents = path.resolve(__dirname, "./bower_components");
 
 describe("less-loader", function() {
+	this.timeout(5000);
 	test("should compile simple less without errors", "basic");
 	test("should resolve all imports", "imports");
 	test("should resolve all imports from bower_components", "imports-bower", {
