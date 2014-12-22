@@ -83,6 +83,8 @@ Don't hesitate to create a pull request. Every contribution is appreciated. In d
 
 The tests are basically just comparing the generated css with a reference css-file located under `test/css`. You can easily generate a reference css-file by calling `node test/helpers/generateCss.js <less-file-without-less-extension>`. It passes the less-file to less and writes the output to the `test/css`-folder.
 
+[![build status](https://travis-ci.org/webpack/less-loader.svg)](https://travis-ci.org/webpack/less-loader)
+
 ## License
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
