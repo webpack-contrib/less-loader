@@ -7,11 +7,11 @@
     "test": "mocha -R spec"
   },
   "peerDependencies": {
-    "less": "^2.1.1"
+    "less": "^2.3.1"
   },
   "devDependencies": {
     "enhanced-require": "^0.5.0-beta6",
-    "less": "^2.1.1",
+    "less": "^2.3.1",
     "mocha": "^2.0.1",
     "raw-loader": "^0.5.1",
     "should": "^4.4.1",
