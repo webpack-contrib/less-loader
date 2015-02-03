@@ -8,6 +8,8 @@
 var less = require("less");
 var fs = require("fs");
 var loaderUtils = require("loader-utils");
+var convert = require('convert-source-map');
+var path = require('path');
 
 var trailingSlash = /[\\\/]$/;
 
@@ -23,6 +25,7 @@ module.exports = function(input) {
 		relativeUrls: true,
 		compress: !!this.minimize
 	};
+        var sourceMapEnabled = false;
 	var webpackPlugin = {
 		install: function(less, pluginManager) {
 			var WebpackFileManager = getWebpackFileManager(less, loaderContext, query, isSync);
@@ -35,7 +38,14 @@ module.exports = function(input) {
 	this.cacheable && this.cacheable();
 
 	Object.keys(query).forEach(function(attr) {
-		config[attr] = query[attr];
+		var value = query[attr];
+		if(attr === 'sourceMap') {
+			sourceMapEnabled = true;
+			value = {
+				sourceMapFileInline : true
+			}
+		}
+		config[attr] = value;
 	});
 
 	// Now we're adding the webpack plugin, because there might have
@@ -50,7 +60,25 @@ module.exports = function(input) {
 		if(!finalCb) return;
 		finalCb = null;
 		if(e) return cb(formatLessRenderError(e));
-		cb(null, result.css);
+		var css = result.css;
+		if(sourceMapEnabled) {
+			var sourceMap;
+			var mapObj = convert.fromSource(css);
+			if (mapObj) {
+				css = convert.removeComments(css);
+				sourceMap = mapObj.sourcemap;
+				var basePath = loaderContext.options.context;
+				sourceMap.file = path.relative(basePath, config.filename);
+				sourceMap.sourcesContent = [];
+				for (var i = 0; i < sourceMap.sources.length; i++) {
+					sourceMap.sourcesContent[i] = fs.readFileSync(sourceMap.sources[i]).toString();
+					sourceMap.sources[i] =  path.relative(basePath, sourceMap.sources[i]);
+				}
+			}
+			cb(null, css, sourceMap);
+		} else {
+			cb(null, css);
+		}
 	});
 };
 
