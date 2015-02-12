@@ -8,10 +8,11 @@
 var less = require("less");
 var fs = require("fs");
 var loaderUtils = require("loader-utils");
+var path = require("path");
 
 var trailingSlash = /[\\\/]$/;
 
-module.exports = function(input) {
+module.exports = function(source) {
 	var loaderContext = this;
 	var query = loaderUtils.parseQuery(this.query);
 	var cb = this.async();
@@ -43,14 +44,32 @@ module.exports = function(input) {
 	config.plugins = config.plugins || [];
 	config.plugins.push(webpackPlugin);
 
-	less.render(input, config, function(e, result) {
+	if (this.sourceMap) {
+		config.sourceMap = {
+			outputSourceFiles: true
+		};
+	}
+
+	less.render(source, config, function(e, result) {
+		var parsedMap;
 		var cb = finalCb;
 		// Less is giving us double callbacks sometimes :(
 		// Thus we need to mark the callback as "has been called"
 		if(!finalCb) return;
 		finalCb = null;
 		if(e) return cb(formatLessRenderError(e));
-		cb(null, result.css);
+
+		if (result.map) {
+			parsedMap = JSON.parse(result.map);
+
+			parsedMap.sources = parsedMap.sources.map(function(file) {
+				return path.basename(file);
+			});
+
+			result.map = JSON.stringify(parsedMap);
+		}
+
+		cb(null, result.css, result.map);
 	});
 };
 
@@ -131,15 +150,15 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 function formatLessRenderError(e) {
 	// Example ``e``:
 	//	{ type: 'Name',
-	//	  message: '.undefined-mixin is undefined',
-	//	  filename: '/path/to/style.less',
-	//	  index: 352,
-	//	  line: 31,
-	//	  callLine: NaN,
-	//	  callExtract: undefined,
-	//	  column: 6,
-	//	  extract:
-	//	   [ '    .my-style {',
+	//		message: '.undefined-mixin is undefined',
+	//		filename: '/path/to/style.less',
+	//		index: 352,
+	//		line: 31,
+	//		callLine: NaN,
+	//		callExtract: undefined,
+	//		column: 6,
+	//		extract:
+	//		 [ '    .my-style {',
 	//		 '      .undefined-mixin;',
 	//		 '      display: block;' ] }
 	var extract = e.extract? "\n near lines:\n   " + e.extract.join("\n   ") : "";
