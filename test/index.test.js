@@ -31,6 +31,9 @@ describe("less-loader", function() {
 	test("should transform urls", "url-path");
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
+	test("should generate source-map", "sourcemap", {
+		devtool: 'sourcemap',
+	});
 	it("should report error correctly", function(done) {
 		webpack({
 			entry: path.resolve(__dirname, "../index.js") + "!" +
@@ -90,11 +93,13 @@ function test(name, id, hooks) {
 		// writing the actual css to output-dir for better debugging
 		tryMkdirSync(__dirname + "/output/");
 		fs.writeFileSync(__dirname + "/output/" + name + ".sync.css", actualCss, "utf8");
+
 		actualCss.should.eql(expectedCss);
 
 		// run asynchronously
 		webpack({
 			entry: lessFile,
+			devtool: hooks.devtool,
 			resolve: config.resolve,
 			output: {
 				path: __dirname + "/output",
@@ -102,6 +107,8 @@ function test(name, id, hooks) {
 				libraryTarget: "commonjs2"
 			}
 		}, function onCompilationFinished(err, stats) {
+			var actualMap;
+
 			if (err) {
 				return done(err);
 			}
@@ -119,6 +126,13 @@ function test(name, id, hooks) {
 			actualCss.should.eql(expectedCss);
 
 			hooks.after && hooks.after();
+
+			if (hooks.devtool === 'sourcemap') {
+				actualMap = fs.readFileSync(__dirname + "/output/bundle.js.map", "utf8")
+				fs.writeFileSync(__dirname + "/output/" + name + ".sync.css.map", actualMap, "utf8");
+				actualMap = JSON.parse(actualMap);
+				actualMap.sources.should.containEql('webpack:///./test/less/' + id + '.less');
+			}
 
 			done();
 		});
