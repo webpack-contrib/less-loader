@@ -32,7 +32,7 @@ describe("less-loader", function() {
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
 	test("should generate source-map", "sourcemap", {
-		devtool: 'sourcemap',
+		devtool: "sourcemap"
 	});
 	it("should report error correctly", function(done) {
 		webpack({
@@ -127,11 +127,11 @@ function test(name, id, hooks) {
 
 			hooks.after && hooks.after();
 
-			if (hooks.devtool === 'sourcemap') {
-				actualMap = fs.readFileSync(__dirname + "/output/bundle.js.map", "utf8")
+			if (hooks.devtool === "sourcemap") {
+				actualMap = fs.readFileSync(__dirname + "/output/bundle.js.map", "utf8");
 				fs.writeFileSync(__dirname + "/output/" + name + ".sync.css.map", actualMap, "utf8");
 				actualMap = JSON.parse(actualMap);
-				actualMap.sources.should.containEql('webpack:///./test/less/' + id + '.less');
+				actualMap.sources.should.containEql("webpack:///./test/less/" + id + ".less");
 			}
 
 			done();
