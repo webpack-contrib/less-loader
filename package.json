@@ -4,13 +4,16 @@
   "author": "Tobias Koppers @sokra",
   "description": "less loader module for webpack",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "mocha -R spec",
+    "test-source-map": "webpack --config test/sourceMap/webpack.config.js && open ./test/sourceMap/index.html"
   },
   "peerDependencies": {
     "less": "^2.3.1"
   },
   "devDependencies": {
+    "css-loader": "^0.9.1",
     "enhanced-require": "^0.5.0-beta6",
+    "extract-text-webpack-plugin": "^0.3.8",
     "less": "^2.3.1",
     "mocha": "^2.0.1",
     "raw-loader": "^0.5.1",

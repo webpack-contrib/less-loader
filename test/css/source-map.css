@@ -1,11 +1,6 @@
-.box {
-  color: #fe33ac;
-  border-color: #fdcdea;
-  background: url(box.png);
-}
-.box div {
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+.modules-dir-some-module,
+#it-works {
+  color: hotpink;
 }
 #it-works {
   margin: 10px;

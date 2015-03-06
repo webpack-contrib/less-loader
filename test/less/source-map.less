@@ -1,5 +1,6 @@
-@import "basic";
+// Should usually be imported with '~' but since our test setup for this is complicated, we don't use it here
+@import "../bower_components/some/module";
 
-#it-works {
+#it-works:extend(.modules-dir-some-module) {
   margin: 10px;
 }
