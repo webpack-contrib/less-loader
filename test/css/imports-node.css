@@ -1,11 +1,9 @@
 @import "~some/css.css";
 @import "~some/css.css";
-#it-works,
 #it-works {
   color: hotpink;
 }
 .modules-dir-some-module,
-#it-works,
 #it-works {
   background: hotpink;
 }
