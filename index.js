@@ -44,7 +44,9 @@ module.exports = function(source) {
 	config.plugins = config.plugins || [];
 	config.plugins.push(webpackPlugin);
 
-	if (this.sourceMap) {
+	// not using the `this.sourceMap` flag because css source maps are different
+	// @see https://github.com/webpack/css-loader/pull/40
+	if (query.sourceMap) {
 		config.sourceMap = {
 			outputSourceFiles: true
 		};

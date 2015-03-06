@@ -9,6 +9,7 @@ var moveModulesDir = require("./helpers/moveModulesDir.js");
 
 var CR = /\r/g;
 var bowerComponents = path.resolve(__dirname, "./bower_components");
+var pathToLessLoader = path.resolve(__dirname, "../index.js");
 
 describe("less-loader", function() {
 	this.timeout(5000);
@@ -32,6 +33,7 @@ describe("less-loader", function() {
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
 	test("should generate source-map", "source-map", {
+		query: "?sourceMap",
 		devtool: "source-map"
 	});
 	it("should report error correctly", function(done) {
@@ -67,11 +69,14 @@ function tryMkdirSync(dirname) {
 	}
 }
 
-function test(name, id, hooks) {
+function test(name, id, testOptions) {
+	testOptions = testOptions || {};
+	testOptions.query = testOptions.query || "";
+
 	it(name, function (done) {
 		var expectedCss = readCss(id);
 		var lessFile = "raw!" +
-			path.resolve(__dirname, "../index.js") + "!" +
+			pathToLessLoader + testOptions.query + "!" +
 			path.resolve(__dirname, "./less/" + id + ".less");
 		var actualCss;
 		var config = {
@@ -83,8 +88,7 @@ function test(name, id, hooks) {
 		};
 		var enhancedReq;
 
-		hooks = hooks || {};
-		hooks.before && hooks.before(config);
+		testOptions.before && testOptions.before(config);
 
 		enhancedReq = enhancedReqFactory(module, config);
 
@@ -99,7 +103,7 @@ function test(name, id, hooks) {
 		// run asynchronously
 		webpack({
 			entry: lessFile,
-			devtool: hooks.devtool,
+			devtool: testOptions.devtool,
 			resolve: config.resolve,
 			output: {
 				path: __dirname + "/output",
@@ -125,9 +129,9 @@ function test(name, id, hooks) {
 			fs.writeFileSync(__dirname + "/output/" + name + ".async.css", actualCss, "utf8");
 			actualCss.should.eql(expectedCss);
 
-			hooks.after && hooks.after();
+			testOptions.after && testOptions.after();
 
-			if (hooks.devtool === "sourcemap") {
+			if (testOptions.devtool === "sourcemap") {
 				actualMap = fs.readFileSync(__dirname + "/output/bundle.js.map", "utf8");
 				fs.writeFileSync(__dirname + "/output/" + name + ".sync.css.map", actualMap, "utf8");
 				actualMap = JSON.parse(actualMap);
