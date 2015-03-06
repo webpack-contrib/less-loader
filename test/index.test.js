@@ -31,8 +31,8 @@ describe("less-loader", function() {
 	test("should transform urls", "url-path");
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
-	test("should generate source-map", "sourcemap", {
-		devtool: "sourcemap"
+	test("should generate source-map", "source-map", {
+		devtool: "source-map"
 	});
 	it("should report error correctly", function(done) {
 		webpack({
