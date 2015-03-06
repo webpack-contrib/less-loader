@@ -25,7 +25,7 @@ module.exports = {
     loaders: [
       {
         test: /\.less$/,
-        loader: "style-loader!css-loader!less-loader"
+        loader: "style!css!less"
       }
     ]
   }
@@ -34,14 +34,9 @@ module.exports = {
 
 Then you only need to write: `require("./file.less")`
 
-### webpack config options
+### LESS options
 
-You can pass LESS specific configuration options through to the render function via loader
-parameters.
-
-Acceptable config options that can be appended to the loader as parameters are:
-
-paths, optimization, filename, strictImports, syncImport, dumpLineNumbers, relativeUrls, rootpath, compress, cleancss, cleancssOptions, ieCompat, strictMath, strictUnits, urlArgs, sourceMap, sourceMapFilename, sourceMapURL, sourceMapBasepath, sourceMapRootpath, outputSourceFiles'
+You can pass any LESS specific configuration options through to the render function via [query parameters](http://webpack.github.io/docs/using-loaders.html#query-parameters).
 
 ``` javascript
 module.exports = {
@@ -49,13 +44,14 @@ module.exports = {
     loaders: [
       {
         test: /\.less$/,
-        loader: "style-loader!css-loader!less-loader?strictMath&cleancss"
+        loader: "style!css!less?strictMath&noIeCompat"
       }
     ]
   }
 };
 ```
 
+See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options. LESS translates dash-case to camelCase.
 
 ## Note on imports
 
@@ -76,6 +72,40 @@ is the same as
 ```css
 @import "./file";
 ```
+
+## Source maps
+
+Because of browser limitations, source maps are only available in conjunction with the [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin). Use that plugin to extract the CSS code from the generated JS bundle into a separate file (which even improves the perceived performance because JS and CSS are loaded in parallel).
+
+Then your `webpack.config.js` should look like this:
+
+```javascript
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+module.exports = {
+    ...
+    // must be 'source-map' or 'inline-source-map'
+    devtool: 'source-map',
+    module: {
+        loaders: [
+            {
+                test: /\.less$/,
+                loader: ExtractTextPlugin.extract(
+                    // activate source maps via loader query
+                    'css?sourceMap!' +
+                    'less?sourceMap'
+                )
+            }
+        ]
+    },
+    plugins: [
+        // extract inline css into separate 'styles.css'
+        new ExtractTextPlugin('styles.css')
+    ]
+};
+```
+
+If you want to view the original LESS files inside Chrome and even edit it,  [there's a good blog post](https://medium.com/@toolmantim/getting-started-with-css-sourcemaps-and-in-browser-sass-editing-b4daab987fb0). Checkout [test/sourceMap](https://github.com/webpack/less-loader/tree/master/test) for a running example. Make sure to serve the content with an HTTP server.
 
 ## Contribution
 
