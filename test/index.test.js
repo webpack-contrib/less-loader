@@ -36,6 +36,15 @@ describe("less-loader", function() {
 		query: "?sourceMap",
 		devtool: "source-map"
 	});
+	test("should install plugins", "url-path", {
+		query: "?config=lessLoaderTest",
+		lessPlugins: [
+			{ wasCalled: false, install: function() {this.wasCalled = true;} }
+		],
+		after: function(testVariables) {
+			this.lessPlugins[0].wasCalled.should.be.true;
+		}
+	});
 	it("should report error correctly", function(done) {
 		webpack({
 			entry: path.resolve(__dirname, "../index.js") + "!" +
@@ -109,6 +118,9 @@ function test(name, id, testOptions) {
 				path: __dirname + "/output",
 				filename: "bundle.js",
 				libraryTarget: "commonjs2"
+			},
+			lessLoaderTest: {
+				lessPlugins: testOptions.lessPlugins || []
 			}
 		}, function onCompilationFinished(err, stats) {
 			var actualMap;
