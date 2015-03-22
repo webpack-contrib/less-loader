@@ -18,6 +18,7 @@ module.exports = function(source) {
 	var cb = this.async();
 	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
+	var configKey = query.config || 'lessLoader';
 	var config = {
 		filename: this.resource,
 		paths: [],
@@ -43,6 +44,11 @@ module.exports = function(source) {
 	// been added some before via query-options.
 	config.plugins = config.plugins || [];
 	config.plugins.push(webpackPlugin);
+
+	// If present, add custom LESS plugins.
+	if (this.options[configKey]) {
+		config.plugins = config.plugins.concat(this.options[configKey].lessPlugins || []);
+	}
 
 	// not using the `this.sourceMap` flag because css source maps are different
 	// @see https://github.com/webpack/css-loader/pull/40
