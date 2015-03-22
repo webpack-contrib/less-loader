@@ -18,7 +18,7 @@ module.exports = function(source) {
 	var cb = this.async();
 	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
-	var configKey = query.config || 'lessLoader';
+	var configKey = query.config || "lessLoader";
 	var config = {
 		filename: this.resource,
 		paths: [],
