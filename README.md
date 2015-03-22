@@ -57,41 +57,30 @@ See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-option
 
 In order to use [plugins](http://lesscss.org/usage/#plugins), simply define
 the `lessLoader.lessPlugins` option. You can also change the options key
-with a query parameter: `"style!css!less?config=lessLoaderCustom"`.
+with a query parameter: `"less?config=lessLoaderCustom"`.
 
 ``` javascript
 var LessPluginCleanCSS = require('less-plugin-clean-css');
 
 module.exports = {
-  module: {
-    loaders: [...]
-  },
-  lessLoader:
+  ...
+  lessLoader: {
     lessPlugins: [
       new LessPluginCleanCSS({advanced: true})
     ]
+  }
 };
 ```
 
-## Note on imports
+## Imports
 
-webpack provides an [advanced mechanism to resolve files](http://webpack.github.io/docs/resolving.html). The less-loader stubs less' `fileLoader` and passes all queries to the webpack resolving engine. Thus you can import your less-modules from `node_modules` or `bower_components`. Just prepend them with a `~` which tells webpack to look-up the [`modulesDirectories`](http://webpack.github.io/docs/configuration.html#resolve-modulesdirectories)
+webpack provides an [advanced mechanism to resolve files](http://webpack.github.io/docs/resolving.html). The less-loader stubs less' `fileLoader` and passes all queries to the webpack resolving engine. Thus you can import your less-modules from `node_modules`. Just prepend them with a `~` which tells webpack to look-up the [`modulesDirectories`](http://webpack.github.io/docs/configuration.html#resolve-modulesdirectories)
 
 ```css
 @import "~bootstrap/less/bootstrap";
 ```
 
-It's important to only prepend it with `~`, because `~/` resolves to the home-directory. webpack needs to distinguish `bootstrap` from `~bootstrap` because css- and less-files have no special syntax for importing relative files:
-
-```css
-@import "file";
-```
-
-is the same as
-
-```css
-@import "./file";
-```
+It's important to only prepend it with `~`, because `~/` resolves to the home-directory. webpack needs to distinguish between `bootstrap` and `~bootstrap` because css- and less-files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
 
 ## Source maps
 
