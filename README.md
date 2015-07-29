@@ -51,7 +51,7 @@ module.exports = {
 };
 ```
 
-See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options. LESS translates dash-case to camelCase.
+See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options. LESS translates dash-case to camelCase. Certain options which take values (e.g. `lessc --modify-var="a=b"`) are better handled with the [JSON loader syntax](http://webpack.github.io/docs/using-loaders.html#query-parameters) (`style!css!less?{"modifyVars":{"a":"b"}}`).  
 
 ### LESS plugins
 
