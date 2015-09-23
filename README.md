@@ -1,5 +1,9 @@
 # less loader for webpack
 
+## Installation
+
+`npm install less-loader --save-dev`
+
 ## Usage
 
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
