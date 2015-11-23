@@ -29,6 +29,7 @@ describe("less-loader", function() {
 		}
 	});
 	test("should not try to resolve import urls", "imports-url");
+	test("should compile data-uri function", "data-uri");
 	test("should transform urls", "url-path");
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
