@@ -59,9 +59,8 @@ See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-option
 
 ### LESS plugins
 
-In order to use [plugins](http://lesscss.org/usage/#plugins), simply define
-the `lessLoader.lessPlugins` option. You can also change the options key
-with a query parameter: `"less?config=lessLoaderCustom"`.
+In order to use [plugins](http://lesscss.org/usage/#plugins), simply set
+the `lessLoader.lessPlugins`-option on your webpack options. You can also change the options' key with a query parameter: `"less?config=lessLoaderCustom"`.
 
 ``` javascript
 var LessPluginCleanCSS = require('less-plugin-clean-css');
