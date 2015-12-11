@@ -59,8 +59,8 @@ module.exports = function(source) {
 	}
 
 	// Perform name interpolation on any variables given
-	interpolateVariables(loaderContext, config.modifyVars);
-	interpolateVariables(loaderContext, config.globalVars);
+	interpolateVariables(loaderContext, config.modifyVars, this.options);
+	interpolateVariables(loaderContext, config.globalVars, this.options);
 
 	less.render(source, config, function(e, result) {
 		var parsedMap;
@@ -185,13 +185,18 @@ function formatLessRenderError(e) {
 	return err;
 }
 
-function interpolateVariables(context, variables) {
+function interpolateVariables(context, variables, options) {
 	if (!variables) return;
 
-	console.log('context:', context);
-	console.log('variables:', variables);
+	options = options || {};
 
 	Object.keys(variables).forEach(function(variable) {
-		variables[variable] = loaderUtils.interpolateName(context, variables[variable], {});	
+		var name = loaderUtils.interpolateName(context, variable, options);
+
+		if (name !== variable) {
+			variables[name] = variables[variable];
+			delete variables[variable];
+		}
+
 	});
 }
