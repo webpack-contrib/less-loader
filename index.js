@@ -191,10 +191,11 @@ function interpolateVariables(context, variables, options) {
 	options = options || {};
 
 	Object.keys(variables).forEach(function(variable) {
-		var name = loaderUtils.interpolateName(context, variable, options);
+		var name  = loaderUtils.interpolateName(context, variable, options);
+		var value = loaderUtils.interpolateName(context, variables[variable], options);
 
 		if (name !== variable) {
-			variables[name] = variables[variable];
+			variables[name] = value;
 			delete variables[variable];
 		}
 
