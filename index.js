@@ -194,8 +194,9 @@ function interpolateVariables(context, variables, options) {
 		var name  = loaderUtils.interpolateName(context, variable, options);
 		var value = loaderUtils.interpolateName(context, variables[variable], options);
 
+		variables[name] = value;
+
 		if (name !== variable) {
-			variables[name] = value;
 			delete variables[variable];
 		}
 
