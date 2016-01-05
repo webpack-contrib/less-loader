@@ -67,16 +67,6 @@ module.exports = function(source) {
 		finalCb = null;
 		if(e) return cb(formatLessRenderError(e));
 
-		if (result.map) {
-			parsedMap = JSON.parse(result.map);
-
-			parsedMap.sources = parsedMap.sources.map(function(file) {
-				return path.basename(file);
-			});
-
-			result.map = JSON.stringify(parsedMap);
-		}
-
 		cb(null, result.css, result.map);
 	});
 };
