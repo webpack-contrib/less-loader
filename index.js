@@ -25,9 +25,14 @@ module.exports = function(source) {
 		relativeUrls: true,
 		compress: !!this.minimize
 	};
+
+	Object.keys(query).forEach(function(attr) {
+		config[attr] = query[attr];
+	});
+
 	var webpackPlugin = {
 		install: function(less, pluginManager) {
-			var WebpackFileManager = getWebpackFileManager(less, loaderContext, query, isSync);
+			var WebpackFileManager = getWebpackFileManager(less, loaderContext, query, isSync, config);
 
 			pluginManager.addFileManager(new WebpackFileManager());
 		},
@@ -35,10 +40,6 @@ module.exports = function(source) {
 	};
 
 	this.cacheable && this.cacheable();
-
-	Object.keys(query).forEach(function(attr) {
-		config[attr] = query[attr];
-	});
 
 	// Now we're adding the webpack plugin, because there might have
 	// been added some before via query-options.
@@ -81,7 +82,7 @@ module.exports = function(source) {
 	});
 };
 
-function getWebpackFileManager(less, loaderContext, query, isSync) {
+function getWebpackFileManager(less, loaderContext, query, isSync, config) {
 
 	function WebpackFileManager() {
 		less.FileManager.apply(this, arguments);
@@ -113,18 +114,45 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 		}
 
 		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
+
 		// Less is giving us trailing slashes, but the context should have no trailing slash
 		var context = currentDirectory.replace(trailingSlash, "");
 
-		loaderContext.resolve(context, moduleRequest, function(err, filename) {
+		loaderContext.resolve(context, moduleRequest, function(err, resolvedFilename) {
 			if(err) {
-				callback(err);
+				if (config.paths && config.paths.length) {
+					tryResolvingByPath(0);
+				} else {
+					callback(err);
+				}
 				return;
 			}
 
-			loaderContext.dependency && loaderContext.dependency(filename);
+			onResolved(resolvedFilename);
+		});
+
+		function tryResolvingByPath(index) {
+			// Less offers a way to change context by passing a paths array, so we need to check that.
+			var context = config.paths[index];
+			loaderContext.resolve(context, filename, function(err, resolvedFilename) {
+				if(err) {
+					index += 1;
+					if (index < config.paths.length) {
+						tryResolvingByPath(index);
+					} else {
+						callback(err);
+					}
+					return;
+				}
+
+				onResolved(resolvedFilename);
+			});
+		}
+
+		function onResolved(resolvedFilename) {
+			loaderContext.dependency && loaderContext.dependency(resolvedFilename);
 			// The default (asynchronous)
-			loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
+			loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + resolvedFilename, function(err, data) {
 				if(err) {
 					callback(err);
 					return;
@@ -132,10 +160,10 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 
 				callback(null, {
 					contents: JSON.parse(data),
-					filename: filename
+					filename: resolvedFilename
 				});
 			});
-		});
+		}
 	};
 
 	WebpackFileManager.prototype.loadFileSync = function(filename, currentDirectory, options, environment) {
@@ -144,13 +172,26 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 		var context = currentDirectory.replace(trailingSlash, "");
 		var data;
 
-		filename = loaderContext.resolveSync(context, moduleRequest);
-		loaderContext.dependency && loaderContext.dependency(filename);
-		data = fs.readFileSync(filename, "utf8");
+		var resolvedFilename;
+		try {
+			resolvedFilename = loaderContext.resolveSync(context, moduleRequest);
+		} catch(err) {
+			if (config.paths && config.paths.length) {
+				var index = 0;
+				while (!resolvedFilename && index < config.paths.length) {
+					// Less offers a way to change context by passing a paths array, so we need to check that.
+					context = config.paths[index];
+					resolvedFilename = loaderContext.resolveSync(context, filename);
+				}
+			}
+		}
+
+		loaderContext.dependency && loaderContext.dependency(resolvedFilename);
+		data = fs.readFileSync(resolvedFilename, "utf8");
 
 		return {
 			contents: data,
-			filename: filename
+			filename: resolvedFilename
 		};
 	};
 
