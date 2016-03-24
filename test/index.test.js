@@ -144,7 +144,7 @@ function test(name, id, testOptions) {
 
 			testOptions.after && testOptions.after();
 
-			if (testOptions.devtool === "sourcemap") {
+			if (testOptions.devtool === "source-map") {
 				actualMap = fs.readFileSync(__dirname + "/output/bundle.js.map", "utf8");
 				fs.writeFileSync(__dirname + "/output/" + name + ".sync.css.map", actualMap, "utf8");
 				actualMap = JSON.parse(actualMap);
