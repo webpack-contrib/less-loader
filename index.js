@@ -9,6 +9,7 @@ var less = require("less");
 var fs = require("fs");
 var loaderUtils = require("loader-utils");
 var path = require("path");
+var util = require("util");
 
 var trailingSlash = /[\\\/]$/;
 
@@ -59,7 +60,6 @@ module.exports = function(source) {
 	}
 
 	less.render(source, config, function(e, result) {
-		var parsedMap;
 		var cb = finalCb;
 		// Less is giving us double callbacks sometimes :(
 		// Thus we need to mark the callback as "has been called"
@@ -128,7 +128,7 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 		});
 	};
 
-	WebpackFileManager.prototype.loadFileSync = function(filename, currentDirectory, options, environment) {
+	WebpackFileManager.prototype.loadFileSync = util.deprecate(function(filename, currentDirectory, options, environment) {
 		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
 		// Less is giving us trailing slashes, but the context should have no trailing slash
 		var context = currentDirectory.replace(trailingSlash, "");
@@ -142,7 +142,7 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 			contents: data,
 			filename: filename
 		};
-	};
+	}, "We are planing to remove enhanced-require support with the next major release of the less-loader: https://github.com/webpack/less-loader/issues/84");
 
 	return WebpackFileManager;
 }

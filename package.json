@@ -4,7 +4,7 @@
   "author": "Tobias Koppers @sokra",
   "description": "less loader module for webpack",
   "scripts": {
-    "test": "mocha -R spec",
+    "test": "node --no-deprecation node_modules/.bin/_mocha -R spec",
     "test-source-map": "webpack --config test/sourceMap/webpack.config.js && open ./test/sourceMap/index.html"
   },
   "peerDependencies": {
