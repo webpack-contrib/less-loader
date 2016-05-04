@@ -2,7 +2,9 @@
 
 ## Installation
 
-`npm install less-loader --save-dev`
+`npm install less-loader less --save-dev`
+
+The less-loader requires [less](https://github.com/less/less.js) as [peer dependency](https://docs.npmjs.com/files/package.json#peerdependencies). Thus you are able to specify the required version accurately.
 
 ## Usage
 
