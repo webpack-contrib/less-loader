@@ -20,11 +20,13 @@ module.exports = function(source) {
 	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
 	var configKey = query.config || "lessLoader";
+	var forceMinimize = query.minimize;
+	var minimize = typeof forceMinimize !== "undefined" ? !!forceMinimize : this.minimize;
 	var config = {
 		filename: this.resource,
 		paths: [],
 		relativeUrls: true,
-		compress: !!this.minimize
+		compress: minimize
 	};
 	var webpackPlugin = {
 		install: function(less, pluginManager) {
