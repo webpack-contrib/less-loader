@@ -11,16 +11,16 @@ The less-loader requires [less](https://github.com/less/less.js) as [peer depend
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
 
 ``` javascript
-var css = require("!raw!less!./file.less");
+var css = require("!raw-loader!less-loader!./file.less");
 // => returns compiled css code from file.less, resolves imports
-var css = require("!css!less!./file.less");
+var css = require("!css-loader!less-loader!./file.less");
 // => returns compiled css code from file.less, resolves imports and url(...)s
 ```
 
 Use in tandem with the [`style-loader`](https://github.com/webpack/style-loader) to add the css rules to your document:
 
 ``` javascript
-require("!style!css!less!./file.less");
+require("!style-loader!css-loader!less-loader!./file.less");
 ```
 
 ### webpack config
@@ -31,7 +31,7 @@ module.exports = {
     loaders: [
       {
         test: /\.less$/,
-        loader: "style!css!less"
+        loader: "style-loader!css-loader!less-loader"
       }
     ]
   }
@@ -50,19 +50,19 @@ module.exports = {
     loaders: [
       {
         test: /\.less$/,
-        loader: "style!css!less?strictMath&noIeCompat"
+        loader: "style-loader!css-loader!less-loader?strictMath&noIeCompat"
       }
     ]
   }
 };
 ```
 
-See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options. LESS translates dash-case to camelCase. Certain options which take values (e.g. `lessc --modify-var="a=b"`) are better handled with the [JSON loader syntax](http://webpack.github.io/docs/using-loaders.html#query-parameters) (`style!css!less?{"modifyVars":{"a":"b"}}`).  
+See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options. LESS translates dash-case to camelCase. Certain options which take values (e.g. `lessc --modify-var="a=b"`) are better handled with the [JSON loader syntax](http://webpack.github.io/docs/using-loaders.html#query-parameters) (`style-loader!css-loader!less-loader?{"modifyVars":{"a":"b"}}`).  
 
 ### LESS plugins
 
 In order to use [plugins](http://lesscss.org/usage/#plugins), simply set
-the `lessLoader.lessPlugins`-option on your webpack options. You can also change the options' key with a query parameter: `"less?config=lessLoaderCustom"`.
+the `lessLoader.lessPlugins`-option on your webpack options. You can also change the options' key with a query parameter: `"less-loader?config=lessLoaderCustom"`.
 
 ``` javascript
 var LessPluginCleanCSS = require('less-plugin-clean-css');
@@ -106,8 +106,8 @@ module.exports = {
                 test: /\.less$/,
                 loader: ExtractTextPlugin.extract(
                     // activate source maps via loader query
-                    'css?sourceMap!' +
-                    'less?sourceMap'
+                    'css-loader?sourceMap!' +
+                    'less-loader?sourceMap'
                 )
             }
         ]
