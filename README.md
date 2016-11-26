@@ -1,134 +1,190 @@
-# less loader for webpack
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![coverage][cover]][cover-url]
+[![chat][chat]][chat-url]
 
-## Installation
+<div align="center">
+  <img width="200" height="200"
+    src="https://cdn.worldvectorlogo.com/logos/less-63.svg">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+  <h1>LESS Loader</h1>
+</div>
 
-`npm install less-loader less --save-dev`
+<h2 align="center">Install</h2>
 
-The less-loader requires [less](https://github.com/less/less.js) as [peer dependency](https://docs.npmjs.com/files/package.json#peerdependencies). Thus you are able to specify the required version accurately.
-
-## Usage
-
-[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
-
-``` javascript
-var css = require("!raw-loader!less-loader!./file.less");
-// => returns compiled css code from file.less, resolves imports
-var css = require("!css-loader!less-loader!./file.less");
-// => returns compiled css code from file.less, resolves imports and url(...)s
+```bash
+npm install --save-dev less-loader less
 ```
 
-Use in tandem with the [`style-loader`](https://github.com/webpack/style-loader) to add the css rules to your document:
+<h2 align="center">Usage</h2>
 
-``` javascript
-require("!style-loader!css-loader!less-loader!./file.less");
+Use [`less-loader`](https://github.com/webpack/less-loader) in tandem with [css-loader](https://github.com/webpack/css-loader) & [style-loader](https://github.com/webpack/style-loader) to add LESS support for webpack.
+
+There are three ways to use less-loader in your application.
+
+### CLI
+
+```bash
+webpack --module-bind 'less=style!css!less'
 ```
 
-### webpack config
+### Require
 
-``` javascript
+```js
+require("style!css!less!./file.less")
+```
+
+### Configuration
+
+**webpack.config.js (recommended)**
+```js
+const css = require('file.less')
+```
+
+```js
 module.exports = {
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.less$/,
-        loader: "style-loader!css-loader!less-loader"
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } }
+          'less-loader'
+        ]
       }
     ]
   }
-};
+}
 ```
 
-Then you only need to write: `require("./file.less")`
+<h2 align="center">Options</h2>
 
-### LESS options
+You can pass any LESS specific options to less-loader via loader options or query parameters.
 
-You can pass any LESS specific configuration options through to the render function via [query parameters](http://webpack.github.io/docs/using-loaders.html#query-parameters).
+See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options. LESS translates dash-case to camelCase. Certain options which take values (e.g. `lessc --modify-var="a=b"`) are better handled with the [JSON Syntax](http://webpack.github.io/docs/using-loaders.html#query-parameters)
 
-``` javascript
-module.exports = {
-  module: {
-    loaders: [
-      {
-        test: /\.less$/,
-        loader: "style-loader!css-loader!less-loader?strictMath&noIeCompat"
-      }
-    ]
-  }
-};
+```js
+{
+  test: /\.less$/,
+  use: [
+    'style-loader',
+    { loader: 'css-loader', options: { importLoaders: 1 } },
+    { loader: 'less-loader', options: { strictMath: true, noIeCompat: true } }
+}
 ```
 
-See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options. LESS translates dash-case to camelCase. Certain options which take values (e.g. `lessc --modify-var="a=b"`) are better handled with the [JSON loader syntax](http://webpack.github.io/docs/using-loaders.html#query-parameters) (`style-loader!css-loader!less-loader?{"modifyVars":{"a":"b"}}`).  
-
-### LESS plugins
+### Plugins
 
 In order to use [plugins](http://lesscss.org/usage/#plugins), simply set
-the `lessLoader.lessPlugins`-option on your webpack options. You can also change the options' key with a query parameter: `"less-loader?config=lessLoaderCustom"`.
+the `options.lessPlugins`-option on your `webpack.config.js`.
 
-``` javascript
-var LessPluginCleanCSS = require('less-plugin-clean-css');
+```js
+const CleanCSSPlugin = require('less-plugin-clean-css')
 
-module.exports = {
-  ...
-  lessLoader: {
-    lessPlugins: [
-      new LessPluginCleanCSS({advanced: true})
-    ]
-  }
-};
+{
+  test: /\.less$/,
+  use: [
+    'style-loader',
+    { loader: 'css-loader', options: { importLoaders: 1 } },
+    {
+      loader: 'less-loader',
+      options: { LessPlugins: new CleanCSSPlugin({ advanced: true }) }
+    }
+}
 ```
 
-## Imports
+### Imports
 
-webpack provides an [advanced mechanism to resolve files](http://webpack.github.io/docs/resolving.html). The less-loader stubs less' `fileLoader` and passes all queries to the webpack resolving engine. Thus you can import your less-modules from `node_modules`. Just prepend them with a `~` which tells webpack to look-up the [`modulesDirectories`](http://webpack.github.io/docs/configuration.html#resolve-modulesdirectories)
+webpack provides an [advanced mechanism to resolve files](https://webpack.js.org/configuration/resolve/). The less-loader stubs less' `fileLoader` and passes all queries to the webpack resolving engine. Thus you can import your less-modules from `node_modules`. Just prepend them with a `~` which tells webpack to look-up the [`modules`](https://webpack.js.org/configuration/resolve/#resolve-modules)
 
 ```css
 @import "~bootstrap/less/bootstrap";
 ```
 
-It's important to only prepend it with `~`, because `~/` resolves to the home-directory. webpack needs to distinguish between `bootstrap` and `~bootstrap` because css- and less-files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
+It's important to only prepend it with `~`, because `~/` resolves to the home directory. webpack needs to distinguish between `bootstrap` and `~bootstrap` because css and less files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
 
-## Source maps
+### Sourcemaps
 
-Because of browser limitations, source maps are only available in conjunction with the [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin). Use that plugin to extract the CSS code from the generated JS bundle into a separate file (which even improves the perceived performance because JS and CSS are loaded in parallel).
+Because of browser limitations, sourcemaps are only available in conjunction with the [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin). Use that plugin to extract the CSS code from the generated JS bundle into a separate file (which improves performance because JS and CSS are loaded in parallel).
 
-Then your `webpack.config.js` should look like this:
-
-```javascript
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+**webpack.config.js**
+```js
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-    ...
-    // must be 'source-map' or 'inline-source-map'
-    devtool: 'source-map',
-    module: {
-        loaders: [
+  // must be 'source-map' or 'inline-source-map'
+  devtool: 'source-map',
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: ExtractTextPlugin.extract(
+          fallbackLoader: 'style-loader',
+          loaders: [
+            // activate source maps via loader query
             {
-                test: /\.less$/,
-                loader: ExtractTextPlugin.extract(
-                    // activate source maps via loader query
-                    'css-loader?sourceMap!' +
-                    'less-loader?sourceMap'
-                )
+              loader: 'css-loader',
+              options: { sourceMap: true, importLoaders: 1 }
             }
-        ]
-    },
-    plugins: [
-        // extract inline css into separate 'styles.css'
-        new ExtractTextPlugin('styles.css')
+            {
+              loader: 'less-loader',
+              options: { sourceMap: true }
+            }
+          ]
+        )
+      }
     ]
-};
+  },
+  plugins: [
+    // extract CSS into separate file
+    new ExtractTextPlugin('app.bundle.css')
+  ]
+}
 ```
 
 If you want to view the original LESS files inside Chrome and even edit it,  [there's a good blog post](https://medium.com/@toolmantim/getting-started-with-css-sourcemaps-and-in-browser-sass-editing-b4daab987fb0). Checkout [test/sourceMap](https://github.com/webpack/less-loader/tree/master/test) for a running example. Make sure to serve the content with an HTTP server.
 
-## Contribution
+<h2 align="center">Contributing</h2>
 
 Don't hesitate to create a pull request. Every contribution is appreciated. In development you can start the tests by calling `npm test`.
 
 The tests are basically just comparing the generated css with a reference css-file located under `test/css`. You can easily generate a reference css-file by calling `node test/helpers/generateCss.js <less-file-without-less-extension>`. It passes the less-file to less and writes the output to the `test/css`-folder.
 
-[![build status](https://travis-ci.org/webpack/less-loader.svg)](https://travis-ci.org/webpack/less-loader)
+<h2 align="center">Maintainer</h2>
 
-## License
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img width="150 height="150" src="https://github.com/jhnns.png?s=150">
+        <br>
+        <a href="https://github.com/jhnns">Johannes Ewald</a>
+      </td>
+    <tr>
+  <tbody>
+</table>
 
-MIT (http://www.opensource.org/licenses/mit-license.php)
+
+[npm]: https://img.shields.io/npm/v/less-loader.svg
+[npm-url]: https://npmjs.com/package/less-loader
+
+[node]: https://img.shields.io/node/v/less-loader.svg
+[node-url]: https://nodejs.org
+
+[deps]: https://david-dm.org/webpack/less-loader.svg
+[deps-url]: https://david-dm.org/webpack/less-loader
+
+[tests]: http://img.shields.io/travis/webpack/less-loader.svg
+[tests-url]: https://travis-ci.org/webpack/less-loader
+
+[cover]: https://coveralls.io/repos/github/webpack/less-loader/badge.svg
+[cover-url]: https://coveralls.io/github/webpack/less-loader
+
+[chat]: https://badges.gitter.im/webpack/webpack.svg
+[chat-url]: https://gitter.im/webpack/webpack
