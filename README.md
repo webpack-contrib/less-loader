@@ -27,25 +27,9 @@ Use [`less-loader`](https://github.com/webpack/less-loader) in tandem with [css-
 
 There are three ways to use less-loader in your application.
 
-### CLI
+### Configuration (recommended)
 
-```bash
-webpack --module-bind 'less=style!css!less'
-```
-
-### Require
-
-```js
-require("style!css!less!./file.less")
-```
-
-### Configuration
-
-**webpack.config.js (recommended)**
-```js
-const css = require('file.less')
-```
-
+**webpack.config.js**
 ```js
 module.exports = {
   module: {
@@ -61,6 +45,26 @@ module.exports = {
     ]
   }
 }
+```
+
+```js
+import css from 'file.less';
+```
+
+### CLI
+
+```bash
+webpack --module-bind 'less=style!css!less'
+```
+
+```
+import css from 'file.less';
+```
+
+### Require
+
+```js
+import css from 'style-loader!css-loader!less-loader!./file.less';
 ```
 
 <h2 align="center">Options</h2>
@@ -85,7 +89,7 @@ In order to use [plugins](http://lesscss.org/usage/#plugins), simply set
 the `options.lessPlugins`-option on your `webpack.config.js`.
 
 ```js
-const CleanCSSPlugin = require('less-plugin-clean-css')
+const CleanCSSPlugin = require('less-plugin-clean-css');
 
 {
   test: /\.less$/,
@@ -115,7 +119,7 @@ Because of browser limitations, sourcemaps are only available in conjunction wit
 
 **webpack.config.js**
 ```js
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   // must be 'source-map' or 'inline-source-map'
