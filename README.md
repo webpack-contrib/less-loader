@@ -25,9 +25,9 @@ npm install --save-dev less-loader less
 
 Use [`less-loader`](https://github.com/webpack/less-loader) in tandem with [css-loader](https://github.com/webpack/css-loader) & [style-loader](https://github.com/webpack/style-loader) to add LESS support for webpack.
 
-There are three ways to use less-loader in your application.
+Use the loader either via your webpack config, CLI or inline.
 
-### Configuration (recommended)
+### Via webpack config (recommended)
 
 **webpack.config.js**
 ```js
@@ -47,6 +47,7 @@ module.exports = {
 }
 ```
 
+**In your application**
 ```js
 import css from 'file.less';
 ```
@@ -57,12 +58,14 @@ import css from 'file.less';
 webpack --module-bind 'less=style-loader!css-loader!less-loader'
 ```
 
+**In your application**
 ```
 import css from 'file.less';
 ```
 
 ### Inline
 
+**In your application**
 ```js
 import css from 'style-loader!css-loader!less-loader!./file.less';
 ```
