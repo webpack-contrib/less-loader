@@ -59,7 +59,7 @@ webpack --module-bind 'less=style-loader!css-loader!less-loader'
 ```
 
 **In your application**
-```
+```js
 import css from 'file.less';
 ```
 
