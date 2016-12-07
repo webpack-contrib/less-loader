@@ -54,14 +54,14 @@ import css from 'file.less';
 ### CLI
 
 ```bash
-webpack --module-bind 'less=style!css!less'
+webpack --module-bind 'less=style-loader!css-loader!less-loader'
 ```
 
 ```
 import css from 'file.less';
 ```
 
-### Require
+### Inline
 
 ```js
 import css from 'style-loader!css-loader!less-loader!./file.less';
