@@ -114,7 +114,9 @@ webpack provides an [advanced mechanism to resolve files](https://webpack.js.org
 @import "~bootstrap/less/bootstrap";
 ```
 
-It's important to only prepend it with `~`, because `~/` resolves to the home directory. webpack needs to distinguish between `bootstrap` and `~bootstrap` because css and less files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
+It's important to only prepend it with `~`, because `~/` resolves to the home-directory. webpack needs to distinguish between `bootstrap` and `~bootstrap` because css- and less-files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
+
+Also please note that for [CSS modules](https://github.com/css-modules/css-modules), relative file paths do not work as expected. Please see [this issue for the explanation](https://github.com/webpack/less-loader/issues/109#issuecomment-253797335).
 
 ### Sourcemaps
 
