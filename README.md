@@ -83,6 +83,7 @@ See the [LESS documentation](http://lesscss.org/usage/#command-line-usage-option
     'style-loader',
     { loader: 'css-loader', options: { importLoaders: 1 } },
     { loader: 'less-loader', options: { strictMath: true, noIeCompat: true } }
+	]
 }
 ```
 
