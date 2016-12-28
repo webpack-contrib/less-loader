@@ -134,20 +134,20 @@ module.exports = {
     rules: [
       {
         test: /\.less$/,
-        use: ExtractTextPlugin.extract(
+        use: ExtractTextPlugin.extract({
           fallbackLoader: 'style-loader',
           loaders: [
             // activate source maps via loader query
             {
               loader: 'css-loader',
               options: { sourceMap: true, importLoaders: 1 }
-            }
+            },
             {
               loader: 'less-loader',
               options: { sourceMap: true }
             }
           ]
-        )
+        })
       }
     ]
   },
