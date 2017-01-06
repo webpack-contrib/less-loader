@@ -20,15 +20,17 @@ module.exports = function(source) {
 	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
 	var configKey = query.config || "lessLoader";
+	var options = this.options[configKey];
 	var config = {
 		filename: this.resource,
 		paths: [],
 		relativeUrls: true,
 		compress: !!this.minimize
 	};
+	var importLoaders = options ? options.importLoaders : null;
 	var webpackPlugin = {
 		install: function(less, pluginManager) {
-			var WebpackFileManager = getWebpackFileManager(less, loaderContext, query, isSync);
+			var WebpackFileManager = getWebpackFileManager(less, loaderContext, query, isSync, importLoaders);
 
 			pluginManager.addFileManager(new WebpackFileManager());
 		},
@@ -47,8 +49,8 @@ module.exports = function(source) {
 	config.plugins.push(webpackPlugin);
 
 	// If present, add custom LESS plugins.
-	if (this.options[configKey]) {
-		config.plugins = config.plugins.concat(this.options[configKey].lessPlugins || []);
+	if (options) {
+		config.plugins = config.plugins.concat(options.lessPlugins || []);
 	}
 
 	// not using the `this.sourceMap` flag because css source maps are different
@@ -71,7 +73,7 @@ module.exports = function(source) {
 	});
 };
 
-function getWebpackFileManager(less, loaderContext, query, isSync) {
+function getWebpackFileManager(less, loaderContext, query, isSync, importLoaders) {
 
 	function WebpackFileManager() {
 		less.FileManager.apply(this, arguments);
@@ -114,7 +116,18 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 
 			loaderContext.dependency && loaderContext.dependency(filename);
 			// The default (asynchronous)
-			loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" + filename, function(err, data) {
+
+			var importLoadersStr = '';
+			if (importLoaders)
+			{
+				importLoadersStr = importLoaders(filename);
+				if (importLoadersStr)
+				{
+					importLoadersStr += '!';
+				}
+			}
+			loaderContext.loadModule("-!" + __dirname + "/stringify.loader.js!" +
+				importLoadersStr + filename, function(err, data) {
 				if(err) {
 					callback(err);
 					return;
