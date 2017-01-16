@@ -51,6 +51,11 @@ module.exports = function(source) {
 		config.plugins = config.plugins.concat(this.options[configKey].lessPlugins || []);
 	}
 
+	// Also support webpack 2 loader.options.
+	if (query.lessPlugins) {
+		config.plugins = config.plugins.concat(query.lessPlugins);
+	}
+
 	// not using the `this.sourceMap` flag because css source maps are different
 	// @see https://github.com/webpack/css-loader/pull/40
 	if (query.sourceMap) {
