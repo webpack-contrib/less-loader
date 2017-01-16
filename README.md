@@ -102,7 +102,7 @@ const CleanCSSPlugin = require('less-plugin-clean-css');
     { loader: 'css-loader', options: { importLoaders: 1 } },
     {
       loader: 'less-loader',
-      options: { LessPlugins: new CleanCSSPlugin({ advanced: true }) }
+      options: { lessPlugins: [ new CleanCSSPlugin({ advanced: true }) ] }
     }
 }
 ```
