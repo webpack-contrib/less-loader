@@ -15,11 +15,10 @@ var trailingSlash = /[\\\/]$/;
 
 module.exports = function(source) {
 	var loaderContext = this;
-	var query = loaderUtils.parseQuery(this.query);
+	var loaderConfig = loaderUtils.getLoaderConfig(this, "lessLoader");
 	var cb = this.async();
 	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
-	var configKey = query.config || "lessLoader";
 	var config = {
 		filename: this.resource,
 		paths: [],
@@ -28,7 +27,7 @@ module.exports = function(source) {
 	};
 	var webpackPlugin = {
 		install: function(less, pluginManager) {
-			var WebpackFileManager = getWebpackFileManager(less, loaderContext, query, isSync);
+			var WebpackFileManager = getWebpackFileManager(less, loaderContext, loaderConfig, isSync);
 
 			pluginManager.addFileManager(new WebpackFileManager());
 		},
@@ -37,23 +36,23 @@ module.exports = function(source) {
 
 	this.cacheable && this.cacheable();
 
-	Object.keys(query).forEach(function(attr) {
-		config[attr] = query[attr];
+	Object.keys(loaderConfig).forEach(function(attr) {
+		config[attr] = loaderConfig[attr];
 	});
+	
+	delete config.lessPlugins;
 
 	// Now we're adding the webpack plugin, because there might have
-	// been added some before via query-options.
+	// been added some before via loaderConfig.
 	config.plugins = config.plugins || [];
 	config.plugins.push(webpackPlugin);
 
 	// If present, add custom LESS plugins.
-	if (this.options[configKey]) {
-		config.plugins = config.plugins.concat(this.options[configKey].lessPlugins || []);
-	}
+	config.plugins = config.plugins.concat(loaderConfig.lessPlugins || []);
 
 	// not using the `this.sourceMap` flag because css source maps are different
 	// @see https://github.com/webpack/css-loader/pull/40
-	if (query.sourceMap) {
+	if (loaderConfig.sourceMap) {
 		config.sourceMap = {
 			outputSourceFiles: true
 		};
@@ -71,7 +70,7 @@ module.exports = function(source) {
 	});
 };
 
-function getWebpackFileManager(less, loaderContext, query, isSync) {
+function getWebpackFileManager(less, loaderContext, loaderConfig, isSync) {
 
 	function WebpackFileManager() {
 		less.FileManager.apply(this, arguments);
@@ -102,7 +101,7 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 			return;
 		}
 
-		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
+		var moduleRequest = loaderUtils.urlToRequest(filename, loaderConfig.root);
 		// Less is giving us trailing slashes, but the context should have no trailing slash
 		var context = currentDirectory.replace(trailingSlash, "");
 
@@ -129,7 +128,7 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 	};
 
 	WebpackFileManager.prototype.loadFileSync = util.deprecate(function(filename, currentDirectory, options, environment) {
-		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
+		var moduleRequest = loaderUtils.urlToRequest(filename, loaderConfig.root);
 		// Less is giving us trailing slashes, but the context should have no trailing slash
 		var context = currentDirectory.replace(trailingSlash, "");
 		var data;
