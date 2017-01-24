@@ -7,6 +7,7 @@
 */
 var less = require("less");
 var fs = require("fs");
+var assign = require("object-assign");
 var loaderUtils = require("loader-utils");
 var path = require("path");
 var util = require("util");
@@ -15,7 +16,9 @@ var trailingSlash = /[\\\/]$/;
 
 module.exports = function(source) {
 	var loaderContext = this;
-	var query = loaderUtils.parseQuery(this.query);
+	var globalOptions = this.options.less || {};
+	var loaderOptions = loaderUtils.parseQuery(this.query);
+	var query = assign({}, globalOptions, loaderOptions);
 	var cb = this.async();
 	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
