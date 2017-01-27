@@ -134,7 +134,7 @@ module.exports = {
     rules: [
       {
         test: /\.less$/,
-        use: ExtractTextPlugin.extract(
+        use: ExtractTextPlugin.extract({
           fallbackLoader: 'style-loader',
           loaders: [
             // activate source maps via loader query
@@ -147,7 +147,7 @@ module.exports = {
               options: { sourceMap: true }
             }
           ]
-        )
+        })
       }
     ]
   },
