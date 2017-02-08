@@ -33,7 +33,7 @@ Use the loader either via your webpack config, CLI or inline.
 ```js
 module.exports = {
   module: {
-    rules: [
+    loaders: [
       {
         test: /\.less$/,
         use: [
