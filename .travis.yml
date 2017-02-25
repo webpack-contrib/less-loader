@@ -1,13 +1,34 @@
+# Tasks are commented out purposfully. Will be uncommented for webpack-defaults application
 sudo: false
 language: node_js
-node_js:
-  - "0.10"
-  - "0.11"
-  - "0.12"
-  - "4"
+branches:
+  only:
+    - master
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      node_js: '6'
+      env: WEBPACK_VERSION="2.2.0" JOB_PART=test
+    - os: linux
+      node_js: '4.3'
+      env: WEBPACK_VERSION="2.2.0" JOB_PART=test
+    - os: linux
+      node_js: '7'
+      env: WEBPACK_VERSION="2.2.0" JOB_PART=test
+    # - os: linux
+    #   node_js: '7'
+    #   env: WEBPACK_VERSION="2.2.0" BITHOUND_CHECK=true JOB_PART=lint
+    # - os: linux
+    #   node_js: '7'
+    #   env: WEBPACK_VERSION="2.2.0" JOB_PART=coverage
+before_install:
+  - nvm --version
+  - node --version
+before_script:
+  - if [ "$WEBPACK_VERSION" ]; then yarn add webpack@^$WEBPACK_VERSION; fi
+  # - if [ "$BITHOUND_CHECK" ]; then npm install -g bithound; bithound check git@github.com:$TRAVIS_REPO_SLUG.git; fi
 script:
-  - "npm test"
-  # test with npm@3
-  - "rm -rf node_modules && npm install npm@3"
-  - "node_modules/.bin/npm install"
-  - "node_modules/.bin/npm test"
+  - yarn run travis:$JOB_PART
+# after_success:
+#   - bash <(curl -s https://codecov.io/bash)
