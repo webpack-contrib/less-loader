@@ -15,7 +15,7 @@ var trailingSlash = /[\\\/]$/;
 
 module.exports = function(source) {
 	var loaderContext = this;
-	var query = loaderUtils.parseQuery(this.query);
+	var query = loaderUtils.getOptions(this) || {};
 	var cb = this.async();
 	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
