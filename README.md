@@ -136,7 +136,7 @@ module.exports = {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallbackLoader: 'style-loader',
-          loader: [
+          use: [
             // activate source maps via loader query
             {
               loader: 'css-loader',
