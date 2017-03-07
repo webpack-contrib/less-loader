@@ -33,6 +33,12 @@ describe("less-loader", function() {
 	test("should transform urls", "url-path");
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
+	test("should interpolate modifyVars arguments", "interpolate-modifyVars", { 
+		query: "?{'modifyVars':{'[name]':'block','override':'relative'}}"
+	});
+	test("should interpolate globalVars arguments", "interpolate-globalVars", { 
+		query: "?{'globalVars':{'[name]':'block','global':'red'}}"
+	});
 	test("should generate source-map", "source-map", {
 		query: "?sourceMap",
 		devtool: "source-map"

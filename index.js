@@ -59,6 +59,10 @@ module.exports = function(source) {
 		};
 	}
 
+	// Perform name interpolation on any variables given
+	interpolateVariables(loaderContext, config.modifyVars, this.options);
+	interpolateVariables(loaderContext, config.globalVars, this.options);
+
 	less.render(source, config, function(e, result) {
 		var cb = finalCb;
 		// Less is giving us double callbacks sometimes :(
@@ -169,4 +173,22 @@ function formatLessRenderError(e) {
 	);
 	err.hideStack = true;
 	return err;
+}
+
+function interpolateVariables(context, variables, options) {
+	if (!variables) return;
+
+	options = options || {};
+
+	Object.keys(variables).forEach(function(variable) {
+		var name  = loaderUtils.interpolateName(context, variable, options);
+		var value = loaderUtils.interpolateName(context, variables[variable], options);
+
+		variables[name] = value;
+
+		if (name !== variable) {
+			delete variables[variable];
+		}
+
+	});
 }
