@@ -1,8 +1,8 @@
 {
-  "name": "less-loader",
-  "version": "2.2.3",
-  "author": "Tobias Koppers @sokra",
-  "description": "less loader module for webpack",
+  "name": "lessnew-loader",
+  "version": "1.0.0",
+  "author": "xiaoji121",
+  "description": "new less loader module for webpack",
   "scripts": {
     "test": "npm run travis:test",
     "travis:test": "node --no-deprecation node_modules/.bin/_mocha -R spec",
