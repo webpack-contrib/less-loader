@@ -24,6 +24,7 @@ module.exports = function(source) {
 		cloneDeep(loaderUtils.getOptions(this))
 	);
 	var cb = this.async();
+	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
 	var webpackPlugin = {
 		install: function(less, pluginManager) {
@@ -33,6 +34,10 @@ module.exports = function(source) {
 		},
 		minVersion: [2, 1, 1]
 	};
+
+	if (isSync) {
+		throw new Error("Synchronous compilation is not supported anymore. See https://github.com/webpack-contrib/less-loader/issues/84");
+	}
 
 	options.plugins.push(webpackPlugin);
 
