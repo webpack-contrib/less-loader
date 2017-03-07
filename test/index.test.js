@@ -3,7 +3,6 @@
 var should = require("should");
 var path = require("path");
 var webpack = require("webpack");
-var enhancedReqFactory = require("enhanced-require");
 var fs = require("fs");
 var moveModulesDir = require("./helpers/moveModulesDir.js");
 
@@ -17,7 +16,7 @@ describe("less-loader", function() {
 	test("should resolve all imports", "imports");
 	test("should resolve all imports from bower_components", "imports-bower", {
 		before: function(config) {
-			config.resolve.root.push(bowerComponents);
+			config.resolve.modules.push(bowerComponents);
 		}
 	});
 	test("should resolve all imports from node_modules", "imports-node", {
@@ -34,16 +33,29 @@ describe("less-loader", function() {
 	test("should transform urls to files above the current directory", "folder/url-path");
 	test("should transform urls to files above the sibling directory", "folder2/url-path");
 	test("should generate source-map", "source-map", {
-		query: "?sourceMap",
+		options: {
+			sourceMap: true
+		},
 		devtool: "source-map"
 	});
 	test("should install plugins", "url-path", {
-		query: "?config=lessLoaderTest",
-		lessPlugins: [
-			{ wasCalled: false, install: function() {this.wasCalled = true;} }
-		],
+		options: {
+			lessPlugins: [
+				{ wasCalled: false, install: function() {this.wasCalled = true;} }
+			]
+		},
 		after: function(testVariables) {
-			this.lessPlugins[0].wasCalled.should.be.true;
+			this.options.lessPlugins[0].wasCalled.should.be.true;
+		}
+	});
+	// See https://github.com/webpack/loader-utils/issues/56
+	test("should not alter the original options object", "basic", {
+		options: {
+			lessPlugins: []
+		},
+		after: function() {
+			// We know that the loader will add its own plugin, but it should not alter the original array
+			this.options.lessPlugins.should.have.length(0);
 		}
 	});
 	it("should report error correctly", function(done) {
@@ -51,7 +63,7 @@ describe("less-loader", function() {
 			entry: path.resolve(__dirname, "../index.js") + "!" +
 				path.resolve(__dirname, "./less/error.less"),
 			output: {
-				path: __dirname + "/output",
+				path: path.resolve(__dirname, "output"),
 				filename: "bundle.js"
 			}
 		}, function(err, stats) {
@@ -70,58 +82,48 @@ function readCss(id) {
 	return fs.readFileSync(path.resolve(__dirname, "./css/" + id + ".css") ,"utf8").replace(CR, "");
 }
 
-function tryMkdirSync(dirname) {
-	try {
-		fs.mkdirSync(dirname);
-	} catch(e) {
-		if (!e || e.code !== "EEXIST")
-			throw e;
-	}
-}
-
 function test(name, id, testOptions) {
 	testOptions = testOptions || {};
-	testOptions.query = testOptions.query || "";
+	testOptions.options = testOptions.options || "";
 
 	it(name, function (done) {
 		var expectedCss = readCss(id);
-		var lessFile = "raw!" +
-			pathToLessLoader + testOptions.query + "!" +
-			path.resolve(__dirname, "./less/" + id + ".less");
+		var lessFile = path.resolve(__dirname, "./less/" + id + ".less");
 		var actualCss;
 		var config = {
 			resolve: {
-				root: [
-					__dirname
+				modules: [
+					"node_modules"
 				]
 			}
 		};
-		var enhancedReq;
 
 		testOptions.before && testOptions.before(config);
-
-		enhancedReq = enhancedReqFactory(module, config);
-
-		// run synchronously
-		actualCss = enhancedReq(lessFile);
-		// writing the actual css to output-dir for better debugging
-		tryMkdirSync(__dirname + "/output/");
-		fs.writeFileSync(__dirname + "/output/" + name + ".sync.css", actualCss, "utf8");
-
-		actualCss.should.eql(expectedCss);
 
 		// run asynchronously
 		webpack({
 			entry: lessFile,
+			context: __dirname,
 			devtool: testOptions.devtool,
 			resolve: config.resolve,
 			output: {
-				path: __dirname + "/output",
+				path: path.resolve(__dirname, "output"),
 				filename: "bundle.js",
 				libraryTarget: "commonjs2"
 			},
-			lessLoaderTest: {
-				lessPlugins: testOptions.lessPlugins || []
+			module: {
+				rules: [
+					{
+						test: /\.less$/,
+						use: [
+							"raw-loader",
+							{
+								loader: pathToLessLoader,
+								options: testOptions.options
+							}
+						]
+					}
+				]
 			}
 		}, function onCompilationFinished(err, stats) {
 			var actualMap;
@@ -139,16 +141,16 @@ function test(name, id, testOptions) {
 
 			actualCss = require("./output/bundle.js");
 			// writing the actual css to output-dir for better debugging
-			fs.writeFileSync(__dirname + "/output/" + name + ".async.css", actualCss, "utf8");
+			fs.writeFileSync(path.resolve(__dirname, "output", name + ".async.css"), actualCss, "utf8");
 			actualCss.should.eql(expectedCss);
 
 			testOptions.after && testOptions.after();
 
 			if (testOptions.devtool === "source-map") {
-				actualMap = fs.readFileSync(__dirname + "/output/bundle.js.map", "utf8");
-				fs.writeFileSync(__dirname + "/output/" + name + ".sync.css.map", actualMap, "utf8");
+				actualMap = fs.readFileSync(path.resolve(__dirname, "output", "bundle.js.map"), "utf8");
+				fs.writeFileSync(path.resolve(__dirname, "output", name + ".sync.css.map"), actualMap, "utf8");
 				actualMap = JSON.parse(actualMap);
-				actualMap.sources.should.containEql("webpack:///./test/less/" + id + ".less");
+				actualMap.sources.should.containEql("webpack:///./less/" + id + ".less");
 			}
 
 			done();

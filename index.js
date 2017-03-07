@@ -6,60 +6,43 @@
 		Johannes Ewald @jhnns
 */
 var less = require("less");
-var fs = require("fs");
 var loaderUtils = require("loader-utils");
-var path = require("path");
-var util = require("util");
+var cloneDeep = require("clone-deep");
 
 var trailingSlash = /[\\\/]$/;
 
 module.exports = function(source) {
 	var loaderContext = this;
-	var query = loaderUtils.getOptions(this) || {};
+	var options = Object.assign(
+		{
+			filename: this.resource,
+			paths: [],
+			plugins: [],
+			relativeUrls: true,
+			compress: Boolean(this.minimize)
+		},
+		cloneDeep(loaderUtils.getOptions(this))
+	);
 	var cb = this.async();
-	var isSync = typeof cb !== "function";
 	var finalCb = cb || this.callback;
-	var configKey = query.config || "lessLoader";
-	var config = {
-		filename: this.resource,
-		paths: [],
-		relativeUrls: true,
-		compress: !!this.minimize
-	};
 	var webpackPlugin = {
 		install: function(less, pluginManager) {
-			var WebpackFileManager = getWebpackFileManager(less, loaderContext, query, isSync);
+			var WebpackFileManager = getWebpackFileManager(less, loaderContext, options);
 
 			pluginManager.addFileManager(new WebpackFileManager());
 		},
 		minVersion: [2, 1, 1]
 	};
 
-	this.cacheable && this.cacheable();
+	options.plugins.push(webpackPlugin);
 
-	Object.keys(query).forEach(function(attr) {
-		config[attr] = query[attr];
-	});
-
-	// Now we're adding the webpack plugin, because there might have
-	// been added some before via query-options.
-	config.plugins = config.plugins || [];
-	config.plugins.push(webpackPlugin);
-
-	// If present, add custom LESS plugins.
-	if (this.options[configKey]) {
-		config.plugins = config.plugins.concat(this.options[configKey].lessPlugins || []);
-	}
-
-	// not using the `this.sourceMap` flag because css source maps are different
-	// @see https://github.com/webpack/css-loader/pull/40
-	if (query.sourceMap) {
-		config.sourceMap = {
+	if (options.sourceMap) {
+		options.sourceMap = {
 			outputSourceFiles: true
 		};
 	}
 
-	less.render(source, config, function(e, result) {
+	less.render(source, options, function(e, result) {
 		var cb = finalCb;
 		// Less is giving us double callbacks sometimes :(
 		// Thus we need to mark the callback as "has been called"
@@ -85,23 +68,10 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 	};
 
 	WebpackFileManager.prototype.supportsSync = function(filename, currentDirectory, options, environment) {
-		return isSync;
+		return false;
 	};
 
 	WebpackFileManager.prototype.loadFile = function(filename, currentDirectory, options, environment, callback) {
-		// Unfortunately we don't have any influence on less to call `loadFile` or `loadFileSync`
-		// thus we need to decide for ourselves.
-		// @see https://github.com/less/less.js/issues/2325
-		if (isSync) {
-			try {
-				callback(null, this.loadFileSync(filename, currentDirectory, options, environment));
-			} catch (err) {
-				callback(err);
-			}
-
-			return;
-		}
-
 		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
 		// Less is giving us trailing slashes, but the context should have no trailing slash
 		var context = currentDirectory.replace(trailingSlash, "");
@@ -127,22 +97,6 @@ function getWebpackFileManager(less, loaderContext, query, isSync) {
 			});
 		});
 	};
-
-	WebpackFileManager.prototype.loadFileSync = util.deprecate(function(filename, currentDirectory, options, environment) {
-		var moduleRequest = loaderUtils.urlToRequest(filename, query.root);
-		// Less is giving us trailing slashes, but the context should have no trailing slash
-		var context = currentDirectory.replace(trailingSlash, "");
-		var data;
-
-		filename = loaderContext.resolveSync(context, moduleRequest);
-		loaderContext.dependency && loaderContext.dependency(filename);
-		data = fs.readFileSync(filename, "utf8");
-
-		return {
-			contents: data,
-			filename: filename
-		};
-	}, "We are planing to remove enhanced-require support with the next major release of the less-loader: https://github.com/webpack/less-loader/issues/84");
 
 	return WebpackFileManager;
 }
