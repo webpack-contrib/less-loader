@@ -14,9 +14,14 @@
     <img width="200" height="200"
       src="https://webpack.js.org/assets/icon-square-big.svg">
   </a>
-  <h1>less-loader</h1>
-  <p>Compiles Less to CSS.<br>Use the <a href="https://github.com/webpack-contrib/css-loader">css-loader</a> or the <a href="https://github.com/webpack-contrib/raw-loader">raw-loader</a> to turn it into a JS module and the <a href="https://github.com/webpack-contrib/extract-text-webpack-plugin">ExtractTextPlugin</a> to extract it into a separate file.<p>
 </div>
+
+<h1 align="center">less-loader</h1>
+
+<p align="center">Compiles Less to CSS.</p>
+
+Use the [css-loader](https://github.com/webpack-contrib/css-loader) or the [raw-loader](https://github.com/webpack-contrib/raw-loader) to turn it into a JS module and the [ExtractTextPlugin](https://github.com/webpack-contrib/extract-text-webpack-plugin) to extract it into a separate file.
+
 
 <h2 align="center">Install</h2>
 
@@ -183,15 +188,13 @@ If you want to edit the original Less files inside Chrome, [there's a good blog 
 <h2 align="center">Maintainer</h2>
 
 <table>
-  <tbody>
     <tr>
       <td align="center">
-        <img width="150 height="150" src="https://github.com/jhnns.png?s=150">
+        <a href="https://github.com/jhnns"><img width="150" height="150" src="https://github.com/jhnns.png?s=150"></a>
         <br>
         <a href="https://github.com/jhnns">Johannes Ewald</a>
       </td>
     <tr>
-  <tbody>
 </table>
 
 
