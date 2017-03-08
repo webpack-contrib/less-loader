@@ -4,7 +4,7 @@
 [![deps][deps]][deps-url]
 [![travis][travis]][travis-url]
 [![appveyor][appveyor]][appveyor-url]
-[![coverage][cover]][cover-url]
+[![coverage][coverage]][coverage-url]
 [![chat][chat]][chat-url]
 
 <div align="center">
@@ -217,8 +217,8 @@ The tests are basically just comparing the generated css with a reference css-fi
 [appveyor-url]: https://ci.appveyor.com/project/jhnns/less-loader/branch/master
 [appveyor]: https://ci.appveyor.com/api/projects/status/github/webpack-contrib/less-loader?svg=true
 
-[cover]: https://coveralls.io/repos/github/webpack-contrib/less-loader/badge.svg
-[cover-url]: https://coveralls.io/github/webpack-contrib/less-loader
+[coverage]: https://img.shields.io/codecov/c/github/webpack-contrib/less-loader.svg
+[coverage-url]: https://codecov.io/gh/webpack-contrib/less-loader
 
 [chat]: https://badges.gitter.im/webpack-contrib/webpack.svg
 [chat-url]: https://gitter.im/webpack-contrib/webpack
