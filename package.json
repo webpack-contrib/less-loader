@@ -8,8 +8,10 @@
     "create-spec": "node test/tools/runCreateSpec.js",
     "pretest": "npm run create-spec",
     "test": "nyc --all mocha -R spec -t 10000",
+    "posttest": "npm run lint",
     "travis:test": "npm test",
-    "appveyor:test": "npm test"
+    "appveyor:test": "npm test",
+    "lint": "eslint lib test"
   },
   "engines": {
     "node": ">=4.0.0"
@@ -23,6 +25,9 @@
   },
   "devDependencies": {
     "css-loader": "^0.26.2",
+    "eslint": "^3.17.1",
+    "eslint-config-peerigon": "^9.0.0",
+    "eslint-plugin-jsdoc": "^2.4.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "less": "^2.6.1",
     "mocha": "^3.2.0",
