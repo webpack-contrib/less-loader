@@ -4,28 +4,14 @@ var should = require("should");
 var path = require("path");
 var webpack = require("webpack");
 var fs = require("fs");
-var moveModulesDir = require("./helpers/moveModulesDir.js");
 
 var CR = /\r/g;
-var bowerComponents = path.resolve(__dirname, "./bower_components");
 var pathToLessLoader = path.resolve(__dirname, "../lib/loader.js");
 
 describe("less-loader", function() {
 	test("should compile simple less without errors", "basic");
 	test("should resolve all imports", "imports");
-	test("should resolve all imports from bower_components", "imports-bower", {
-		before: function(config) {
-			config.resolve.modules.push(bowerComponents);
-		}
-	});
-	test("should resolve all imports from node_modules", "imports-node", {
-		before: function() {
-			moveModulesDir.moveBcToNm();
-		},
-		after: function() {
-			moveModulesDir.moveNmToBc();
-		}
-	});
+	test("should resolve all imports from node_modules", "imports-node");
 	test("should not try to resolve import urls", "imports-url");
 	test("should compile data-uri function", "data-uri");
 	test("should transform urls", "url-path");
