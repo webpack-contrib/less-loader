@@ -8,7 +8,7 @@ var moveModulesDir = require("./helpers/moveModulesDir.js");
 
 var CR = /\r/g;
 var bowerComponents = path.resolve(__dirname, "./bower_components");
-var pathToLessLoader = path.resolve(__dirname, "../index.js");
+var pathToLessLoader = path.resolve(__dirname, "../lib/loader.js");
 
 describe("less-loader", function() {
 	this.timeout(5000);
@@ -60,7 +60,7 @@ describe("less-loader", function() {
 	});
 	it("should report error correctly", function(done) {
 		webpack({
-			entry: path.resolve(__dirname, "../index.js") + "!" +
+			entry: pathToLessLoader + "!" +
 				path.resolve(__dirname, "./less/error.less"),
 			output: {
 				path: path.resolve(__dirname, "output"),
