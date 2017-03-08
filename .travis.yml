@@ -30,7 +30,5 @@ before_script:
   # - if [ "$BITHOUND_CHECK" ]; then npm install -g bithound; bithound check git@github.com:$TRAVIS_REPO_SLUG.git; fi
 script:
   - yarn run travis:$JOB_PART
-# after_success:
-#   - bash <(curl -s https://codecov.io/bash)
-
-# TODO: This test suite will throw schema errors with webpack 2.2.x installed. Address this on defaults upgrade to Jest
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
