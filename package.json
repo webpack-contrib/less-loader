@@ -5,7 +5,7 @@
   "description": "Less loader for webpack. Compiles Less to CSS.",
   "main": "lib/loader.js",
   "scripts": {
-    "test": "mocha -R spec",
+    "test": "nyc --all mocha -R spec -t 10000",
     "travis:test": "npm test",
     "appveyor:test": "npm test"
   },
@@ -24,6 +24,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "less": "^2.6.1",
     "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
     "raw-loader": "^0.5.1",
     "should": "^11.2.0",
     "webpack": "^2.2.1"
