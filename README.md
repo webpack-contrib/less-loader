@@ -180,12 +180,6 @@ module.exports = {
 
 If you want to edit the original Less files inside Chrome, [there's a good blog post](https://medium.com/@toolmantim/getting-started-with-css-sourcemaps-and-in-browser-sass-editing-b4daab987fb0). The blog post is about Sass but it also works for Less.
 
-<h2 align="center">Contributing</h2>
-
-Don't hesitate to create a pull request. Every contribution is appreciated. In development you can start the tests by calling `npm test`.
-
-The tests are basically just comparing the generated css with a reference css-file located under `test/css`. You can easily generate a reference css-file by calling `node test/helpers/generateCss.js <less-file-without-less-extension>`. It passes the less-file to less and writes the output to the `test/css`-folder.
-
 <h2 align="center">Maintainer</h2>
 
 <table>
