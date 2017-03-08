@@ -49,9 +49,7 @@ module.exports = {
 };
 ```
 
-<h2 align="center">Usage</h2>
-
-You can pass any Less specific options to the less-loader via [loader options](https://webpack.js.org/configuration/module/#rule-options-rule-query). See the [Less documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options in dash-case. Since we're passing these options to Less programmatically, you need to pass them in camelCase here.
+You can pass any Less specific options to the less-loader via [loader options](https://webpack.js.org/configuration/module/#rule-options-rule-query). See the [Less documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options in dash-case. Since we're passing these options to Less programmatically, you need to pass them in camelCase here:
 
 ```js
 // webpack.config.js
@@ -75,6 +73,54 @@ module.exports = {
 };
 ```
 
+### In production
+
+Usually, it's recommended to extract the style sheets into a dedicated file in production using the [ExtractTextPlugin](https://github.com/webpack-contrib/extract-text-webpack-plugin). This way your styles are not dependent on JavaScript:
+
+```js
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const extractLess = new ExtractTextPlugin({
+    filename: "[name].[contenthash].css",
+    disable: process.env.NODE_ENV === "development"
+});
+
+module.exports = {
+	...
+    module: {
+        rules: [{
+            test: /\.less$/,
+            loader: extractLess.extract({
+                use: [{
+                    loader: "css-loader"
+                }, {
+                    loader: "less-loader"
+                }],
+                // use style-loader in development
+                fallback: "style-loader"
+            })
+        }]
+    },
+    plugins: [
+        extractLess
+    ]
+};
+```
+
+<h2 align="center">Usage</h2>
+
+### Imports
+
+webpack provides an [advanced mechanism to resolve files](https://webpack.js.org/configuration/resolve/). The less-loader applies a Less plugin that passes all queries to the webpack resolving engine. Thus you can import your less-modules from `node_modules`. Just prepend them with a `~` which tells webpack to look-up the [`modules`](https://webpack.js.org/configuration/resolve/#resolve-modules).
+
+```css
+@import "~bootstrap/less/bootstrap";
+```
+
+It's important to only prepend it with `~`, because `~/` resolves to the home-directory. webpack needs to distinguish between `bootstrap` and `~bootstrap` because css- and less-files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
+
+Also please note that for [CSS modules](https://github.com/css-modules/css-modules), relative file paths do not work as expected. Please see [this issue for the explanation](https://github.com/webpack-contrib/less-loader/issues/109#issuecomment-253797335).
+
 ### Plugins
 
 In order to use [plugins](http://lesscss.org/usage/#plugins), simply set the `lessPlugins` option like this:
@@ -95,18 +141,6 @@ module.exports = {
     ...
 };
 ```
-
-### Imports
-
-webpack provides an [advanced mechanism to resolve files](https://webpack.js.org/configuration/resolve/). The less-loader applies a Less plugin that passes all queries to the webpack resolving engine. Thus you can import your less-modules from `node_modules`. Just prepend them with a `~` which tells webpack to look-up the [`modules`](https://webpack.js.org/configuration/resolve/#resolve-modules).
-
-```css
-@import "~bootstrap/less/bootstrap";
-```
-
-It's important to only prepend it with `~`, because `~/` resolves to the home-directory. webpack needs to distinguish between `bootstrap` and `~bootstrap` because css- and less-files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
-
-Also please note that for [CSS modules](https://github.com/css-modules/css-modules), relative file paths do not work as expected. Please see [this issue for the explanation](https://github.com/webpack-contrib/less-loader/issues/109#issuecomment-253797335).
 
 ### Extracting style sheets
 
