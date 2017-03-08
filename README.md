@@ -1,7 +1,9 @@
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
+[![npm-stats][npm-stats]][npm-url]
 [![deps][deps]][deps-url]
-[![tests][tests]][tests-url]
+[![travis][travis]][travis-url]
+[![appveyor][appveyor]][appveyor-url]
 [![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
 
@@ -47,7 +49,7 @@ module.exports = {
 };
 ```
 
-<h2 align="center">Options</h2>
+<h2 align="center">Usage</h2>
 
 You can pass any Less specific options to the less-loader via [loader options](https://webpack.js.org/configuration/module/#rule-options-rule-query). See the [Less documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options in dash-case. Since we're passing these options to Less programmatically, you need to pass them in camelCase here.
 
@@ -106,6 +108,15 @@ It's important to only prepend it with `~`, because `~/` resolves to the home-di
 
 Also please note that for [CSS modules](https://github.com/css-modules/css-modules), relative file paths do not work as expected. Please see [this issue for the explanation](https://github.com/webpack-contrib/less-loader/issues/109#issuecomment-253797335).
 
+### Extracting style sheets
+
+Bundling CSS with webpack has some nice advantages like referencing images and fonts with hashed urls or [hot module replacement](https://webpack.js.org/concepts/hot-module-replacement/) in development. In production, on the other hand, it's not a good idea to apply your style sheets depending on JS execution. Rendering may be delayed or even a [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) might be visible. Thus it's often still better to have them as separate files in your final production build.
+
+There are two possibilities to extract a style sheet from the bundle:
+
+- [extract-loader](https://github.com/peerigon/extract-loader) (simpler, but specialized on the css-loader's output)
+- [extract-text-webpack-plugin](https://github.com/webpack-contrib/extract-text-webpack-plugin) (more complex, but works in all use-cases)
+
 ### Source maps
 
 To enable CSS source maps, you'll need to pass the `sourceMap` option to the less-loader *and* the css-loader. Your `webpack.config.js` should look like this:
@@ -157,6 +168,7 @@ The tests are basically just comparing the generated css with a reference css-fi
 
 
 [npm]: https://img.shields.io/npm/v/less-loader.svg
+[npm-stats]: https://img.shields.io/npm/dm/less-loader.svg
 [npm-url]: https://npmjs.com/package/less-loader
 
 [node]: https://img.shields.io/node/v/less-loader.svg
@@ -165,8 +177,11 @@ The tests are basically just comparing the generated css with a reference css-fi
 [deps]: https://david-dm.org/webpack-contrib/less-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/less-loader
 
-[tests]: http://img.shields.io/travis/webpack-contrib/less-loader.svg
-[tests-url]: https://travis-ci.org/webpack-contrib/less-loader
+[travis]: http://img.shields.io/travis/webpack-contrib/less-loader.svg
+[travis-url]: https://travis-ci.org/webpack-contrib/less-loader
+
+[appveyor-url]: https://ci.appveyor.com/project/jhnns/less-loader/branch/master
+[appveyor]: https://ci.appveyor.com/api/projects/status/github/webpack-contrib/less-loader?svg=true
 
 [cover]: https://coveralls.io/repos/github/webpack-contrib/less-loader/badge.svg
 [cover-url]: https://coveralls.io/github/webpack-contrib/less-loader

@@ -4,8 +4,9 @@
   "author": "Tobias Koppers @sokra",
   "description": "less loader module for webpack",
   "scripts": {
-    "test": "npm run travis:test",
-    "travis:test": "mocha -R spec"
+    "test": "mocha -R spec",
+    "travis:test": "npm test",
+    "appveyor:test": "npm test"
   },
   "engines": {
     "node": ">=4.0.0"
