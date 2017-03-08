@@ -1,8 +1,8 @@
 {
   "name": "less-loader",
   "version": "2.2.3",
-  "author": "Tobias Koppers @sokra",
-  "description": "less loader module for webpack",
+  "author": "Johannes Ewald @jhnns",
+  "description": "Less loader for webpack. Compiles Less to CSS.",
   "scripts": {
     "test": "mocha -R spec",
     "travis:test": "npm test",
@@ -10,6 +10,10 @@
   },
   "engines": {
     "node": ">=4.0.0"
+  },
+  "dependencies": {
+    "clone-deep": "^0.2.4",
+    "loader-utils": "^1.0.2"
   },
   "peerDependencies": {
     "less": "^2.3.1"
@@ -25,16 +29,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/webpack/less-loader.git"
+    "url": "git://github.com/webpack-contrib/less-loader.git"
   },
   "licenses": [
     {
       "type": "MIT",
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
-  ],
-  "dependencies": {
-    "clone-deep": "^0.2.4",
-    "loader-utils": "^1.0.2"
-  }
+  ]
 }
