@@ -4,7 +4,8 @@
 #it-works {
   background: hotpink;
 }
-.box {
+.box,
+#it-works {
   color: #fe33ac;
   border-color: #fdcdea;
   background: url(box.png);
