@@ -40,5 +40,10 @@
       "type": "MIT",
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
+  ],
+  "files": [
+    "lib",
+    "README",
+    "LICENSE"
   ]
 }
