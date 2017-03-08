@@ -33,7 +33,7 @@ Chain the less-loader with the [css-loader](https://github.com/webpack-contrib/c
 ```js
 // webpack.config.js
 module.exports = {
-	...
+    ...
     module: {
         rules: [{
             test: /\.less$/,
@@ -54,7 +54,7 @@ You can pass any Less specific options to the less-loader via [loader options](h
 ```js
 // webpack.config.js
 module.exports = {
-	...
+    ...
     module: {
         rules: [{
             test: /\.less$/,
@@ -86,7 +86,7 @@ const extractLess = new ExtractTextPlugin({
 });
 
 module.exports = {
-	...
+    ...
     module: {
         rules: [{
             test: /\.less$/,
@@ -130,7 +130,7 @@ In order to use [plugins](http://lesscss.org/usage/#plugins), simply set the `le
 const CleanCSSPlugin = require("less-plugin-clean-css");
 
 module.exports = {
-	...
+    ...
             {
                 loader: "less-loader", options: {
                     lessPlugins: [
