@@ -5,7 +5,7 @@
   "description": "Less loader for webpack. Compiles Less to CSS.",
   "main": "lib/loader.js",
   "scripts": {
-    "create-spec": "node test/tools/runCreateSpec.js",
+    "create-spec": "node test/helpers/createSpec.js",
     "pretest": "npm run create-spec",
     "test": "nyc --all mocha -R spec -t 10000",
     "posttest": "npm run lint",
