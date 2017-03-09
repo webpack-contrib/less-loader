@@ -31,7 +31,7 @@ fs.readdirSync(path.resolve(__dirname, "..", "less"))
     )
     .forEach((testId) => {
         const lessFile = path.resolve(__dirname, "../less/", testId) + ".less";
-        const lessBin = path.resolve(__dirname, "../../node_modules/less/bin/lessc");
+        const lessBin = path.resolve(__dirname, "../../node_modules/.bin/lessc");
         const tildeReplacement = tildeReplacements[testId];
         let cssContent = "";
         let lessContent;
