@@ -14,24 +14,27 @@ const path = require("path");
  */
 const tildeReplacements = {
     imports: "../node_modules/",
-    "imports-node": "../node_modules/"
+    "imports-node": "../node_modules/",
+    "source-map": "../node_modules/"
 };
+const lessFixtures = path.resolve(__dirname, "..", "fixtures", "less");
+const matchLessFolder = /[\/\\]fixtures[\/\\]less[\/\\]/g;
+const matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
+const lessBin = require.resolve(".bin/lessc");
 const ignore = [
     "error"
 ];
-const matchLessFolder = /[\/\\]test[\/\\]less[\/\\]/g;
-const matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
-
-fs.readdirSync(path.resolve(__dirname, "..", "less"))
+const testIds = fs.readdirSync(lessFixtures)
     .filter((name) =>
         path.extname(name) === ".less" && ignore.indexOf(path.basename(name, ".less")) === -1
     )
     .map((name) =>
         path.basename(name, ".less")
-    )
+    );
+
+testIds
     .forEach((testId) => {
-        const lessFile = path.resolve(__dirname, "../less/", testId) + ".less";
-        const lessBin = path.resolve(__dirname, "../../node_modules/.bin/lessc");
+        const lessFile = path.resolve(lessFixtures, testId + ".less");
         const tildeReplacement = tildeReplacements[testId];
         let cssContent = "";
         let lessContent;
@@ -40,10 +43,10 @@ fs.readdirSync(path.resolve(__dirname, "..", "less"))
         lessContent = fs.readFileSync(lessFile, "utf8");
         lessContent = lessContent.replace(matchWebpackImports, "$1" + tildeReplacement);
 
-        // Ensure that less is properly installed
-        require.resolve(lessBin);
-
-        const less = spawn("node", [lessBin, "-", "-ru"], {
+        // There is a Less bug where URLs are not rewritten correctly when the stdin option is used
+        // @see https://github.com/less/less.js/issues/3038
+        // That's why our fake node_modules must stay within the fixtures folder
+        const less = spawn(lessBin, ["--relative-urls", "-"], {
             cwd: path.dirname(lessFile)
         });
 
@@ -59,7 +62,7 @@ fs.readdirSync(path.resolve(__dirname, "..", "less"))
         function processCss() {
             cssContent = cssContent.replace(new RegExp("(@import\\s+[\"'])" + tildeReplacement, "g"), "$1~");
 
-            cssFile = lessFile.replace(matchLessFolder, path.sep + "test" + path.sep + "css" + path.sep);
+            cssFile = lessFile.replace(matchLessFolder, path.sep + "fixtures" + path.sep + "css" + path.sep);
             cssFile = path.dirname(cssFile) + path.sep + path.basename(cssFile, ".less") + ".css";
 
             fs.writeFileSync(cssFile, cssContent, "utf8");
