@@ -6,17 +6,14 @@ lib-cov
 *.out
 *.pid
 *.gz
-
 pids
 logs
 results
-
 npm-debug.log
 /node_modules
-coverage
+/coverage
 .idea
 .nyc_output
-
 npm-debug.log*
 yarn-debug.log*
 .eslintcache
@@ -24,6 +21,8 @@ yarn-debug.log*
 /dist
 /local
 /reports
+/test/fixtures/css
+/test/output
 .DS_Store
 Thumbs.db
 .vscode
