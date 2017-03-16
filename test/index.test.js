@@ -36,16 +36,13 @@ test('should transform urls', async () => {
 });
 
 test('should generate source maps', async () => {
-  const [{ inspect }, expectedSourceMap] = await Promise.all([
+  const [{ inspect }, expectedMap] = await Promise.all([
     compile('source-map', { sourceMap: true }),
     readSourceMap('source-map'),
   ]);
+  const [, actualMap] = inspect.arguments;
 
-  const map = JSON.parse(inspect.arguments[1]);
-
-  delete map.sourcesContent;
-
-  expect(JSON.stringify(map)).toEqual(expectedSourceMap);
+  expect(actualMap).toEqual(expectedMap);
 });
 
 test('should install plugins', async () => {
