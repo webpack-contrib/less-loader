@@ -1,24 +1,22 @@
 const less = require('less');
 const loaderUtils = require('loader-utils');
 const cloneDeep = require('clone-deep');
+const pify = require('pify');
+const removeSourceMappingUrl = require('./removeSourceMappingUrl');
 
 const trailingSlash = /[\\/]$/;
+const render = pify(less.render.bind(less));
 
 function lessLoader(source) {
   const loaderContext = this;
-  const options = Object.assign(
-    {
-      filename: this.resource,
-      paths: [],
-      plugins: [],
-      relativeUrls: true,
-      compress: Boolean(this.minimize),
-    },
-    cloneDeep(loaderUtils.getOptions(loaderContext)),
-  );
-  const cb = loaderContext.async();
-  const isSync = typeof cb !== 'function';
-  let finalCb = cb || loaderContext.callback;
+  const options = {
+    plugins: [],
+    relativeUrls: true,
+    compress: Boolean(this.minimize),
+    ...cloneDeep(loaderUtils.getOptions(loaderContext)),
+  };
+  const done = loaderContext.async();
+  const isSync = typeof done !== 'function';
   const webpackPlugin = {
     install(lessInstance, pluginManager) {
       const WebpackFileManager = getWebpackFileManager(loaderContext, options);
@@ -32,32 +30,26 @@ function lessLoader(source) {
     throw new Error('Synchronous compilation is not supported anymore. See https://github.com/webpack-contrib/less-loader/issues/84');
   }
 
+  // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
+  options.filename = loaderContext.resource;
+
   // It's safe to mutate the array now because it has already been cloned
   options.plugins.push(webpackPlugin);
 
-  if (options.sourceMap) {
-    options.sourceMap = {
-      outputSourceFiles: true,
-    };
-  }
-
-  less.render(source, options, (err, result) => {
-    const cb = finalCb;
-
-    // Less is giving us double callbacks sometimes :(
-    // Thus we need to mark the callback as "has been called"
-    if (!finalCb) {
-      return;
-    }
-    finalCb = null;
-
-    if (err) {
-      cb(formatLessRenderError(err));
-      return;
-    }
-
-    cb(null, result.css, result.map);
-  });
+  render(source, options)
+    .then(({ css, map }) => {
+      return {
+        // Removing the sourceMappingURL comment.
+        // See removeSourceMappingUrl.js for the reasoning behind this.
+        css: removeSourceMappingUrl(css),
+        map: typeof map === 'string' ? JSON.parse(map) : map,
+      };
+    }, (lessError) => {
+      throw formatLessRenderError(lessError);
+    })
+    .then(({ css, map }) => {
+      done(null, css, map);
+    }, done);
 }
 
 function getWebpackFileManager(loaderContext, query) {

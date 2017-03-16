@@ -3,6 +3,7 @@
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const removeSourceMappingUrl = require('../../src/removeSourceMappingUrl');
 
 const projectPath = path.resolve(__dirname, '..', '..');
 const lessFixtures = path.resolve(__dirname, '..', 'fixtures', 'less');
@@ -61,8 +62,13 @@ testIds
           throw (err || new Error(stdout || stderr));
         }
 
-        const cssContent = fs.readFileSync(cssFile, 'utf8')
-          .replace(new RegExp(`(@import\\s+["'])${tildeReplacement}`, 'g'), '$1~');
+        // We remove the source mapping url because the less-loader will do it also.
+        // See removeSourceMappingUrl.js for the reasoning behind this.
+        const cssContent = removeSourceMappingUrl(
+          fs.readFileSync(cssFile, 'utf8')
+            // Change back tilde replacements
+            .replace(new RegExp(`(@import\\s+["'])${tildeReplacement}`, 'g'), '$1~'),
+        );
 
         fs.writeFileSync(lessFile, originalLessContent, 'utf8');
         fs.writeFileSync(cssFile, cssContent, 'utf8');
