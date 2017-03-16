@@ -1,149 +1,79 @@
-"use strict";
+const compile = require('./helpers/compile');
+const { readCssFixture, readSourceMap } = require('./helpers/readFixture');
 
-require("should");
-const path = require("path");
-const webpack = require("webpack");
-const fs = require("fs");
+async function compileAndCompare(fixture, loaderOptions, loaderContext) {
+  const [result, expectedCss] = await Promise.all([
+    compile(fixture, loaderOptions, loaderContext),
+    readCssFixture(fixture),
+  ]);
+  const [actualCss] = result.inspect.arguments;
 
-const CR = /\r/g;
-const pathToLessLoader = path.resolve(__dirname, "../lib/loader.js");
+  return expect(actualCss).toBe(expectedCss);
+}
 
-describe("less-loader", () => {
-    test("should compile simple less without errors", "basic");
-    test("should resolve all imports", "imports");
-    test("should resolve all imports from node_modules", "imports-node");
-    test("should not try to resolve import urls", "imports-url");
-    test("should compile data-uri function", "data-uri");
-    test("should transform urls", "url-path");
-    test("should transform urls to files above the current directory", "folder/url-path");
-    test("should transform urls to files above the sibling directory", "folder2/url-path");
-    test("should generate source-map", "source-map", {
-        options: {
-            sourceMap: true
-        },
-        devtool: "source-map"
-    });
-    test("should install plugins", "url-path", {
-        options: {
-            lessPlugins: [
-                { wasCalled: false, install() { this.wasCalled = true; } }
-            ]
-        },
-        after(testVariables) {
-            this.options.lessPlugins[0].wasCalled.should.be.true;
-        }
-    });
-    // See https://github.com/webpack/loader-utils/issues/56
-    test("should not alter the original options object", "basic", {
-        options: {
-            lessPlugins: []
-        },
-        after() {
-            // We know that the loader will add its own plugin, but it should not alter the original array
-            this.options.lessPlugins.should.have.length(0);
-        }
-    });
-    it("should report error correctly", (done) => {
-        webpack({
-            entry: pathToLessLoader + "!" +
-                path.resolve(__dirname, "./less/error.less"),
-            output: {
-                path: path.resolve(__dirname, "output"),
-                filename: "bundle.js"
-            }
-        }, (err, stats) => {
-            if (err) { throw err; }
-            const json = stats.toJson();
-
-            json.warnings.should.be.eql([]);
-            json.errors.length.should.be.eql(1);
-            const theError = json.errors[0];
-
-            theError.should.match(/not-existing/);
-            done();
-        });
-    });
+test('should compile simple less without errors', async () => {
+  await compileAndCompare('basic');
 });
 
-function readCss(id) {
-    return fs.readFileSync(path.resolve(__dirname, "./css/" + id + ".css"), "utf8").replace(CR, "");
-}
+test('should resolve all imports', async () => {
+  await compileAndCompare('imports');
+});
 
-function test(name, id, testOptions) {
-    testOptions = testOptions || {};
-    testOptions.options = testOptions.options || "";
+test('should resolve all imports from node_modules', async () => {
+  await compileAndCompare('imports-node');
+});
 
-    it(name, (done) => {
-        const expectedCss = readCss(id);
-        const lessFile = path.resolve(__dirname, "./less/" + id + ".less");
-        let actualCss;
-        const config = {
-            resolve: {
-                modules: [
-                    "node_modules"
-                ]
-            }
-        };
+test('should not try to resolve import urls', async () => {
+  await compileAndCompare('imports-url');
+});
 
-        testOptions.before && testOptions.before(config);
+test('should compile data-uri function', async () => {
+  await compileAndCompare('data-uri');
+});
 
-        // run asynchronously
-        webpack({
-            entry: lessFile,
-            context: __dirname,
-            devtool: testOptions.devtool,
-            resolve: config.resolve,
-            output: {
-                path: path.resolve(__dirname, "output"),
-                filename: "bundle.js",
-                libraryTarget: "commonjs2"
-            },
-            module: {
-                rules: [
-                    {
-                        test: /\.less$/,
-                        use: [
-                            "raw-loader",
-                            {
-                                loader: pathToLessLoader,
-                                options: testOptions.options
-                            }
-                        ]
-                    }
-                ]
-            }
-        }, (err, stats) => {
-            let actualMap;
+test('should transform urls', async () => {
+  await compileAndCompare('url-path');
+});
 
-            if (err) {
-                done(err);
-                return;
-            }
-            if (stats.hasErrors()) {
-                done(stats.compilation.errors[0]);
-                return;
-            }
-            if (stats.hasWarnings()) {
-                done(stats.compilation.warnings[0]);
-                return;
-            }
-            delete require.cache[path.resolve(__dirname, "./output/bundle.js")];
+test('should generate source maps', async () => {
+  const [{ inspect }, expectedSourceMap] = await Promise.all([
+    compile('source-map', { sourceMap: true }),
+    readSourceMap('source-map'),
+  ]);
 
-            actualCss = require("./output/bundle.js");
-            // writing the actual css to output-dir for better debugging
-            fs.writeFileSync(path.resolve(__dirname, "output", name + ".async.css"), actualCss, "utf8");
-            actualCss.should.eql(expectedCss);
+  const map = JSON.parse(inspect.arguments[1]);
 
-            testOptions.after && testOptions.after();
+  delete map.sourcesContent;
 
-            if (testOptions.devtool === "source-map") {
-                actualMap = fs.readFileSync(path.resolve(__dirname, "output", "bundle.js.map"), "utf8");
-                fs.writeFileSync(path.resolve(__dirname, "output", name + ".sync.css.map"), actualMap, "utf8");
-                actualMap = JSON.parse(actualMap);
-                actualMap.sources.should.containEql("webpack:///./less/" + id + ".less");
-            }
+  expect(JSON.stringify(map)).toEqual(expectedSourceMap);
+});
 
-            done();
-        });
-    });
-}
+test('should install plugins', async () => {
+  let pluginInstalled = false;
+  const testPlugin = {
+    install() {
+      pluginInstalled = true;
+    },
+  };
+
+  await compile('basic', { plugins: [testPlugin] });
+
+  expect(pluginInstalled).toBe(true);
+});
+
+test('should not alter the original options object', async () => {
+  const options = { plugins: [] };
+  const copiedOptions = { ...options };
+
+  await compile('basic', options);
+
+  expect(copiedOptions).toEqual(options);
+});
+
+test('should report error correctly', async () => {
+  const err = await compile('error')
+    .catch(e => e);
+
+  expect(err).toBeInstanceOf(Error);
+  expect(err.message).toMatch(/not-existing/);
+});
