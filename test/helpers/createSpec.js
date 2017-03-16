@@ -1,9 +1,17 @@
-"use strict";
 
-const spawn = require("child_process").spawn;
-const fs = require("fs");
-const path = require("path");
 
+const { exec } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+const projectPath = path.resolve(__dirname, '..', '..');
+const lessFixtures = path.resolve(__dirname, '..', 'fixtures', 'less');
+const cssFixtures = path.resolve(__dirname, '..', 'fixtures', 'css');
+const matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
+const lessBin = require.resolve('.bin/lessc');
+const ignore = [
+  'error',
+];
 /**
  * This object specifies the replacements for the ~-character per test.
  *
@@ -13,58 +21,51 @@ const path = require("path");
  * The object keys are the test ids.
  */
 const tildeReplacements = {
-    imports: "../node_modules/",
-    "imports-node": "../node_modules/",
-    "source-map": "../node_modules/"
+  imports: '../node_modules/',
+  'imports-node': '../node_modules/',
+  'source-map': '../node_modules/',
 };
-const lessFixtures = path.resolve(__dirname, "..", "fixtures", "less");
-const matchLessFolder = /[\/\\]fixtures[\/\\]less[\/\\]/g;
-const matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
-const lessBin = require.resolve(".bin/lessc");
-const ignore = [
-    "error"
-];
+// Maps test ids on cli arguments
+const lessOptions = {
+  'source-map': [
+    '--source-map',
+    `--source-map-basepath=${projectPath}`,
+    `--source-map-rootpath=${projectPath}`,
+  ],
+};
 const testIds = fs.readdirSync(lessFixtures)
-    .filter((name) =>
-        path.extname(name) === ".less" && ignore.indexOf(path.basename(name, ".less")) === -1
-    )
-    .map((name) =>
-        path.basename(name, ".less")
-    );
+  .filter(name =>
+    path.extname(name) === '.less' && ignore.indexOf(path.basename(name, '.less')) === -1,
+  )
+  .map(name =>
+    path.basename(name, '.less'),
+  );
 
 testIds
-    .forEach((testId) => {
-        const lessFile = path.resolve(lessFixtures, testId + ".less");
-        const tildeReplacement = tildeReplacements[testId];
-        let cssContent = "";
-        let lessContent;
-        let cssFile;
+  .forEach((testId) => {
+    const lessFile = path.resolve(lessFixtures, `${testId}.less`);
+    const cssFile = path.resolve(cssFixtures, `${testId}.css`);
+    const tildeReplacement = tildeReplacements[testId];
+    const originalLessContent = fs.readFileSync(lessFile, 'utf8');
 
-        lessContent = fs.readFileSync(lessFile, "utf8");
-        lessContent = lessContent.replace(matchWebpackImports, "$1" + tildeReplacement);
+    // It's safer to change the file and write it back to disk instead of piping it to the Less process
+    // because Less tends to create broken paths in url() statements and source maps when the content is read from stdin
+    // See also https://github.com/less/less.js/issues/3038
+    fs.writeFileSync(lessFile, originalLessContent.replace(matchWebpackImports, `$1${tildeReplacement}`), 'utf8');
 
-        // There is a Less bug where URLs are not rewritten correctly when the stdin option is used
-        // @see https://github.com/less/less.js/issues/3038
-        // That's why our fake node_modules must stay within the fixtures folder
-        const less = spawn(lessBin, ["--relative-urls", "-"], {
-            cwd: path.dirname(lessFile)
-        });
-
-        less.stdout.setEncoding("utf8");
-        less.stdout.on("data", (data) => {
-            cssContent += data;
-        });
-        less.stderr.pipe(process.stderr);
-        less.stdout.on("close", processCss);
-
-        less.stdin.end(lessContent);
-
-        function processCss() {
-            cssContent = cssContent.replace(new RegExp("(@import\\s+[\"'])" + tildeReplacement, "g"), "$1~");
-
-            cssFile = lessFile.replace(matchLessFolder, path.sep + "fixtures" + path.sep + "css" + path.sep);
-            cssFile = path.dirname(cssFile) + path.sep + path.basename(cssFile, ".less") + ".css";
-
-            fs.writeFileSync(cssFile, cssContent, "utf8");
+    exec(
+      [lessBin, '--relative-urls', ...lessOptions[testId] || '', lessFile, cssFile].join(' '),
+      { cwd: projectPath },
+      (err, stdout, stderr) => {
+        if (err || stdout || stderr) {
+          throw (err || new Error(stdout || stderr));
         }
-    });
+
+        const cssContent = fs.readFileSync(cssFile, 'utf8')
+          .replace(new RegExp(`(@import\\s+["'])${tildeReplacement}`, 'g'), '$1~');
+
+        fs.writeFileSync(lessFile, originalLessContent, 'utf8');
+        fs.writeFileSync(cssFile, cssContent, 'utf8');
+      },
+    );
+  });
