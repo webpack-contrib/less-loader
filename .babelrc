@@ -1,0 +1,28 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "useBuiltIns": true,
+        "targets": {
+          "node": 4.3
+        },
+        "exclude": [
+          "transform-async-to-generator",
+          "transform-regenerator"
+        ]
+      }
+    ]
+  ],
+  "plugins": [
+    ["transform-object-rest-spread", { "useBuiltIns": true }]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "env"
+      ]
+    }
+  }
+}
