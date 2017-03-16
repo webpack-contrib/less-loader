@@ -47,20 +47,16 @@
     "cross-env": "^3.2.4",
     "del-cli": "^0.2.1",
     "eslint": "^3.17.1",
-    "eslint-config-peerigon": "^9.0.0",
     "eslint-config-webpack": "^1.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsdoc": "^2.4.0",
-    "extract-text-webpack-plugin": "^2.1.0",
     "inspect-loader": "^1.0.0",
     "jest": "^19.0.2",
     "less": "^2.6.1",
     "lint-staged": "^3.4.0",
     "nodemon": "^1.11.0",
     "nsp": "^2.6.3",
-    "null-loader": "^0.1.1",
     "pre-commit": "^1.2.2",
-    "raw-loader": "^0.5.1",
     "standard-version": "^4.0.0",
     "webpack": "^2.2.1",
     "webpack-defaults": "^0.4.1"
@@ -69,14 +65,8 @@
     "type": "git",
     "url": "git://github.com/webpack-contrib/less-loader.git"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
-  ],
+  "licenses": "MIT",
   "files": [
-    "lib",
     "README",
     "LICENSE",
     "dist"
