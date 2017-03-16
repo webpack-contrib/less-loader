@@ -35,14 +35,6 @@ test('should transform urls', async () => {
   await compileAndCompare('url-path');
 });
 
-test('should transform urls to files above the current directory', async () => {
-  await compileAndCompare('folder/url-path');
-});
-
-test('should transform urls to files above the sibling directory', async () => {
-  await compileAndCompare('folder2/url-path');
-});
-
 test('should generate source maps', async () => {
   const [{ inspect }, expectedSourceMap] = await Promise.all([
     compile('source-map', { sourceMap: true }),
