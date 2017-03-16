@@ -1,5 +1,6 @@
 const less = require('less');
 const loaderUtils = require('loader-utils');
+const pify = require('pify');
 
 const trailingSlash = /[\\/]$/;
 
@@ -11,48 +12,36 @@ const trailingSlash = /[\\/]$/;
  * @returns {LessPlugin}
  */
 function createWebpackLessPlugin(loaderContext, root) {
-  function WebpackFileManager(...args) {
-    less.FileManager.apply(this, args);
-  }
+  const resolve = pify(loaderContext.resolve.bind(loaderContext));
+  const loadModule = pify(loaderContext.loadModule.bind(loaderContext));
 
-  WebpackFileManager.prototype = Object.create(less.FileManager.prototype);
+  class WebpackFileManager extends less.FileManager {
+    supports(/* filename, currentDirectory, options, environment */) { // eslint-disable-line class-methods-use-this
+      // Our WebpackFileManager handles all the files
+      return true;
+    }
 
-  WebpackFileManager.prototype.supports = function supports(/* filename, currentDirectory, options, environment */) {
-        // Our WebpackFileManager handles all the files
-    return true;
-  };
+    loadFile(filename, currentDirectory /* , options, environment */) { // eslint-disable-line class-methods-use-this
+      const moduleRequest = loaderUtils.urlToRequest(filename, root);
+      // Less is giving us trailing slashes, but the context should have no trailing slash
+      const context = currentDirectory.replace(trailingSlash, '');
+      let resolvedFilename;
 
-  WebpackFileManager.prototype.supportsSync = function supportsSync(/* filename, currentDirectory, options, environment */) {
-    return false;
-  };
+      return resolve(context, moduleRequest)
+        .then((f) => {
+          resolvedFilename = f;
+          loaderContext.addDependency(resolvedFilename);
 
-  WebpackFileManager.prototype.loadFile = function loadFile(filename, currentDirectory, options, environment, callback) {
-    const moduleRequest = loaderUtils.urlToRequest(filename, root);
-    // Less is giving us trailing slashes, but the context should have no trailing slash
-    const context = currentDirectory.replace(trailingSlash, '');
-
-    loaderContext.resolve(context, moduleRequest, (err, filename) => {
-      if (err) {
-        callback(err);
-        return;
-      }
-
-      loaderContext.addDependency(filename);
-      // The default (asynchronous)
-      // loadModule() accepts a request. Thus it's ok to not use path.resolve()
-      loaderContext.loadModule(`-!${__dirname}/stringify.loader.js!${filename}`, (err, data) => { // eslint-disable-line no-path-concat
-        if (err) {
-          callback(err);
-          return;
-        }
-
-        callback(null, {
-          contents: JSON.parse(data),
-          filename,
+          return loadModule(`-!${__dirname}/stringify.loader.js!${resolvedFilename}`);
+        })
+        .then((contents) => {
+          return {
+            contents: JSON.parse(contents),
+            filename: resolvedFilename,
+          };
         });
-      });
-    });
-  };
+    }
+  }
 
   return {
     install(lessInstance, pluginManager) {
