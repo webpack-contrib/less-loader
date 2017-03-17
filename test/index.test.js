@@ -32,6 +32,19 @@ test('should not try to resolve import urls', async () => {
   await compileAndCompare('imports-url');
 });
 
+test('should allow non-less-import', async () => {
+  let inspect;
+  const rules = moduleRules.nonLessImport((i) => {
+    inspect = i;
+  });
+
+  await compile('non-less-import', rules);
+
+  const [css] = inspect.arguments;
+
+  expect(css).toMatch(/\.some-file {\s*background: hotpink;\s*}\s*/);
+});
+
 test('should compile data-uri function', async () => {
   await compileAndCompare('data-uri');
 });

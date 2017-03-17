@@ -11,6 +11,7 @@ const cssFixtures = path.resolve(__dirname, '..', 'fixtures', 'css');
 const matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
 const lessBin = require.resolve('.bin/lessc');
 const ignore = [
+  'non-less-import',
   'error',
 ];
 /**
