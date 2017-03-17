@@ -73,12 +73,14 @@ test('should generate source maps', async () => {
   const rules = moduleRules.basic({ sourceMap: true }, {}, (i) => {
     inspect = i;
   });
-  const [expectedMap] = await Promise.all([
+  const [expectedCss, expectedMap] = await Promise.all([
+    readCssFixture('source-map'),
     readSourceMap('source-map'),
     compile('source-map', rules),
   ]);
-  const [, actualMap] = inspect.arguments;
+  const [actualCss, actualMap] = inspect.arguments;
 
+  expect(actualCss).toEqual(expectedCss);
   expect(actualMap).toEqual(expectedMap);
 });
 
