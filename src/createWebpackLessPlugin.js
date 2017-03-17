@@ -11,7 +11,7 @@ const trailingSlash = /[\\/]$/;
  * @param {string=} root
  * @returns {LessPlugin}
  */
-function createWebpackLessPlugin(loaderContext, root) {
+function createWebpackLessPlugin(loaderContext) {
   const resolve = pify(loaderContext.resolve.bind(loaderContext));
   const loadModule = pify(loaderContext.loadModule.bind(loaderContext));
 
@@ -22,7 +22,7 @@ function createWebpackLessPlugin(loaderContext, root) {
     }
 
     loadFile(filename, currentDirectory /* , options, environment */) { // eslint-disable-line class-methods-use-this
-      const moduleRequest = loaderUtils.urlToRequest(filename, root);
+      const moduleRequest = loaderUtils.urlToRequest(filename);
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, '');
       let resolvedFilename;

@@ -19,7 +19,7 @@ function getOptions(loaderContext) {
   options.filename = loaderContext.resource;
 
   // It's safe to mutate the array now because it has already been cloned
-  options.plugins.push(createWebpackLessPlugin(loaderContext, options.root));
+  options.plugins.push(createWebpackLessPlugin(loaderContext));
 
   return options;
 }
