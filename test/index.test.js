@@ -1,12 +1,17 @@
 const compile = require('./helpers/compile');
+const moduleRules = require('./helpers/moduleRules');
 const { readCssFixture, readSourceMap } = require('./helpers/readFixture');
 
-async function compileAndCompare(fixture, loaderOptions, loaderContext) {
-  const [result, expectedCss] = await Promise.all([
-    compile(fixture, loaderOptions, loaderContext),
+async function compileAndCompare(fixture, lessLoaderOptions, lessLoaderContext) {
+  let inspect;
+  const rules = moduleRules.basic(lessLoaderOptions, lessLoaderContext, (i) => {
+    inspect = i;
+  });
+  const [expectedCss] = await Promise.all([
     readCssFixture(fixture),
+    compile(fixture, rules),
   ]);
-  const [actualCss] = result.inspect.arguments;
+  const [actualCss] = inspect.arguments;
 
   return expect(actualCss).toBe(expectedCss);
 }
@@ -36,9 +41,13 @@ test('should transform urls', async () => {
 });
 
 test('should generate source maps', async () => {
-  const [{ inspect }, expectedMap] = await Promise.all([
-    compile('source-map', { sourceMap: true }),
+  let inspect;
+  const rules = moduleRules.basic({ sourceMap: true }, {}, (i) => {
+    inspect = i;
+  });
+  const [expectedMap] = await Promise.all([
     readSourceMap('source-map'),
+    compile('source-map', rules),
   ]);
   const [, actualMap] = inspect.arguments;
 
@@ -53,7 +62,7 @@ test('should install plugins', async () => {
     },
   };
 
-  await compile('basic', { plugins: [testPlugin] });
+  await compile('basic', moduleRules.basic({ plugins: [testPlugin] }));
 
   expect(pluginInstalled).toBe(true);
 });
@@ -62,7 +71,7 @@ test('should not alter the original options object', async () => {
   const options = { plugins: [] };
   const copiedOptions = { ...options };
 
-  await compile('basic', options);
+  await compile('basic', moduleRules.basic(options));
 
   expect(copiedOptions).toEqual(options);
 });
