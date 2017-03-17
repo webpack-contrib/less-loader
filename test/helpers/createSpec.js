@@ -10,7 +10,7 @@ const cssFixturesPath = path.resolve(fixturesPath, 'css');
 const matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
 const lessBin = require.resolve('.bin/lessc');
 const ignore = [
-  'non-less-import',
+  'import-non-less',
   'error-import-not-existing',
   'error-mixed-resolvers',
 ];
@@ -23,8 +23,8 @@ const ignore = [
  * The object keys are the test ids.
  */
 const tildeReplacements = {
-  imports: '../node_modules/',
-  'imports-node': '../node_modules/',
+  import: '../node_modules/',
+  'import-webpack': '../node_modules/',
   'source-map': '../node_modules/',
 };
 // Maps test ids on cli arguments
@@ -34,7 +34,7 @@ const lessOptions = {
     `--source-map-basepath=${projectPath}`,
     `--source-map-rootpath=${projectPath}`,
   ],
-  'imports-paths': [
+  'import-paths': [
     `--include-path=${path.resolve(fixturesPath, 'node_modules')}`,
   ],
 };

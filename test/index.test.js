@@ -24,19 +24,19 @@ test('should compile simple less without errors', async () => {
 });
 
 test('should resolve all imports', async () => {
-  await compileAndCompare('imports');
+  await compileAndCompare('import');
 });
 
-test('should resolve all imports from node_modules', async () => {
-  await compileAndCompare('imports-node');
+test('should resolve all imports from node_modules using webpack\'s resolver', async () => {
+  await compileAndCompare('import-webpack');
 });
 
-test('should resolve imports from given paths', async () => {
-  await compileAndCompare('imports-paths', { paths: [__dirname, nodeModulesPath] });
+test('should resolve all imports from the given paths using Less\' resolver', async () => {
+  await compileAndCompare('import-paths', { paths: [__dirname, nodeModulesPath] });
 });
 
 test('should allow to disable webpack\'s resolver by passing an empty paths array', async () => {
-  const err = await compile('imports-node', moduleRules.basic({ paths: [] }))
+  const err = await compile('import-webpack', moduleRules.basic({ paths: [] }))
     .catch(e => e);
 
   expect(err).toBeInstanceOf(Error);
@@ -44,16 +44,16 @@ test('should allow to disable webpack\'s resolver by passing an empty paths arra
 });
 
 test('should not try to resolve import urls', async () => {
-  await compileAndCompare('imports-url');
+  await compileAndCompare('import-url');
 });
 
-test('should allow non-less-import', async () => {
+test('should allow to import non-less files', async () => {
   let inspect;
   const rules = moduleRules.nonLessImport((i) => {
     inspect = i;
   });
 
-  await compile('non-less-import', rules);
+  await compile('import-non-less', rules);
 
   const [css] = inspect.arguments;
 
