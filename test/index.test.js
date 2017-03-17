@@ -35,6 +35,14 @@ test('should resolve imports from given paths', async () => {
   await compileAndCompare('imports-paths', { paths: [__dirname, nodeModulesPath] });
 });
 
+test('should allow to disable webpack\'s resolver by passing an empty paths array', async () => {
+  const err = await compile('imports-node', moduleRules.basic({ paths: [] }))
+    .catch(e => e);
+
+  expect(err).toBeInstanceOf(Error);
+  expect(err.message).toMatch(/'~some\/css\.css' wasn't found/);
+});
+
 test('should not try to resolve import urls', async () => {
   await compileAndCompare('imports-url');
 });
