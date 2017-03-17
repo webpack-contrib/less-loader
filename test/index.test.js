@@ -1,6 +1,9 @@
+const path = require('path');
 const compile = require('./helpers/compile');
 const moduleRules = require('./helpers/moduleRules');
 const { readCssFixture, readSourceMap } = require('./helpers/readFixture');
+
+const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
 
 async function compileAndCompare(fixture, lessLoaderOptions, lessLoaderContext) {
   let inspect;
@@ -26,6 +29,10 @@ test('should resolve all imports', async () => {
 
 test('should resolve all imports from node_modules', async () => {
   await compileAndCompare('imports-node');
+});
+
+test('should resolve imports from given paths', async () => {
+  await compileAndCompare('imports-paths', { paths: [__dirname, nodeModulesPath] });
 });
 
 test('should not try to resolve import urls', async () => {
@@ -90,9 +97,17 @@ test('should not alter the original options object', async () => {
 });
 
 test('should report error correctly', async () => {
-  const err = await compile('error')
+  const err = await compile('error-import-not-existing')
     .catch(e => e);
 
   expect(err).toBeInstanceOf(Error);
   expect(err.message).toMatch(/not-existing/);
+});
+
+test('should fail if a file is tried to be loaded from include paths and with webpack\'s resolver simultaneously', async () => {
+  const err = await compile('error-mixed-resolvers', moduleRules.basic({ paths: [nodeModulesPath] }))
+    .catch(e => e);
+
+  expect(err).toBeInstanceOf(Error);
+  expect(err.message).toMatch(/'~some\/module\.less' wasn't found/);
 });

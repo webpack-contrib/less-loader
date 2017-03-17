@@ -18,8 +18,11 @@ function getOptions(loaderContext) {
   // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
   options.filename = loaderContext.resource;
 
-  // It's safe to mutate the array now because it has already been cloned
-  options.plugins.push(createWebpackLessPlugin(loaderContext));
+  // When no paths are given, we use the webpack resolver
+  if ('paths' in options === false) {
+    // It's safe to mutate the array now because it has already been cloned
+    options.plugins.push(createWebpackLessPlugin(loaderContext));
+  }
 
   return options;
 }

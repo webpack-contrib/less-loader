@@ -1,18 +1,18 @@
-
-
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const removeSourceMappingUrl = require('../../src/removeSourceMappingUrl');
 
 const projectPath = path.resolve(__dirname, '..', '..');
-const lessFixtures = path.resolve(__dirname, '..', 'fixtures', 'less');
-const cssFixtures = path.resolve(__dirname, '..', 'fixtures', 'css');
+const fixturesPath = path.resolve(projectPath, 'test', 'fixtures');
+const lessFixturesPath = path.resolve(fixturesPath, 'less');
+const cssFixturesPath = path.resolve(fixturesPath, 'css');
 const matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
 const lessBin = require.resolve('.bin/lessc');
 const ignore = [
   'non-less-import',
-  'error',
+  'error-import-not-existing',
+  'error-mixed-resolvers',
 ];
 /**
  * This object specifies the replacements for the ~-character per test.
@@ -34,8 +34,11 @@ const lessOptions = {
     `--source-map-basepath=${projectPath}`,
     `--source-map-rootpath=${projectPath}`,
   ],
+  'imports-paths': [
+    `--include-path=${path.resolve(fixturesPath, 'node_modules')}`,
+  ],
 };
-const testIds = fs.readdirSync(lessFixtures)
+const testIds = fs.readdirSync(lessFixturesPath)
   .filter(name =>
     path.extname(name) === '.less' && ignore.indexOf(path.basename(name, '.less')) === -1,
   )
@@ -45,8 +48,8 @@ const testIds = fs.readdirSync(lessFixtures)
 
 testIds
   .forEach((testId) => {
-    const lessFile = path.resolve(lessFixtures, `${testId}.less`);
-    const cssFile = path.resolve(cssFixtures, `${testId}.css`);
+    const lessFile = path.resolve(lessFixturesPath, `${testId}.less`);
+    const cssFile = path.resolve(cssFixturesPath, `${testId}.css`);
     const tildeReplacement = tildeReplacements[testId];
     const originalLessContent = fs.readFileSync(lessFile, 'utf8');
 
