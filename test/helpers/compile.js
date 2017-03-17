@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const fixturePath = path.resolve(__dirname, '..', 'fixtures');
 const outputPath = path.resolve(__dirname, '..', 'output');
 
-function compile(fixture, moduleRules) {
+function compile(fixture, moduleRules, resolveAlias = {}) {
   return new Promise((resolve, reject) => {
     const entry = path.resolve(fixturePath, 'less', `${fixture}.less`);
 
@@ -16,6 +16,9 @@ function compile(fixture, moduleRules) {
       },
       module: {
         rules: moduleRules,
+      },
+      resolve: {
+        alias: resolveAlias,
       },
     }, (err, stats) => {
       const problem = err || stats.compilation.errors[0] || stats.compilation.warnings[0];
