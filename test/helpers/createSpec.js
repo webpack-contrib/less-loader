@@ -15,6 +15,7 @@ const ignore = [
 ];
 const lessReplacements = [
   [/~some\//g, '../node_modules/some/'],
+  [/~(aliased-)?some"/g, '../node_modules/some/module.less"'],
 ];
 const cssReplacements = [
   [/\.\.\/node_modules\/some\//g, '~some/'],

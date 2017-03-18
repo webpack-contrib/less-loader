@@ -5,14 +5,14 @@ const { readCssFixture, readSourceMap } = require('./helpers/readFixture');
 
 const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
 
-async function compileAndCompare(fixture, lessLoaderOptions, lessLoaderContext) {
+async function compileAndCompare(fixture, { lessLoaderOptions, lessLoaderContext, resolveAlias } = {}) {
   let inspect;
   const rules = moduleRules.basic(lessLoaderOptions, lessLoaderContext, (i) => {
     inspect = i;
   });
   const [expectedCss] = await Promise.all([
     readCssFixture(fixture),
-    compile(fixture, rules),
+    compile(fixture, rules, resolveAlias),
   ]);
   const [actualCss] = inspect.arguments;
 
@@ -31,8 +31,18 @@ test('should resolve all imports from node_modules using webpack\'s resolver', a
   await compileAndCompare('import-webpack');
 });
 
+test('should resolve aliases as configured', async () => {
+  await compileAndCompare('import-webpack-alias', {
+    resolveAlias: {
+      'aliased-some': 'some',
+    },
+  });
+});
+
 test('should resolve all imports from the given paths using Less\' resolver', async () => {
-  await compileAndCompare('import-paths', { paths: [__dirname, nodeModulesPath] });
+  await compileAndCompare('import-paths', {
+    lessLoaderOptions: { paths: [__dirname, nodeModulesPath] },
+  });
 });
 
 test('should allow to disable webpack\'s resolver by passing an empty paths array', async () => {
