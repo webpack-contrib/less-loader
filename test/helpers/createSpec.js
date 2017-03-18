@@ -1,31 +1,24 @@
-
-
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const removeSourceMappingUrl = require('../../src/removeSourceMappingUrl');
 
 const projectPath = path.resolve(__dirname, '..', '..');
-const lessFixtures = path.resolve(__dirname, '..', 'fixtures', 'less');
-const cssFixtures = path.resolve(__dirname, '..', 'fixtures', 'css');
-const matchWebpackImports = /(@import\s+(\([^)]+\))?\s*["'])~/g;
+const fixturesPath = path.resolve(projectPath, 'test', 'fixtures');
+const lessFixturesPath = path.resolve(fixturesPath, 'less');
+const cssFixturesPath = path.resolve(fixturesPath, 'css');
 const lessBin = require.resolve('.bin/lessc');
 const ignore = [
-  'error',
+  'import-non-less',
+  'error-import-not-existing',
+  'error-mixed-resolvers',
 ];
-/**
- * This object specifies the replacements for the ~-character per test.
- *
- * Since less doesn't understand the semantics of ~, we need to replace the
- * import path with a relative path.
- *
- * The object keys are the test ids.
- */
-const tildeReplacements = {
-  imports: '../node_modules/',
-  'imports-node': '../node_modules/',
-  'source-map': '../node_modules/',
-};
+const lessReplacements = [
+  [/~some\//g, '../node_modules/some/'],
+];
+const cssReplacements = [
+  [/\.\.\/node_modules\/some\//g, '~some/'],
+];
 // Maps test ids on cli arguments
 const lessOptions = {
   'source-map': [
@@ -33,8 +26,11 @@ const lessOptions = {
     `--source-map-basepath=${projectPath}`,
     `--source-map-rootpath=${projectPath}`,
   ],
+  'import-paths': [
+    `--include-path=${path.resolve(fixturesPath, 'node_modules')}`,
+  ],
 };
-const testIds = fs.readdirSync(lessFixtures)
+const testIds = fs.readdirSync(lessFixturesPath)
   .filter(name =>
     path.extname(name) === '.less' && ignore.indexOf(path.basename(name, '.less')) === -1,
   )
@@ -42,17 +38,24 @@ const testIds = fs.readdirSync(lessFixtures)
     path.basename(name, '.less'),
   );
 
+function replace(content, replacements) {
+  return replacements.reduce(
+    (intermediate, [pattern, replacement]) => intermediate.replace(pattern, replacement),
+    content,
+  );
+}
+
 testIds
   .forEach((testId) => {
-    const lessFile = path.resolve(lessFixtures, `${testId}.less`);
-    const cssFile = path.resolve(cssFixtures, `${testId}.css`);
-    const tildeReplacement = tildeReplacements[testId];
+    const lessFile = path.resolve(lessFixturesPath, `${testId}.less`);
+    const cssFile = path.resolve(cssFixturesPath, `${testId}.css`);
     const originalLessContent = fs.readFileSync(lessFile, 'utf8');
+    const replacedLessContent = replace(originalLessContent, lessReplacements);
 
     // It's safer to change the file and write it back to disk instead of piping it to the Less process
     // because Less tends to create broken paths in url() statements and source maps when the content is read from stdin
     // See also https://github.com/less/less.js/issues/3038
-    fs.writeFileSync(lessFile, originalLessContent.replace(matchWebpackImports, `$1${tildeReplacement}`), 'utf8');
+    fs.writeFileSync(lessFile, replacedLessContent, 'utf8');
 
     exec(
       [lessBin, '--relative-urls', ...lessOptions[testId] || '', lessFile, cssFile].join(' '),
@@ -65,9 +68,7 @@ testIds
         // We remove the source mapping url because the less-loader will do it also.
         // See removeSourceMappingUrl.js for the reasoning behind this.
         const cssContent = removeSourceMappingUrl(
-          fs.readFileSync(cssFile, 'utf8')
-            // Change back tilde replacements
-            .replace(new RegExp(`(@import\\s+["'])${tildeReplacement}`, 'g'), '$1~'),
+          replace(fs.readFileSync(cssFile, 'utf8'), cssReplacements),
         );
 
         fs.writeFileSync(lessFile, originalLessContent, 'utf8');

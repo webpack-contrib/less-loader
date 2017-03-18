@@ -1,12 +1,20 @@
+const path = require('path');
 const compile = require('./helpers/compile');
+const moduleRules = require('./helpers/moduleRules');
 const { readCssFixture, readSourceMap } = require('./helpers/readFixture');
 
-async function compileAndCompare(fixture, loaderOptions, loaderContext) {
-  const [result, expectedCss] = await Promise.all([
-    compile(fixture, loaderOptions, loaderContext),
+const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
+
+async function compileAndCompare(fixture, lessLoaderOptions, lessLoaderContext) {
+  let inspect;
+  const rules = moduleRules.basic(lessLoaderOptions, lessLoaderContext, (i) => {
+    inspect = i;
+  });
+  const [expectedCss] = await Promise.all([
     readCssFixture(fixture),
+    compile(fixture, rules),
   ]);
-  const [actualCss] = result.inspect.arguments;
+  const [actualCss] = inspect.arguments;
 
   return expect(actualCss).toBe(expectedCss);
 }
@@ -16,15 +24,40 @@ test('should compile simple less without errors', async () => {
 });
 
 test('should resolve all imports', async () => {
-  await compileAndCompare('imports');
+  await compileAndCompare('import');
 });
 
-test('should resolve all imports from node_modules', async () => {
-  await compileAndCompare('imports-node');
+test('should resolve all imports from node_modules using webpack\'s resolver', async () => {
+  await compileAndCompare('import-webpack');
+});
+
+test('should resolve all imports from the given paths using Less\' resolver', async () => {
+  await compileAndCompare('import-paths', { paths: [__dirname, nodeModulesPath] });
+});
+
+test('should allow to disable webpack\'s resolver by passing an empty paths array', async () => {
+  const err = await compile('import-webpack', moduleRules.basic({ paths: [] }))
+    .catch(e => e);
+
+  expect(err).toBeInstanceOf(Error);
+  expect(err.message).toMatch(/'~some\/css\.css' wasn't found/);
 });
 
 test('should not try to resolve import urls', async () => {
-  await compileAndCompare('imports-url');
+  await compileAndCompare('import-url');
+});
+
+test('should allow to import non-less files', async () => {
+  let inspect;
+  const rules = moduleRules.nonLessImport((i) => {
+    inspect = i;
+  });
+
+  await compile('import-non-less', rules);
+
+  const [css] = inspect.arguments;
+
+  expect(css).toMatch(/\.some-file {\s*background: hotpink;\s*}\s*/);
 });
 
 test('should compile data-uri function', async () => {
@@ -36,9 +69,13 @@ test('should transform urls', async () => {
 });
 
 test('should generate source maps', async () => {
-  const [{ inspect }, expectedMap] = await Promise.all([
-    compile('source-map', { sourceMap: true }),
+  let inspect;
+  const rules = moduleRules.basic({ sourceMap: true }, {}, (i) => {
+    inspect = i;
+  });
+  const [expectedMap] = await Promise.all([
     readSourceMap('source-map'),
+    compile('source-map', rules),
   ]);
   const [, actualMap] = inspect.arguments;
 
@@ -53,7 +90,7 @@ test('should install plugins', async () => {
     },
   };
 
-  await compile('basic', { plugins: [testPlugin] });
+  await compile('basic', moduleRules.basic({ plugins: [testPlugin] }));
 
   expect(pluginInstalled).toBe(true);
 });
@@ -62,15 +99,23 @@ test('should not alter the original options object', async () => {
   const options = { plugins: [] };
   const copiedOptions = { ...options };
 
-  await compile('basic', options);
+  await compile('basic', moduleRules.basic(options));
 
   expect(copiedOptions).toEqual(options);
 });
 
 test('should report error correctly', async () => {
-  const err = await compile('error')
+  const err = await compile('error-import-not-existing')
     .catch(e => e);
 
   expect(err).toBeInstanceOf(Error);
   expect(err.message).toMatch(/not-existing/);
+});
+
+test('should fail if a file is tried to be loaded from include paths and with webpack\'s resolver simultaneously', async () => {
+  const err = await compile('error-mixed-resolvers', moduleRules.basic({ paths: [nodeModulesPath] }))
+    .catch(e => e);
+
+  expect(err).toBeInstanceOf(Error);
+  expect(err.message).toMatch(/'~some\/module\.less' wasn't found/);
 });
