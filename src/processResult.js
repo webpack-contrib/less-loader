@@ -11,7 +11,8 @@ function processResult(loaderContext, resultPromise) {
   const { callback } = loaderContext;
 
   resultPromise
-    .then(({ css, map }) => {
+    .then(({ css, map, imports }) => {
+      imports.forEach(loaderContext.addDependency, loaderContext);
       return {
         // Removing the sourceMappingURL comment.
         // See removeSourceMappingUrl.js for the reasoning behind this.
