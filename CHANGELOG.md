@@ -1,3 +1,40 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/webpack-contrib/less-loader/compare/v3.0.0...v4.0.0) (2017-03-20)
+
+
+### Bug Fixes
+
+* error where not all files were watched ([53c90fc](https://github.com/webpack-contrib/less-loader/commit/53c90fc))
+* resolve alias ([98d4e63](https://github.com/webpack-contrib/less-loader/commit/98d4e63))
+
+
+### Chores
+
+* **dependencies:** Update peer dependencies ([24a6f66](https://github.com/webpack-contrib/less-loader/commit/24a6f66))
+
+
+### Features
+
+* **source-maps:** refactor source maps handling ([895044f](https://github.com/webpack-contrib/less-loader/commit/895044f))
+* allow user to choose between resolvers ([1d6e505](https://github.com/webpack-contrib/less-loader/commit/1d6e505))
+* improve formatting of error messages ([39772a5](https://github.com/webpack-contrib/less-loader/commit/39772a5))
+* make any file type importable ([d3022b8](https://github.com/webpack-contrib/less-loader/commit/d3022b8))
+* remove root option ([39ad4f8](https://github.com/webpack-contrib/less-loader/commit/39ad4f8))
+
+
+### BREAKING CHANGES
+
+* If you've already configured your `resolve.alias` with a `.less` extension, you can now remove that wrong extension.
+* The root option was never documented, so it's very unlikely that this is actually a breaking change. However, since the option was removed, we need to flag this as breaking.
+* **dependencies:** Require webpack 2 as peer dependency
+* **source-maps:** Since the map is now passed as an object to the next loader, this could potentially break if another loader than the css-loader is used. The css-loader accepts both.
+
+
+
 Changelog
 ---------
 
