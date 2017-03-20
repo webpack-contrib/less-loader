@@ -65,9 +65,9 @@
     "type": "git",
     "url": "git://github.com/webpack-contrib/less-loader.git"
   },
-  "licenses": "MIT",
+  "license": "MIT",
   "files": [
-    "README",
+    "README.md",
     "LICENSE",
     "dist"
   ],
