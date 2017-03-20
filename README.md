@@ -134,7 +134,7 @@ It's important to only prepend it with `~`, because `~/` resolves to the home-di
 
 Using webpack's resolver, you can import any file type. You just need a loader that exports valid Less code. Often, you will also want to set the `issuer` condition to ensure that this rule is only applied on imports originating from Less files:
 
-```
+```js
 // webpack.config.js
 module.exports = {
     ...
