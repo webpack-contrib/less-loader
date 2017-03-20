@@ -13,6 +13,7 @@ const ignore = [
   'error-import-not-existing',
   'error-mixed-resolvers',
   'error-syntax',
+  'error-import-file-with-error',
 ];
 const lessReplacements = [
   [/~some\//g, '../node_modules/some/'],

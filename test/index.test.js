@@ -20,6 +20,10 @@ async function compileAndCompare(fixture, { lessLoaderOptions, lessLoaderContext
   expect(actualCss).toBe(expectedCss);
 }
 
+function lessFixturePath(fixture) {
+  return path.resolve(__dirname, 'fixtures', 'less', fixture);
+}
+
 test('should compile simple less without errors', async () => {
   await compileAndCompare('basic');
 });
@@ -28,8 +32,48 @@ test('should resolve all imports', async () => {
   await compileAndCompare('import');
 });
 
+test('should add all resolved imports as dependencies', async () => {
+  const dependencies = [];
+
+  await compileAndCompare('import', {
+    lessLoaderContext: {
+      addDependency(dep) {
+        if (dependencies.indexOf(dep) === -1) {
+          dependencies.push(dep);
+        }
+      },
+    },
+  });
+
+  expect(dependencies.sort()).toEqual([
+    lessFixturePath('import.less'),
+    lessFixturePath('css.css'),
+    lessFixturePath('basic.less'),
+  ].sort());
+});
+
 test('should resolve all imports from node_modules using webpack\'s resolver', async () => {
   await compileAndCompare('import-webpack');
+});
+
+test('should add all resolved imports as dependencies, including node_modules', async () => {
+  const dependencies = [];
+
+  await compileAndCompare('import-webpack', {
+    lessLoaderContext: {
+      addDependency(dep) {
+        if (dependencies.indexOf(dep) === -1) {
+          dependencies.push(dep);
+        }
+      },
+    },
+  });
+
+  expect(dependencies.sort()).toEqual([
+    lessFixturePath('import-webpack.less'),
+    lessFixturePath('../node_modules/some/module.less'),
+    lessFixturePath('../node_modules/some/css.css'),
+  ].sort());
 });
 
 test('should resolve aliases as configured', async () => {
@@ -40,10 +84,52 @@ test('should resolve aliases as configured', async () => {
   });
 });
 
+test('should add all resolved imports as dependencies, including aliased ones', async () => {
+  const dependencies = [];
+
+  await compileAndCompare('import-webpack-alias', {
+    resolveAlias: {
+      'aliased-some': 'some',
+    },
+    lessLoaderContext: {
+      addDependency(dep) {
+        if (dependencies.indexOf(dep) === -1) {
+          dependencies.push(dep);
+        }
+      },
+    },
+  });
+
+  expect(dependencies.sort()).toEqual([
+    lessFixturePath('import-webpack-alias.less'),
+    lessFixturePath('../node_modules/some/module.less'),
+  ].sort());
+});
+
 test('should resolve all imports from the given paths using Less\' resolver', async () => {
   await compileAndCompare('import-paths', {
     lessLoaderOptions: { paths: [__dirname, nodeModulesPath] },
   });
+});
+
+test('should add all resolved imports as dependencies, including those from the Less resolver', async () => {
+  const dependencies = [];
+
+  await compileAndCompare('import-paths', {
+    lessLoaderOptions: { paths: [__dirname, nodeModulesPath] },
+    lessLoaderContext: {
+      addDependency(dep) {
+        if (dependencies.indexOf(dep) === -1) {
+          dependencies.push(dep);
+        }
+      },
+    },
+  });
+
+  expect(dependencies.sort()).toEqual([
+    lessFixturePath('import-paths.less'),
+    lessFixturePath('../node_modules/some/module.less'),
+  ].sort());
 });
 
 test('should allow to disable webpack\'s resolver by passing an empty paths array', async () => {
@@ -139,4 +225,24 @@ test('should provide a useful error message if there was a syntax error', async 
 
   expect(err).toBeInstanceOf(Error);
   compareErrorMessage(err.message);
+});
+
+test('should add a file with an error as dependency so that the watcher is triggered when the error is fixed', async () => {
+  const dependencies = [];
+  const lessLoaderContext = {
+    addDependency(dep) {
+      if (dependencies.indexOf(dep) === -1) {
+        dependencies.push(dep);
+      }
+    },
+  };
+  const rules = moduleRules.basic({}, lessLoaderContext);
+
+  await compile('error-import-file-with-error', rules)
+    .catch(e => e);
+
+  expect(dependencies.sort()).toEqual([
+    lessFixturePath('error-import-file-with-error.less'),
+    lessFixturePath('error-syntax.less'),
+  ].sort());
 });
