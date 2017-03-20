@@ -2,6 +2,7 @@ const path = require('path');
 const compile = require('./helpers/compile');
 const moduleRules = require('./helpers/moduleRules');
 const { readCssFixture, readSourceMap } = require('./helpers/readFixture');
+const compareErrorMessage = require('./helpers/compareErrorMessage');
 
 const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
 
@@ -16,7 +17,7 @@ async function compileAndCompare(fixture, { lessLoaderOptions, lessLoaderContext
   ]);
   const [actualCss] = inspect.arguments;
 
-  return expect(actualCss).toBe(expectedCss);
+  expect(actualCss).toBe(expectedCss);
 }
 
 test('should compile simple less without errors', async () => {
@@ -116,18 +117,26 @@ test('should not alter the original options object', async () => {
   expect(copiedOptions).toEqual(options);
 });
 
-test('should report error correctly', async () => {
-  const err = await compile('error-import-not-existing')
-    .catch(e => e);
-
-  expect(err).toBeInstanceOf(Error);
-  expect(err.message).toMatch(/not-existing/);
-});
-
 test('should fail if a file is tried to be loaded from include paths and with webpack\'s resolver simultaneously', async () => {
   const err = await compile('error-mixed-resolvers', moduleRules.basic({ paths: [nodeModulesPath] }))
     .catch(e => e);
 
   expect(err).toBeInstanceOf(Error);
-  expect(err.message).toMatch(/'~some\/module\.less' wasn't found/);
+  compareErrorMessage(err.message);
+});
+
+test('should provide a useful error message if the import could not be found', async () => {
+  const err = await compile('error-import-not-existing', moduleRules.basic())
+    .catch(e => e);
+
+  expect(err).toBeInstanceOf(Error);
+  compareErrorMessage(err.message);
+});
+
+test('should provide a useful error message if there was a syntax error', async () => {
+  const err = await compile('error-syntax', moduleRules.basic())
+    .catch(e => e);
+
+  expect(err).toBeInstanceOf(Error);
+  compareErrorMessage(err.message);
 });
