@@ -3,7 +3,7 @@
   "version": "4.0.0",
   "author": "Johannes Ewald @jhnns",
   "description": "Less loader for webpack. Compiles Less to CSS.",
-  "main": "dist/cjs.js",
+  "main": "dist/index.js",
   "scripts": {
     "create-spec": "babel-node test/helpers/createSpec.js",
     "pretest": "npm run create-spec",
