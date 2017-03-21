@@ -31,7 +31,7 @@
     "node": ">=4.3 <5.0.0 || >=5.10"
   },
   "dependencies": {
-    "clone-deep": "^0.2.4",
+    "clone": "^2.1.1",
     "loader-utils": "^1.0.2",
     "pify": "^2.3.0"
   },

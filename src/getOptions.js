@@ -1,5 +1,5 @@
 const loaderUtils = require('loader-utils');
-const cloneDeep = require('clone-deep');
+const clone = require('clone');
 const createWebpackLessPlugin = require('./createWebpackLessPlugin');
 
 /**
@@ -12,7 +12,7 @@ function getOptions(loaderContext) {
     plugins: [],
     relativeUrls: true,
     compress: Boolean(loaderContext.minimize),
-    ...cloneDeep(loaderUtils.getOptions(loaderContext)),
+    ...clone(loaderUtils.getOptions(loaderContext)),
   };
 
   // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
