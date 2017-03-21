@@ -1,6 +1,6 @@
 {
   "name": "less-loader",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "author": "Johannes Ewald @jhnns",
   "description": "Less loader for webpack. Compiles Less to CSS.",
   "main": "dist/index.js",

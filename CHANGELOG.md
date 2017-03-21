@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.2"></a>
+## [4.0.2](https://github.com/webpack-contrib/less-loader/compare/v4.0.1...v4.0.2) (2017-03-21)
+
+
+### Bug Fixes
+
+* Plugin.install is not a function ([f8ae245](https://github.com/webpack-contrib/less-loader/commit/f8ae245))
+
+
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/webpack-contrib/less-loader/compare/v4.0.0...v4.0.1) (2017-03-21)
 
