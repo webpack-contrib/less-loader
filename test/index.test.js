@@ -183,11 +183,13 @@ test('should generate source maps', async () => {
 
 test('should install plugins', async () => {
   let pluginInstalled = false;
-  const testPlugin = {
+  // Using prototype inheritance here since Less plugins are usually instances of classes
+  // See https://github.com/webpack-contrib/less-loader/issues/181#issuecomment-288220113
+  const testPlugin = Object.create({
     install() {
       pluginInstalled = true;
     },
-  };
+  });
 
   await compile('basic', moduleRules.basic({ plugins: [testPlugin] }));
 
