@@ -165,7 +165,7 @@ test('should transform urls', async () => {
   await compileAndCompare('url-path');
 });
 
-test('should generate source maps', async () => {
+test('should generate source maps with sourcesContent by default', async () => {
   let inspect;
   const rules = moduleRules.basic({ sourceMap: true }, {}, (i) => {
     inspect = i;
@@ -177,8 +177,28 @@ test('should generate source maps', async () => {
   ]);
   const [actualCss, actualMap] = inspect.arguments;
 
+  expect(Array.isArray(actualMap.sourcesContent)).toBe(true);
+  expect(actualMap.sourcesContent.length).toBe(2);
+
+  // We can't actually compare the sourcesContent because it's slightly different because of our import rewriting
+  delete actualMap.sourcesContent;
+  delete expectedMap.sourcesContent;
+
   expect(actualCss).toEqual(expectedCss);
   expect(actualMap).toEqual(expectedMap);
+});
+
+test('should be possible to override sourceMap.outputSourceFiles', async () => {
+  let inspect;
+  const rules = moduleRules.basic({ sourceMap: { outputSourceFiles: false } }, {}, (i) => {
+    inspect = i;
+  });
+
+  await compile('source-map', rules);
+
+  const [actualMap] = inspect.arguments;
+
+  expect(actualMap).not.toHaveProperty('sourcesContent');
 });
 
 test('should install plugins', async () => {

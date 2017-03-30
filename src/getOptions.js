@@ -24,6 +24,16 @@ function getOptions(loaderContext) {
     options.plugins.push(createWebpackLessPlugin(loaderContext));
   }
 
+  if (options.sourceMap) {
+    if (typeof options.sourceMap === 'boolean') {
+      options.sourceMap = {};
+    }
+    if ('outputSourceFiles' in options.sourceMap === false) {
+      // Include source files as `sourceContents` as sane default since this makes source maps "just work" in most cases
+      options.sourceMap.outputSourceFiles = true;
+    }
+  }
+
   return options;
 }
 

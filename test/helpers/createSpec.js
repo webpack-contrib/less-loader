@@ -28,6 +28,7 @@ const lessOptions = {
     '--source-map',
     `--source-map-basepath=${projectPath}`,
     `--source-map-rootpath=${projectPath}`,
+    '--source-map-less-inline',
   ],
   'import-paths': [
     `--include-path=${path.resolve(fixturesPath, 'node_modules')}`,
