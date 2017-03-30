@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "clone": "^2.1.1",
-    "loader-utils": "^1.0.2",
+    "loader-utils": "^1.1.0",
     "pify": "^2.3.0"
   },
   "peerDependencies": {
@@ -44,11 +44,11 @@
     "babel-jest": "^19.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.2.1",
+    "babel-preset-env": "^1.2.2",
     "cross-env": "^3.2.4",
     "del-cli": "^0.2.1",
-    "eslint": "^3.17.1",
-    "eslint-config-webpack": "^1.1.0",
+    "eslint": "^3.18.0",
+    "eslint-config-webpack": "^1.2.1",
     "eslint-plugin-import": "^2.2.0",
     "inspect-loader": "^1.0.0",
     "jest": "^19.0.2",
@@ -58,8 +58,8 @@
     "nsp": "^2.6.3",
     "pre-commit": "^1.2.2",
     "standard-version": "^4.0.0",
-    "webpack": "^2.2.0",
-    "webpack-defaults": "^0.4.1"
+    "webpack": "^2.3.2",
+    "webpack-defaults": "^0.4.5"
   },
   "repository": {
     "type": "git",
