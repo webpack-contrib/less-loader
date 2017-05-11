@@ -157,6 +157,19 @@ test('should allow to import non-less files', async () => {
   expect(css).toMatch(/\.some-file {\s*background: hotpink;\s*}\s*/);
 });
 
+test('should run webpack loaders on nested imports', async () => {
+  let inspect;
+  const rules = moduleRules.nestedImport((i) => {
+    inspect = i;
+  });
+
+  await compile('import-nested', rules);
+
+  const [css] = inspect.arguments;
+
+  expect(css).toMatch(/\.nested-import-css {\s*background: hotpink;\s*}\s*/);
+});
+
 test('should compile data-uri function', async () => {
   await compileAndCompare('data-uri');
 });

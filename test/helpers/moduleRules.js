@@ -1,6 +1,7 @@
 const lessLoader = require.resolve('../../src');
 const helperLoader = require.resolve('./helperLoader.js');
 const someFileLoader = require.resolve('./someFileLoader.js');
+const nestedFileLoader = require.resolve('./nestedFileLoader.js');
 
 function basic(lessLoaderOptions, lessLoaderContext = {}, inspectCallback = () => {}) {
   return [{
@@ -42,5 +43,24 @@ function nonLessImport(inspectCallback) {
   }];
 }
 
+function nestedImport(inspectCallback) {
+  return [{
+    test: /\.less$/,
+    loaders: [{
+      loader: helperLoader,
+    }, {
+      loader: 'inspect-loader',
+      options: {
+        callback: inspectCallback,
+      },
+    }, {
+      loader: lessLoader,
+    }, {
+      loader: nestedFileLoader,
+    }],
+  }];
+}
+
 exports.basic = basic;
 exports.nonLessImport = nonLessImport;
+exports.nestedImport = nestedImport;
