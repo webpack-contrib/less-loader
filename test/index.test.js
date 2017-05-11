@@ -167,7 +167,7 @@ test('should run webpack loaders on nested imports', async () => {
 
   const [css] = inspect.arguments;
 
-  expect(css).toMatch(/\.nested-import-css {\s*background: hotpink;\s*}\s*/);
+  expect(css).toMatch(/\.top-import {\s*background: hotpink;\s*}\s*\.nested-import {\s*background: hotpink;\s*}\s*/);
 });
 
 test('should compile data-uri function', async () => {
