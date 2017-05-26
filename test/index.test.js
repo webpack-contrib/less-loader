@@ -268,3 +268,20 @@ test('should add a file with an error as dependency so that the watcher is trigg
     lessFixturePath('error-syntax.less'),
   ].sort());
 });
+
+test('should be able to import a file with an absolute path', async () => {
+  const importedFilePath = path.resolve(__dirname, 'fixtures', 'less', 'import-absolute-target.less');
+  const loaderOptions = {
+    globalVars: {
+      absolutePath: `'${importedFilePath}'`,
+    },
+  };
+  let inspect;
+  const rules = moduleRules.basic(loaderOptions, {}, (i) => {
+    inspect = i;
+  });
+  await compile('import-absolute', rules)
+      .catch(e => e);
+  const [css] = inspect.arguments;
+  expect(css).toEqual('.it-works {\n  color: yellow;\n}\n');
+});

@@ -14,6 +14,8 @@ const ignore = [
   'error-mixed-resolvers',
   'error-syntax',
   'error-import-file-with-error',
+  'import-absolute',
+  'import-absolute-target',
 ];
 const lessReplacements = [
   [/~some\//g, '../node_modules/some/'],
