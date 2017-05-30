@@ -13,11 +13,11 @@
     "appveyor:test": "npm test",
     "lint": "eslint --cache src test",
     "webpack-defaults": "webpack-defaults",
-    "start": "yarn run serve:dev src",
-    "build": "cross-env NODE_ENV=production babel -s true src -d dist --ignore 'src/**/*.test.js'",
+    "start": "yarn run build -- -w",
+    "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js'",
     "clean:dist": "del-cli dist",
     "lint-staged": "lint-staged",
-    "prebuild": "yarn run clean:dist",
+    "prebuild": "yarn run clean",
     "prepublish": "yarn run build",
     "release": "yarn run standard-version",
     "security": "nsp check",
@@ -25,10 +25,11 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --collectCoverageFrom='src/**/*.js' --coverage",
     "travis:coverage": "yarn run test:coverage",
-    "travis:lint": "yarn run lint && yarn run security"
+    "travis:lint": "yarn run lint && yarn run security",
+    "clean": "del-cli dist"
   },
   "engines": {
-    "node": ">=4.3 <5.0.0 || >=5.10"
+    "node": ">= 4.3 < 5.0.0 || >= 5.10"
   },
   "dependencies": {
     "clone": "^2.1.1",
@@ -41,7 +42,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
-    "babel-jest": "^19.0.0",
+    "babel-jest": "^20.0.3",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.2.2",
@@ -51,7 +52,7 @@
     "eslint-config-webpack": "^1.2.1",
     "eslint-plugin-import": "^2.2.0",
     "inspect-loader": "^1.0.0",
-    "jest": "^19.0.2",
+    "jest": "^20.0.3",
     "less": "^2.3.1",
     "lint-staged": "^3.4.0",
     "nodemon": "^1.11.0",
@@ -59,7 +60,7 @@
     "pre-commit": "^1.2.2",
     "standard-version": "^4.0.0",
     "webpack": "^2.3.2",
-    "webpack-defaults": "^0.4.5"
+    "webpack-defaults": "^1.0.1"
   },
   "repository": {
     "type": "git",

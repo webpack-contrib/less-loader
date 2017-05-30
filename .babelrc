@@ -3,10 +3,9 @@
     [
       "env",
       {
-        "modules": false,
         "useBuiltIns": true,
         "targets": {
-          "node": 4.3
+          "node": "4.3"
         },
         "exclude": [
           "transform-async-to-generator",
