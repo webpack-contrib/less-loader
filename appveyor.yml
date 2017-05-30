@@ -4,6 +4,10 @@
 init:
   - git config --global core.autocrlf input
 
+branches:
+  only:
+    - master
+
 # what combinations to test
 environment:
   matrix:
@@ -16,7 +20,7 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version x64
-  - npm install
+  - yarn install
 
 build: off
 
@@ -26,4 +30,4 @@ matrix:
 test_script:
   - node --version
   - npm --version
-  - cmd: npm run appveyor:%job_part%
+  - cmd: yarn run appveyor:%job_part%
