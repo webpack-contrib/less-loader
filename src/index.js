@@ -1,7 +1,7 @@
-const less = require('less');
-const pify = require('pify');
-const processResult = require('./processResult');
-const getOptions = require('./getOptions');
+import less from 'less';
+import pify from 'pify';
+import processResult from './processResult';
+import getOptions from './getOptions';
 
 const render = pify(less.render.bind(less));
 
@@ -18,4 +18,4 @@ function lessLoader(source) {
   processResult(loaderContext, render(source, options));
 }
 
-module.exports = lessLoader;
+export default lessLoader;
