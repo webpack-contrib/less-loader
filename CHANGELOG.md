@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file. See [standa
 ## [4.0.5](https://github.com/webpack-contrib/less-loader/compare/v4.0.4...v4.0.5) (2017-07-10)
 
 
+### Chore
+
+* support `webpack@3` ([670ab18](https://github.com/webpack-contrib/less-loader/commit/670ab18))
+
 
 <a name="4.0.4"></a>
 ## [4.0.4](https://github.com/webpack-contrib/less-loader/compare/v4.0.3...v4.0.4) (2017-05-30)
