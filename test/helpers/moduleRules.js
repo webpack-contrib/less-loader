@@ -1,4 +1,4 @@
-const lessLoader = require.resolve('../../src');
+const lessLoader = require.resolve('../../src/cjs');
 const helperLoader = require.resolve('./helperLoader.js');
 const someFileLoader = require.resolve('./someFileLoader.js');
 
