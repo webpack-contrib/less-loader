@@ -3,6 +3,7 @@ const loaderUtils = require('loader-utils');
 const pify = require('pify');
 
 const stringifyLoader = require.resolve('./stringifyLoader.js');
+const lessFileLoader = require.resolve('./lessFileLoader.js');
 const trailingSlash = /[/\\]$/;
 const isLessCompatible = /\.(le|c)ss$/;
 // Less automatically adds a .less file extension if no extension was given.
@@ -21,10 +22,8 @@ const matchMalformedModuleFilename = /(~[^/\\]+)\.less$/;
  * @returns {LessPlugin}
  */
 function createWebpackLessPlugin(loaderContext) {
-  const { fs } = loaderContext;
   const resolve = pify(loaderContext.resolve.bind(loaderContext));
   const loadModule = pify(loaderContext.loadModule.bind(loaderContext));
-  const readFile = pify(fs.readFile.bind(fs));
 
   class WebpackFileManager extends less.FileManager {
     supports(/* filename, currentDirectory, options, environment */) { // eslint-disable-line class-methods-use-this
@@ -42,21 +41,18 @@ function createWebpackLessPlugin(loaderContext) {
       return resolve(context, moduleRequest)
         .then((f) => {
           resolvedFilename = f;
-          loaderContext.addDependency(resolvedFilename);
 
           if (isLessCompatible.test(resolvedFilename)) {
-            return readFile(resolvedFilename)
-              .then(contents => contents.toString('utf8'));
+            return loadModule([lessFileLoader, resolvedFilename].join('!')).then((contents => JSON.parse(JSON.parse(contents))));
           }
 
           return loadModule([stringifyLoader, resolvedFilename].join('!'))
-            .then(JSON.parse);
-        })
-        .then((contents) => {
-          return {
-            contents,
-            filename: resolvedFilename,
-          };
+            .then(JSON.parse).then((contents) => {
+              return {
+                contents,
+                filename: resolvedFilename,
+              };
+            });
         });
     }
   }

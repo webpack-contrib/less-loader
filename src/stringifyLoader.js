@@ -6,6 +6,7 @@
  * @return {string}
  */
 function stringifyLoader(content) {
+  this.addDependency(this.resource);
   return JSON.stringify(content);
 }
 
