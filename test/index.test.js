@@ -285,3 +285,15 @@ test('should be able to import a file with an absolute path', async () => {
   const [css] = inspect.arguments;
   expect(css).toEqual('.it-works {\n  color: yellow;\n}\n');
 });
+
+test('should support receiving a function for options modifyVars', async () => {
+  let res = false;
+  const loaderOptions = {
+    modifyVars: (loader) => {
+      res = typeof loader === 'object';
+    },
+  };
+
+  await compile('basic', moduleRules.basic(loaderOptions));
+  expect(res).toBe(true);
+});
