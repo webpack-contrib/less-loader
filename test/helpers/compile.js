@@ -7,21 +7,29 @@ const outputPath = path.resolve(__dirname, '..', 'output');
 function compile(fixture, moduleRules, resolveAlias = {}) {
   return new Promise((resolve, reject) => {
     const entry = path.resolve(fixturePath, 'less', `${fixture}.less`);
+    const majorVersion = require('webpack/package.json').version.split('.')[0];
+    const options = {
+      entry,
+      output: {
+        path: outputPath,
+        // omitting the js extension to prevent jest's watcher from triggering
+        filename: 'bundle',
+      },
+      module: {
+        rules: moduleRules,
+      },
+      resolve: {
+        alias: resolveAlias,
+      },
+    };
+
+    if (Number(majorVersion) >= 4) {
+      options.mode = 'development';
+    }
 
     webpack(
       {
-        entry,
-        output: {
-          path: outputPath,
-          // omitting the js extension to prevent jest's watcher from triggering
-          filename: 'bundle',
-        },
-        module: {
-          rules: moduleRules,
-        },
-        resolve: {
-          alias: resolveAlias,
-        },
+        ...options,
       },
       (err, stats) => {
         const problem =
