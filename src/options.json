@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "properties": {
+    "depends": {
+      "type": "boolean"
+    },
+    "compress": {
+      "type": "boolean"
+    },
+    "maxLineLen": {
+      "type": "number"
+    },
+    "lint": {
+      "type": "boolean"
+    },
+    "paths": {
+      "type": "array"
+    },
+    "color": {
+      "type": "boolean"
+    },
+    "strictImports": {
+      "type": "boolean"
+    },
+    "insecure": {
+      "type": "boolean"
+    },
+    "rootpath": {
+      "type": "string"
+    },
+    "relativeUrls": {
+      "type": "boolean"
+    },
+    "ieCompat": {
+      "type": "boolean"
+    },
+    "strictMath": {
+      "type": "boolean"
+    },
+    "strictUnits": {
+      "type": "boolean"
+    },
+    "urlArgs": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

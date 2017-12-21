@@ -1,10 +1,8 @@
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
 [![npm-stats][npm-stats]][npm-url]
-[![deps][deps]][deps-url]
-[![travis][travis]][travis-url]
-[![appveyor][appveyor]][appveyor-url]
-[![coverage][coverage]][coverage-url]
+[![tests][tests]][tests-url]
+[![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
 
 <div align="center">
@@ -266,14 +264,11 @@ There is a known problem with Less and [CSS modules](https://github.com/css-modu
 [deps]: https://david-dm.org/webpack-contrib/less-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/less-loader
 
-[travis]: http://img.shields.io/travis/webpack-contrib/less-loader.svg
-[travis-url]: https://travis-ci.org/webpack-contrib/less-loader
+[tests]: https://circleci.com/gh/webpack-contrib/less-loadertree/master.svg?style=svg
+[tests-url]: https://circleci.com/gh/webpack-contrib/less-loader/tree/master
 
-[appveyor-url]: https://ci.appveyor.com/project/jhnns/less-loader/branch/master
-[appveyor]: https://ci.appveyor.com/api/projects/status/github/webpack-contrib/less-loader?svg=true
+[cover]: https://codecov.io/gh/webpack-contrib/less-loader/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/less-loader
 
-[coverage]: https://img.shields.io/codecov/c/github/webpack-contrib/less-loader.svg
-[coverage-url]: https://codecov.io/gh/webpack-contrib/less-loader
-
-[chat]: https://badges.gitter.im/webpack-contrib/webpack.svg
-[chat-url]: https://gitter.im/webpack-contrib/webpack
+[chat]: https://badges.gitter.im/webpack/webpack.svg
+[chat-url]: https://gitter.im/webpack/webpack

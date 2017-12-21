@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 const less = require('less');
 const loaderUtils = require('loader-utils');
 const pify = require('pify');
@@ -27,14 +28,17 @@ function createWebpackLessPlugin(loaderContext) {
   const readFile = pify(fs.readFile.bind(fs));
 
   class WebpackFileManager extends less.FileManager {
-    supports(/* filename, currentDirectory, options, environment */) { // eslint-disable-line class-methods-use-this
+    supports(/* filename, currentDirectory, options, environment */) {
       // Our WebpackFileManager handles all the files
       return true;
     }
 
-    loadFile(filename, currentDirectory /* , options, environment */) { // eslint-disable-line class-methods-use-this
+    loadFile(filename, currentDirectory /* , options, environment */) {
       const url = filename.replace(matchMalformedModuleFilename, '$1');
-      const moduleRequest = loaderUtils.urlToRequest(url, url.charAt(0) === '/' ? '' : null);
+      const moduleRequest = loaderUtils.urlToRequest(
+        url,
+        url.charAt(0) === '/' ? '' : null
+      );
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, '');
       let resolvedFilename;
@@ -45,12 +49,14 @@ function createWebpackLessPlugin(loaderContext) {
           loaderContext.addDependency(resolvedFilename);
 
           if (isLessCompatible.test(resolvedFilename)) {
-            return readFile(resolvedFilename)
-              .then(contents => contents.toString('utf8'));
+            return readFile(resolvedFilename).then((contents) =>
+              contents.toString('utf8')
+            );
           }
 
-          return loadModule([stringifyLoader, resolvedFilename].join('!'))
-            .then(JSON.parse);
+          return loadModule([stringifyLoader, resolvedFilename].join('!')).then(
+            JSON.parse
+          );
         })
         .then((contents) => {
           return {
