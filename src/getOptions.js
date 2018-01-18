@@ -18,6 +18,10 @@ function getOptions(loaderContext) {
   // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
   options.filename = loaderContext.resource;
 
+  if (typeof options.plugins === 'object' && !Array.isArray(options.plugins))  {
+    options.plugins = Object.entries(options.plugins).map(([_, plugin]) => plugin)
+  }
+
   // When no paths are given, we use the webpack resolver
   if ('paths' in options === false) {
     // It's safe to mutate the array now because it has already been cloned
