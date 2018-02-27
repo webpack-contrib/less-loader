@@ -1,9 +1,16 @@
 {
   "name": "less-loader",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "author": "Johannes Ewald @jhnns",
   "description": "Less loader for webpack. Compiles Less to CSS.",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 4.8 < 5.0.0 || >= 5.10"
+  },
   "main": "dist/cjs.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "create-spec": "babel-node test/helpers/createSpec.js",
     "pretest": "npm run create-spec",
@@ -14,10 +21,10 @@
     "lint": "eslint --cache src test",
     "webpack-defaults": "webpack-defaults",
     "start": "npm run build -- -w",
-    "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js'",
+    "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js' --copy-files",
     "lint-staged": "lint-staged",
     "prebuild": "npm run clean",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "release": "standard-version",
     "security": "nsp check",
     "test:watch": "jest --watch",
@@ -26,9 +33,6 @@
     "travis:coverage": "npm run test:coverage -- --runInBand",
     "travis:lint": "npm run lint && npm run security",
     "clean": "del-cli dist"
-  },
-  "engines": {
-    "node": ">= 4.3 < 5.0.0 || >= 5.10"
   },
   "dependencies": {
     "clone": "^2.1.1",
@@ -61,16 +65,9 @@
     "webpack": "latest",
     "webpack-defaults": "^1.6.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/webpack-contrib/less-loader.git"
-  },
-  "license": "MIT",
-  "files": [
-    "README.md",
-    "LICENSE",
-    "dist"
-  ],
+  "repository": "https://github.com/webpack-contrib/less-loader.git",
+  "bugs": "https://github.com/webpack-contrib/less-loader/issues",
+  "homepage": "https://github.com/webpack-contrib/less-loader",
   "pre-commit": "lint-staged",
   "lint-staged": {
     "*.js": [

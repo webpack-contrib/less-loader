@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.6"></a>
+## [4.0.6](https://github.com/webpack-contrib/less-loader/compare/v4.0.5...v4.0.6) (2018-02-27)
+
+
+### Bug Fixes
+
+* **package:** add `webpack >= v4.0.0` (`peerDependencies`) ([#245](https://github.com/webpack-contrib/less-loader/issues/245)) ([011cc73](https://github.com/webpack-contrib/less-loader/commit/011cc73))
+
+
+
 <a name="4.0.5"></a>
 ## [4.0.5](https://github.com/webpack-contrib/less-loader/compare/v4.0.4...v4.0.5) (2017-07-10)
 
