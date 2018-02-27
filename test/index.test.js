@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const compile = require('./helpers/compile');
 const moduleRules = require('./helpers/moduleRules');
 const { readCssFixture, readSourceMap } = require('./helpers/readFixture');
@@ -6,14 +7,14 @@ const compareErrorMessage = require('./helpers/compareErrorMessage');
 
 const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
 
-async function compileAndCompare(fixture, { lessLoaderOptions, lessLoaderContext, resolveAlias } = {}) {
+async function compileAndCompare(fixture, { lessLoaderOptions, lessLoaderContext, resolveAlias, webpackConf } = {}) {
   let inspect;
   const rules = moduleRules.basic(lessLoaderOptions, lessLoaderContext, (i) => {
     inspect = i;
   });
   const [expectedCss] = await Promise.all([
     readCssFixture(fixture),
-    compile(fixture, rules, resolveAlias),
+    compile(fixture, rules, resolveAlias, webpackConf),
   ]);
   const [actualCss] = inspect.arguments;
 
@@ -284,4 +285,31 @@ test('should be able to import a file with an absolute path', async () => {
       .catch(e => e);
   const [css] = inspect.arguments;
   expect(css).toEqual('.it-works {\n  color: yellow;\n}\n');
+});
+
+test('should use the replaced module', async () => {
+  const dependencies = [];
+
+  await compileAndCompare('module-replace', {
+    lessLoaderContext: {
+      addDependency(dep) {
+        if (dependencies.indexOf(dep) === -1) {
+          dependencies.push(dep);
+        }
+      },
+    },
+    webpackConf: {
+      plugins: [
+        new webpack.NormalModuleReplacementPlugin(/a\.less/, (opt) => {
+          /* eslint-disable no-param-reassign */
+          opt.request = opt.request.replace('a.less', 'b.less');
+        }),
+      ],
+    },
+  });
+
+  expect(dependencies.sort()).toEqual([
+    lessFixturePath('module-replace.less'),
+    lessFixturePath('module-replace/b.less'),
+  ].sort());
 });
