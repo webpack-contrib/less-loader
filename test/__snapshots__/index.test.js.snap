@@ -6,7 +6,7 @@ exports[`should fail if a file is tried to be loaded from include paths and with
 @import \\"some/module.less\\";
 @import \\"~some/module.less\\";
 ^
-'~some/module.less' wasn't found. Tried - /test/fixtures/less/~some/module.less,/test/fixtures/node_modules/~some/module.less,~some/module.less
+'~some/module.less' wasn't found. Tried - /test/fixtures/less/~some/module.less,/test/fixtures/node_modules/~some/module.less,/node_modules/~some/module.less,~some/module.less
       in /test/fixtures/less/error-mixed-resolvers.less (line 3, column 0)"
 `;
 

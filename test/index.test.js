@@ -140,7 +140,17 @@ test('should allow to disable webpack\'s resolver by passing an empty paths arra
   expect(err.message).toMatch(/'~some\/css\.css' wasn't found/);
 });
 
-test('should not try to resolve import urls', async () => {
+// This test was invalid because it tested imports like this:
+//   @import url("//fonts.googleapis.com/css?family=Roboto:300,400,500");
+// and expected them to be preserved in the output of Less and not resolved.
+// See https://github.com/less/less.js/pull/2955
+// Because of a bug in Less <3.0, imports with the substring '/css' indeed were
+// parsed as CSS imports, i.e. were preserved. Now that the bug has been fixed,
+// if you need to preserve an import that doesn't have the `.css` extension,
+// use the `(css)` import option:
+//   @import (css) url("//fonts.googleapis.com/css?family=Roboto:300,400,500");
+// That's how the Less language is designed to work.
+test('should not try to resolve CSS imports with URLs', async () => {
   await compileAndCompare('import-url');
 });
 
