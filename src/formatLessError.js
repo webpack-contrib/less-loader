@@ -42,7 +42,8 @@ function getFileExcerptIfPossible(lessErr) {
  * @param {Array<string>} lessErr.extract - e.g. ['    .my-style {', '      .undefined-mixin;', '      display: block;']
  * @returns {LessError}
  */
-function formatLessError(err) { /* eslint-disable no-param-reassign */
+function formatLessError(err) {
+  /* eslint-disable no-param-reassign */
   const msg = err.message;
 
   // Instruct webpack to hide the JS stack from the console

@@ -59,7 +59,10 @@ function createWebpackLessPlugin(loaderContext) {
       } else {
         url = filename.replace(matchMalformedModuleFilename, '$1');
       }
-      const moduleRequest = loaderUtils.urlToRequest(url, url.charAt(0) === '/' ? '' : null);
+      const moduleRequest = loaderUtils.urlToRequest(
+        url,
+        url.charAt(0) === '/' ? '' : null
+      );
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, '');
       let resolvedFilename;
@@ -70,12 +73,14 @@ function createWebpackLessPlugin(loaderContext) {
           loaderContext.addDependency(resolvedFilename);
 
           if (isLessCompatible.test(resolvedFilename)) {
-            return readFile(resolvedFilename)
-              .then(contents => contents.toString('utf8'));
+            return readFile(resolvedFilename).then((contents) =>
+              contents.toString('utf8')
+            );
           }
 
-          return loadModule([stringifyLoader, resolvedFilename].join('!'))
-            .then(JSON.parse);
+          return loadModule([stringifyLoader, resolvedFilename].join('!')).then(
+            JSON.parse
+          );
         })
         .then((contents) => {
           return {

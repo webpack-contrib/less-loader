@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'development',
   entry: require.resolve('./main.less'),
   output: {
     filename: 'bundle.js',
