@@ -19,6 +19,7 @@
     "commitlint": "commitlint",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "lint": "eslint --cache src test",
+    "pretest": "babel-node test/helpers/createSpec.js",
     "ci:lint:commits": "commitlint --from=${CIRCLE_BRANCH} --to=${CIRCLE_SHA1}",
     "lint-staged": "lint-staged",
     "prebuild": "npm run clean",
