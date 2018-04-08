@@ -15,7 +15,8 @@ function compile(fixture, moduleRules, resolveAlias = {}) {
         entry,
         output: {
           path: outputPath,
-          filename: 'bundle', // omitting the js extension to prevent jest's watcher from triggering
+          // omitting the js extension to prevent jest's watcher from triggering
+          filename: 'bundle',
         },
         module: {
           rules: moduleRules,
