@@ -87,4 +87,7 @@ testIds.forEach((testId) => {
       fs.writeFileSync(cssFile, cssContent, 'utf8');
     }
   );
+
+  // eslint-disable-next-line no-console
+  console.log(`${testId}.less -> ${cssFile}`);
 });
