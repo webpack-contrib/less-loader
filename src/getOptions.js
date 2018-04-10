@@ -1,5 +1,6 @@
 const loaderUtils = require('loader-utils');
 const clone = require('clone');
+
 const createWebpackLessPlugin = require('./createWebpackLessPlugin');
 
 /**

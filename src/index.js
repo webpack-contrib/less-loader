@@ -1,5 +1,6 @@
 import less from 'less';
 import pify from 'pify';
+
 import processResult from './processResult';
 import getOptions from './getOptions';
 
@@ -12,7 +13,9 @@ function lessLoader(source) {
   const isSync = typeof done !== 'function';
 
   if (isSync) {
-    throw new Error('Synchronous compilation is not supported anymore. See https://github.com/webpack-contrib/less-loader/issues/84');
+    throw new Error(
+      'Synchronous compilation is not supported anymore. See https://github.com/webpack-contrib/less-loader/issues/84'
+    );
   }
 
   processResult(loaderContext, render(source, options));

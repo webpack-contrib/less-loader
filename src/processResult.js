@@ -11,17 +11,20 @@ function processResult(loaderContext, resultPromise) {
   const { callback } = loaderContext;
 
   resultPromise
-    .then(({ css, map, imports }) => {
-      imports.forEach(loaderContext.addDependency, loaderContext);
-      return {
-        // Removing the sourceMappingURL comment.
-        // See removeSourceMappingUrl.js for the reasoning behind this.
-        css: removeSourceMappingUrl(css),
-        map: typeof map === 'string' ? JSON.parse(map) : map,
-      };
-    }, (lessError) => {
-      throw formatLessError(lessError);
-    })
+    .then(
+      ({ css, map, imports }) => {
+        imports.forEach(loaderContext.addDependency, loaderContext);
+        return {
+          // Removing the sourceMappingURL comment.
+          // See removeSourceMappingUrl.js for the reasoning behind this.
+          css: removeSourceMappingUrl(css),
+          map: typeof map === 'string' ? JSON.parse(map) : map,
+        };
+      },
+      (lessError) => {
+        throw formatLessError(lessError);
+      }
+    )
     .then(({ css, map }) => {
       callback(null, css, map);
     }, callback);
