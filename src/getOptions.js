@@ -35,6 +35,10 @@ function getOptions(loaderContext) {
     }
   }
 
+  if (typeof options.modifyVars === 'function') {
+    options.modifyVars = options.modifyVars(loaderContext);
+  }
+
   return options;
 }
 
