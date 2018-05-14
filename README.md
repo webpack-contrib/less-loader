@@ -23,7 +23,7 @@ This module requires a minimum of Node v6.9.0 and Webpack v4.0.0.
 To begin, you'll need to install `less-loader`:
 
 ```console
-$ npm install less-loader --save-dev
+$ npm install less less-loader --save-dev
 ```
 
 Then modify your `webpack.config.js`:
