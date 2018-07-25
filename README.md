@@ -275,14 +275,14 @@ file paths in `url(...)` statements.
 Please take a moment to read our contributing guidelines if you haven't yet done
 so.
 
-#### [CONTRIBUTING](./.github/CONTRIBUTING)
+#### [CONTRIBUTING](./.github/CONTRIBUTING.md)
 
 ## License
 
 #### [MIT](./LICENSE)
 
 [npm]: https://img.shields.io/npm/v/less-loader.svg
-[npm-url]: https://npmjs.com/package/less-loader
+[npm-url]: https://www.npmjs.com/package/less-loader
 
 [node]: https://img.shields.io/node/v/less-loader.svg
 [node-url]: https://nodejs.org
