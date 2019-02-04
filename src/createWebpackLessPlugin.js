@@ -68,6 +68,13 @@ function createWebpackLessPlugin(loaderContext) {
       let resolvedFilename;
 
       return resolve(context, moduleRequest)
+        .catch((e) => {
+          if (less.version[0] >= 3) {
+            // Try less 3 style import `import "package_name/file"`
+            return resolve(context, url);
+          }
+          throw e;
+        })
         .then((f) => {
           resolvedFilename = f;
           loaderContext.addDependency(resolvedFilename);

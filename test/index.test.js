@@ -122,6 +122,10 @@ test("should resolve all imports from the given paths using Less' resolver", asy
   });
 });
 
+test("should resolve all imports from the given paths using Webpack's resolver for less 3 style imports", async () => {
+  await compileAndCompare('import-paths', {});
+});
+
 test('should add all resolved imports as dependencies, including those from the Less resolver', async () => {
   const dependencies = [];
 
