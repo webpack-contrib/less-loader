@@ -66,7 +66,7 @@ testIds.forEach((testId) => {
   exec(
     [
       lessBin,
-      '--relative-urls',
+      '--rewrite-urls',
       ...(lessOptions[testId] || ''),
       lessFile,
       cssFile,
