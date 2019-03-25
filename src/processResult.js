@@ -22,6 +22,9 @@ function processResult(loaderContext, resultPromise) {
         };
       },
       (lessError) => {
+        if (lessError.filename) {
+          loaderContext.addDependency(lessError.filename);
+        }
         throw formatLessError(lessError);
       }
     )
