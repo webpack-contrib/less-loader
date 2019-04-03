@@ -12,7 +12,6 @@ function getOptions(loaderContext) {
   const options = {
     plugins: [],
     relativeUrls: true,
-    compress: Boolean(loaderContext.minimize),
     ...clone(loaderUtils.getOptions(loaderContext)),
   };
 
