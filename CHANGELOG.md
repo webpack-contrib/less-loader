@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/webpack-contrib/less-loader/compare/v4.1.0...v5.0.0) (2019-04-29)
+
+
+### Bug Fixes
+
+* webpack watching does not recover after broken less is fixed ([#289](https://github.com/webpack-contrib/less-loader/issues/289)) ([f41d12e](https://github.com/webpack-contrib/less-loader/commit/f41d12e))
+
+
+### Chores
+
+* remove old bits mentioning webpack < 4 and node < 6 ([#286](https://github.com/webpack-contrib/less-loader/issues/286)) ([012eb8f](https://github.com/webpack-contrib/less-loader/commit/012eb8f))
+
+
+### Code Refactoring
+
+* remove deprecated compress option ([#283](https://github.com/webpack-contrib/less-loader/issues/283)) ([3d6e9e9](https://github.com/webpack-contrib/less-loader/commit/3d6e9e9))
+
+
+### BREAKING CHANGES
+
+* remove deprecated compress option.
+* drop support for node < 6.9 and webpack < 4
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/webpack-contrib/less-loader/compare/v4.0.6...v4.1.0) (2018-03-09)
 
