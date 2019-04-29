@@ -8,15 +8,13 @@
 [![node][node]][node-url]
 [![deps][deps]][deps-url]
 [![tests][tests]][tests-url]
+[![cover][cover]][cover-url]
 [![chat][chat]][chat-url]
+[![size][size]][size-url]
 
 # less-loader
 
 A Less loader for webpack. Compiles Less to CSS.
-
-## Requirements
-
-This module requires a minimum of Node v6.9.0 and Webpack v4.0.0.
 
 ## Getting Started
 
@@ -26,18 +24,20 @@ To begin, you'll need to install `less-loader`:
 $ npm install less-loader --save-dev
 ```
 
-Then modify your `webpack.config.js`:
+Then add the loader to your `webpack` config. For example:
+
+**webpack.config.js**
 
 ```js
-// webpack.config.js
 module.exports = {
-  ...
   module: {
-    rules: [{
-      test: /\.less$/,
-      loader: 'less-loader' // compiles Less to CSS
-    }]
-  }
+    rules: [
+      {
+        test: /\.less$/,
+        loader: 'less-loader', // compiles Less to CSS
+      },
+    ],
+  },
 };
 ```
 
@@ -53,22 +53,28 @@ Chain the `less-loader` with the
 [`style-loader`](https://github.com/webpack-contrib/style-loader) to immediately
 apply all styles to the DOM.
 
+**webpack.config.js**
+
 ```js
-// webpack.config.js
 module.exports = {
-  ...
   module: {
-    rules: [{
-      test: /\.less$/,
-      use: [{
-        loader: 'style-loader' // creates style nodes from JS strings
-      }, {
-        loader: 'css-loader' // translates CSS into CommonJS
-      }, {
-        loader: 'less-loader' // compiles Less to CSS
-      }]
-    }]
-  }
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader', // creates style nodes from JS strings
+          },
+          {
+            loader: 'css-loader', // translates CSS into CommonJS
+          },
+          {
+            loader: 'less-loader', // compiles Less to CSS
+          },
+        ],
+      },
+    ],
+  },
 };
 ```
 
@@ -77,25 +83,32 @@ See the [Less documentation](http://lesscss.org/usage/#command-line-usage-option
 for all available options in dash-case. Since we're passing these options to
 Less programmatically, you need to pass them in camelCase here:
 
+**webpack.config.js**
+
 ```js
-// webpack.config.js
 module.exports = {
-  ...
   module: {
-    rules: [{
-      test: /\.less$/,
-      use: [{
-        loader: 'style-loader'
-      }, {
-        loader: 'css-loader'
-      }, {
-        loader: 'less-loader', options: {
-          strictMath: true,
-          noIeCompat: true
-        }
-      }]
-    }]
-  }
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              strictMath: true,
+              noIeCompat: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
 ```
 
@@ -143,16 +156,19 @@ Less files:
 ```js
 // webpack.config.js
 module.exports = {
-  ...
   module: {
-    rules: [{
-      test: /\.js$/,
-      issuer: /\.less$/,
-      use: [{
-        loader: 'js-to-less-loader'
-      }]
-    }]
-  }
+    rules: [
+      {
+        test: /\.js$/,
+        issuer: /\.less$/,
+        use: [
+          {
+            loader: 'js-to-less-loader',
+          },
+        ],
+      },
+    ],
+  },
 };
 ```
 
@@ -163,26 +179,31 @@ resolver. Modules, that can't be resolved in the local folder, will be searched
 in the given `paths`. This is Less' default behavior. `paths` should be an array
 with absolute paths:
 
+**webpack.config.js**
+
 ```js
-// webpack.config.js
 module.exports = {
-  ...
   module: {
-    rules: [{
-      test: /\.less$/,
-      use: [{
-        loader: 'style-loader'
-      }, {
-        loader: 'css-loader'
-      }, {
-        loader: 'less-loader', options: {
-          paths: [
-            path.resolve(__dirname, 'node_modules')
-          ]
-        }
-      }]
-    }]
-  }
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              paths: [path.resolve(__dirname, 'node_modules')],
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
 ```
 
@@ -227,33 +248,42 @@ There are two possibilities to extract a style sheet from the bundle:
 - [`extract-loader`](https://github.com/peerigon/extract-loader) (simpler, but
   specialized on the css-loader's output)
 - [MiniCssExtractPlugin](https://github.com/webpack-contrib/mini-css-extract-plugin)
-(more complex, but works in all use-cases)
+  (more complex, but works in all use-cases)
 
 ### Source maps
 
 To enable CSS source maps, you'll need to pass the `sourceMap` option to the
-`less-loader` *and* the `css-loader`. Your `webpack.config.js` should look
+`less-loader` _and_ the `css-loader`. Your `webpack.config.js` should look
 like this:
+
+**webpack.config.js**
 
 ```javascript
 module.exports = {
-  ...
   module: {
-    rules: [{
-      test: /\.less$/,
-      use: [{
-        loader: 'style-loader'
-      }, {
-        loader: 'css-loader', options: {
-          sourceMap: true
-        }
-      }, {
-        loader: 'less-loader', options: {
-          sourceMap: true
-        }
-      }]
-    }]
-  }
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
 ```
 
@@ -272,29 +302,25 @@ file paths in `url(...)` statements.
 
 ## Contributing
 
-Please take a moment to read our contributing guidelines if you haven't yet done
-so.
+Please take a moment to read our contributing guidelines if you haven't yet done so.
 
-#### [CONTRIBUTING](./.github/CONTRIBUTING.md)
+[CONTRIBUTING](./.github/CONTRIBUTING.md)
 
 ## License
 
-#### [MIT](./LICENSE)
+[MIT](./LICENSE)
 
 [npm]: https://img.shields.io/npm/v/less-loader.svg
 [npm-url]: https://npmjs.com/package/less-loader
-
 [node]: https://img.shields.io/node/v/less-loader.svg
 [node-url]: https://nodejs.org
-
 [deps]: https://david-dm.org/webpack-contrib/less-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/less-loader
-
-[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/less-loader.svg
-[tests-url]: https://circleci.com/gh/webpack-contrib/less-loader
-
+[tests]: https://dev.azure.com/webpack-contrib/less-loader/_apis/build/status/webpack-contrib.less-loader?branchName=master
+[tests-url]: https://dev.azure.com/webpack-contrib/less-loader/_build/latest?definitionId=2&branchName=master
 [cover]: https://codecov.io/gh/webpack-contrib/less-loader/branch/master/graph/badge.svg
 [cover-url]: https://codecov.io/gh/webpack-contrib/less-loader
-
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+[size]: https://packagephobia.now.sh/badge?p=less-loader
+[size-url]: https://packagephobia.now.sh/result?p=less-loader

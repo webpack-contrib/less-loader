@@ -1,9 +1,9 @@
-const path = require('path');
+import path from 'path';
 
-const compile = require('./helpers/compile');
-const moduleRules = require('./helpers/moduleRules');
-const { readCssFixture, readSourceMap } = require('./helpers/readFixture');
-const compareErrorMessage = require('./helpers/compareErrorMessage');
+import compile from './helpers/compile';
+import moduleRules from './helpers/moduleRules';
+import { readCssFixture, readSourceMap } from './helpers/readFixture';
+import compareErrorMessage from './helpers/compareErrorMessage';
 
 const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
 
@@ -191,9 +191,11 @@ test('should transform urls', async () => {
 
 test('should generate source maps with sourcesContent by default', async () => {
   let inspect;
+
   const rules = moduleRules.basic({ sourceMap: true }, {}, (i) => {
     inspect = i;
   });
+
   const [expectedCss, expectedMap] = await Promise.all([
     readCssFixture('source-map'),
     readSourceMap('source-map'),
@@ -260,6 +262,7 @@ test("should fail if a file is tried to be loaded from include paths and with we
   ).catch((e) => e);
 
   expect(err).toBeInstanceOf(Error);
+
   compareErrorMessage(err.message);
 });
 
@@ -270,6 +273,7 @@ test('should provide a useful error message if the import could not be found', a
   ).catch((e) => e);
 
   expect(err).toBeInstanceOf(Error);
+
   compareErrorMessage(err.message);
 });
 
@@ -279,6 +283,7 @@ test('should provide a useful error message if there was a syntax error', async 
   );
 
   expect(err).toBeInstanceOf(Error);
+
   compareErrorMessage(err.message);
 });
 
@@ -315,11 +320,16 @@ test('should be able to import a file with an absolute path', async () => {
       absolutePath: `'${importedFilePath}'`,
     },
   };
+
   let inspect;
+
   const rules = moduleRules.basic(loaderOptions, {}, (i) => {
     inspect = i;
   });
+
   await compile('import-absolute', rules).catch((e) => e);
+
   const [css] = inspect.arguments;
+
   expect(css).toEqual('.it-works {\n  color: yellow;\n}\n');
 });
