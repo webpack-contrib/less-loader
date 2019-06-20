@@ -62,6 +62,10 @@ test("should resolve all imports from node_modules using webpack's resolver", as
   await compileAndCompare('import-webpack');
 });
 
+test("should resolve all imports with npm scope from node_modules using webpack's resolver", async () => {
+  await compileAndCompare('import-webpack-scope');
+});
+
 test('should add all resolved imports as dependencies, including node_modules', async () => {
   const dependencies = [];
 
