@@ -18,7 +18,7 @@ const matchMalformedModuleFilename = /(~[^/\\]+)\.less$/;
 // This somewhat changed in Less 3.x. Now the file name comes without the
 // automatically added extension whereas the extension is passed in as `options.ext`.
 // So, if the file name matches this regexp, we simply ignore the proposed extension.
-const isModuleName = /^~(|@[a-z0-9-~][a-z0-9_.-~]*\/)[^/\\]+$/;
+const isModuleName = /^~(@[^/]+\/)?[^/\\]+$/;
 
 /**
  * Creates a Less plugin that uses webpack's resolving engine that is provided by the loaderContext.
