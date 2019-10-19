@@ -9,7 +9,7 @@
   "bugs": "https://github.com/webpack-contrib/less-loader/issues",
   "main": "dist/cjs.js",
   "engines": {
-    "node": ">= 4.8.0"
+    "node": ">= 10.13.0"
   },
   "scripts": {
     "start": "npm run build -- -w",
@@ -42,31 +42,31 @@
     "pify": "^4.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.4.4",
-    "@commitlint/cli": "^7.5.2",
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "@commitlint/cli": "^8.3.1",
     "@commitlint/config-conventional": "^7.5.0",
-    "@webpack-contrib/defaults": "^4.0.1",
+    "@webpack-contrib/defaults": "^5.0.2",
     "@webpack-contrib/eslint-config-webpack": "^3.0.0",
     "babel-jest": "^24.7.1",
     "commitlint-azure-pipelines-cli": "^1.0.1",
-    "cross-env": "^5.2.0",
-    "del": "^4.1.1",
-    "del-cli": "^1.1.0",
+    "cross-env": "^5.2.1",
+    "del": "^5.0.0",
+    "del-cli": "^3.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-prettier": "^3.0.1",
-    "husky": "^2.1.0",
+    "husky": "^2.7.0",
     "inspect-loader": "^1.0.0",
     "jest": "^24.7.1",
-    "jest-junit": "^6.3.0",
+    "jest-junit": "^7.0.0",
     "less": "^3.9.0",
-    "lint-staged": "^8.1.5",
+    "lint-staged": "^9.4.2",
     "memory-fs": "^0.4.1",
     "prettier": "^1.17.0",
-    "standard-version": "^5.0.2",
+    "standard-version": "^7.0.0",
     "webpack": "^4.30.0"
   },
   "keywords": [
