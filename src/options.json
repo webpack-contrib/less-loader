@@ -1,0 +1,103 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "lessOptions": {
+      "description": "Options for `less` node api",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "plugins": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": true
+            },
+            {
+              "type": "array"
+            }
+          ]
+        },
+        "sourceMap": {
+          "description": "CSS source maps",
+          "anyOf": [
+            { "type": "boolean" },
+            { "type": "array" },
+            { "type": "object", "additionalProperties": true }
+          ]
+        },
+        "filename": {
+          "type": "string"
+        },
+        "javascriptEnabled": {
+          "type": "boolean",
+          "description": "Inline Javascript - @plugin still allowed "
+        },
+        "depends": {
+          "type": "boolean",
+          "description": " Outputs a makefile import dependency list to stdout."
+        },
+        "compress": {
+          "type": "boolean",
+          "description": "(DEPRECATED) Compress using less built-in compression"
+        },
+        "lint": {
+          "type": "boolean",
+          "description": "Runs the less parser and just reports errors without any output. "
+        },
+        "paths": {
+          "anyOf": [{ "type": "string" }, { "type": "array" }],
+          "description": "Sets available include paths. (to override the webpack's path)"
+        },
+        "color": {
+          "type": "boolean",
+          "description": "color output in the terminal."
+        },
+        "strictImports": {
+          "type": "boolean",
+          "description": "The strictImports controls whether the compiler will allow an @import inside of either @media blocks or (a later addition) other selector blocks"
+        },
+        "insecure": {
+          "type": "boolean",
+          "description": "Allow Imports from Insecure HTTPS Hosts"
+        },
+        "rootpath": {
+          "type": "string",
+          "description": "Allows you to add a path to every generated import and url in your css. "
+        },
+        "rewriteUrls": {
+          "type": "string",
+          "description": "This option allows you to re-write URL's in imported files so that the URL is always relative to the base imported file "
+        },
+        "math": {
+          "type": "number",
+          "description": "How to process math 0 always - eagerly try to solve all operations, 1 parens-division  - require parens for division,   2 parens | strict  - require parens for all operations,  3 strict-legacy    - legacy strict behavior (super-strict) "
+        },
+        "strictUnits": {
+          "type": "boolean",
+          "description": "Without this option, less attempts to guess at the output unit when it does maths."
+        },
+        "globalVars": {
+          "anyOf": [
+            { "type": "array" },
+            { "type": "string" },
+            { "type": "object" }
+          ],
+          "description": " Effectively the declaration is put at the top of your base Less file, meaning it can be used but it also can be overridden if this variable is defined in the file. "
+        },
+        "modifyVars": {
+          "anyOf": [
+            { "type": "array" },
+            { "type": "string" },
+            { "type": "object" }
+          ],
+          "description": "As opposed to the global variable option, this puts the declaration at the end of your base file, meaning it will override anything defined in your Less file. "
+        },
+        "urlArgs": {
+          "type": "string",
+          "description": "This option allows you to specify a argument to go on to every URL."
+        }
+      }
+    }
+  },
+  "type": "object"
+}

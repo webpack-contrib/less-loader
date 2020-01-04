@@ -9,31 +9,33 @@ const createWebpackLessPlugin = require('./createWebpackLessPlugin');
  * @param {LoaderContext} loaderContext
  */
 function getOptions(loaderContext) {
+  // { relativeUrls: true } is depreciated
   const options = {
-    plugins: [],
-    relativeUrls: true,
-    ...clone(loaderUtils.getOptions(loaderContext)),
+    lessOptions: {
+      plugins: [],
+      rewriteUrls: 'all',
+      ...clone(loaderUtils.getOptions(loaderContext)),
+    },
   };
 
   // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
-  options.filename = loaderContext.resource;
+  options.lessOptions.filename = loaderContext.resource;
 
   // When no paths are given, we use the webpack resolver
-  if ('paths' in options === false) {
+  if ('paths' in options.lessOptions === false) {
     // It's safe to mutate the array now because it has already been cloned
-    options.plugins.push(createWebpackLessPlugin(loaderContext));
+    options.lessOptions.plugins.push(createWebpackLessPlugin(loaderContext));
   }
 
-  if (options.sourceMap) {
-    if (typeof options.sourceMap === 'boolean') {
-      options.sourceMap = {};
+  if (options.lessOptions.sourceMap) {
+    if (typeof options.lessOptions.sourceMap === 'boolean') {
+      options.lessOptions.sourceMap = {};
     }
-    if ('outputSourceFiles' in options.sourceMap === false) {
+    if ('outputSourceFiles' in options.lessOptions.sourceMap === false) {
       // Include source files as `sourceContents` as sane default since this makes source maps "just work" in most cases
-      options.sourceMap.outputSourceFiles = true;
+      options.lessOptions.sourceMap.outputSourceFiles = true;
     }
   }
-
   return options;
 }
 
