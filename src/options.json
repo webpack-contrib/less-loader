@@ -4,7 +4,7 @@
     "lessOptions": {
       "description": "Options for `less` node api",
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "plugins": {
           "anyOf": [
