@@ -65,7 +65,7 @@
     "jest-junit": "^7.0.0",
     "less": "^3.9.0",
     "lint-staged": "^9.4.2",
-    "memory-fs": "^0.4.1",
+    "memfs": "^3.0.4",
     "prettier": "^1.17.0",
     "standard-version": "^7.0.0",
     "webpack": "^4.30.0"

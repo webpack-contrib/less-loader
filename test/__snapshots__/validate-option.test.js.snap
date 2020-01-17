@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validate failed options #0 1`] = `
+"ValidationError: Invalid options object. LESS Loader has been initialised using an options object that does not match the API schema.
+ - options.lessOptions has an unknown property 'wrong'. These properties are valid:
+   object { plugins?, sourceMap?, filename?, javascriptEnabled?, depends?, compress?, lint?, paths?, color?, strictImports?, insecure?, rootpath?, rewriteUrls?, math?, strictUnits?, globalVars?, modifyVars?, urlArgs? }
+   -> Options for \`less\` node api"
+`;
+
+exports[`validate failed options #1 1`] = `
+"ValidationError: Invalid options object. LESS Loader has been initialised using an options object that does not match the API schema.
+ - options.lessOptions.lint should be a boolean.
+   -> Runs the less parser and just reports errors without any output. "
+`;
