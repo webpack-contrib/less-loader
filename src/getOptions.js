@@ -16,7 +16,7 @@ function getOptions(loaderContext) {
   };
 
   // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
-  options.filename = loaderContext.resource;
+  options.filename = loaderContext.resourcePath;
 
   // When no paths are given, we use the webpack resolver
   if ('paths' in options === false) {
