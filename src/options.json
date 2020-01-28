@@ -3,15 +3,8 @@
   "properties": {
     "lessOptions": {
       "description": "Options for `less` node api",
-      "anyOf": [
-        {
-          "type": "object",
-          "additionalProperties": true
-        },
-        {
-          "instanceof": "Function"
-        }
-      ]
+      "type": "object",
+      "additionalProperties": true
     },
     "sourceMap": {
       "description": "CSS source maps",
