@@ -12,9 +12,13 @@ async function compileAndCompare(
   { lessLoaderOptions, lessLoaderContext, resolveAlias } = {}
 ) {
   let inspect;
-  const rules = moduleRules.basic(lessLoaderOptions, lessLoaderContext, (i) => {
-    inspect = i;
-  });
+  const rules = moduleRules.basic(
+    { lessOptions: lessLoaderOptions },
+    lessLoaderContext,
+    (i) => {
+      inspect = i;
+    }
+  );
   const [expectedCss] = await Promise.all([
     readCssFixture(fixture),
     compile(fixture, rules, resolveAlias),
@@ -147,7 +151,7 @@ test('should add all resolved imports as dependencies, including those from the 
 test("should allow to disable webpack's resolver by passing an empty paths array", async () => {
   const err = await compile(
     'import-webpack',
-    moduleRules.basic({ paths: [] })
+    moduleRules.basic({ lessOptions: { paths: [] } })
   ).catch((e) => e);
 
   expect(err).toBeInstanceOf(Error);
@@ -241,13 +245,16 @@ test('should install plugins', async () => {
     },
   });
 
-  await compile('basic', moduleRules.basic({ plugins: [testPlugin] }));
+  await compile(
+    'basic',
+    moduleRules.basic({ lessOptions: { plugins: [testPlugin] } })
+  );
 
   expect(pluginInstalled).toBe(true);
 });
 
 test('should not alter the original options object', async () => {
-  const options = { plugins: [] };
+  const options = { lessOptions: { plugins: [] } };
   const copiedOptions = { ...options };
 
   await compile('basic', moduleRules.basic(options));
@@ -258,7 +265,7 @@ test('should not alter the original options object', async () => {
 test("should fail if a file is tried to be loaded from include paths and with webpack's resolver simultaneously", async () => {
   const err = await compile(
     'error-mixed-resolvers',
-    moduleRules.basic({ paths: [nodeModulesPath] })
+    moduleRules.basic({ lessOptions: { paths: [nodeModulesPath] } })
   ).catch((e) => e);
 
   expect(err).toBeInstanceOf(Error);
@@ -269,7 +276,7 @@ test("should fail if a file is tried to be loaded from include paths and with we
 test('should provide a useful error message if the import could not be found', async () => {
   const err = await compile(
     'error-import-not-existing',
-    moduleRules.basic()
+    moduleRules.basic({})
   ).catch((e) => e);
 
   expect(err).toBeInstanceOf(Error);
@@ -278,7 +285,7 @@ test('should provide a useful error message if the import could not be found', a
 });
 
 test('should provide a useful error message if there was a syntax error', async () => {
-  const err = await compile('error-syntax', moduleRules.basic()).catch(
+  const err = await compile('error-syntax', moduleRules.basic({})).catch(
     (e) => e
   );
 
@@ -323,7 +330,7 @@ test('should be able to import a file with an absolute path', async () => {
 
   let inspect;
 
-  const rules = moduleRules.basic(loaderOptions, {}, (i) => {
+  const rules = moduleRules.basic({ lessOptions: loaderOptions }, {}, (i) => {
     inspect = i;
   });
 

@@ -9,14 +9,15 @@ const createWebpackLessPlugin = require('./createWebpackLessPlugin');
  * @param {LoaderContext} loaderContext
  */
 function getOptions(loaderContext) {
-  // { relativeUrls: true } is depreciated
-  const options = {
-    lessOptions: {
-      plugins: [],
-      rewriteUrls: 'all',
-      ...clone(loaderUtils.getOptions(loaderContext)),
-    },
-  };
+  let options;
+  const optionFromLoader = clone(loaderUtils.getOptions(loaderContext)) || {};
+
+  // eslint-disable-next-line prefer-const
+  options = optionFromLoader;
+  options.lessOptions = optionFromLoader.lessOptions || {};
+  options.lessOptions.plugins = optionFromLoader.lessOptions.plugins || [];
+  options.lessOptions.rewriteUrls =
+    optionFromLoader.lessOptions.rewriteUrls || 'all';
 
   // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
   options.lessOptions.filename = loaderContext.resource;
@@ -27,15 +28,16 @@ function getOptions(loaderContext) {
     options.lessOptions.plugins.push(createWebpackLessPlugin(loaderContext));
   }
 
-  if (options.lessOptions.sourceMap) {
-    if (typeof options.lessOptions.sourceMap === 'boolean') {
+  if (options.sourceMap) {
+    if (typeof options.sourceMap === 'boolean') {
       options.lessOptions.sourceMap = {};
     }
-    if ('outputSourceFiles' in options.lessOptions.sourceMap === false) {
+    if (typeof options.sourceMap.outputSourceFiles === 'undefined') {
       // Include source files as `sourceContents` as sane default since this makes source maps "just work" in most cases
       options.lessOptions.sourceMap.outputSourceFiles = true;
     }
   }
+
   return options;
 }
 

@@ -36,11 +36,16 @@ const validate = (options) => {
 };
 
 const options = {
-  failed: [{ wrong: 'options' }, { lint: 'shouldBeBool' }],
+  failed: [
+    { wrong: 'options' },
+    { lint: 'shouldBeBool' },
+    { lessOptions: 'string' },
+  ],
   success: [
-    { color: true },
-    { globalVars: '__Global_Primary' },
-    { globalVars: ['__Global_Primary'] },
+    { sourceMap: true },
+    { lessOptions: { color: true } },
+    { lessOptions: { globalVars: '__Global_Primary' } },
+    { lessOptions: { globalVars: ['__Global_Primary'] } },
   ],
 };
 

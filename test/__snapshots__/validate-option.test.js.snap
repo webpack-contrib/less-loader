@@ -2,13 +2,14 @@
 
 exports[`validate failed options #0 1`] = `
 "ValidationError: Invalid options object. LESS Loader has been initialised using an options object that does not match the API schema.
- - options.lessOptions has an unknown property 'wrong'. These properties are valid:
-   object { plugins?, sourceMap?, filename?, javascriptEnabled?, depends?, compress?, lint?, paths?, color?, strictImports?, insecure?, rootpath?, rewriteUrls?, math?, strictUnits?, globalVars?, modifyVars?, urlArgs? }
-   -> Options for \`less\` node api"
+ - options has an unknown property 'wrong'. These properties are valid:
+   object { lessOptions?, sourceMap? }"
 `;
 
 exports[`validate failed options #1 1`] = `
 "ValidationError: Invalid options object. LESS Loader has been initialised using an options object that does not match the API schema.
- - options.lessOptions.lint should be a boolean.
-   -> Runs the less parser and just reports errors without any output. "
+ - options has an unknown property 'lint'. These properties are valid:
+   object { lessOptions?, sourceMap? }"
 `;
+
+exports[`validate failed options #2 1`] = `"TypeError: Cannot create property 'plugins' on string 'string'"`;
