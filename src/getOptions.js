@@ -20,7 +20,7 @@ function getOptions(loaderContext) {
     optionFromLoader.lessOptions.rewriteUrls || 'all';
 
   // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
-  options.lessOptions.filename = loaderContext.resource;
+  options.lessOptions.filename = loaderContext.resourcePath;
 
   // When no paths are given, we use the webpack resolver
   if ('paths' in options.lessOptions === false) {
