@@ -5,8 +5,6 @@ import moduleRules from './helpers/moduleRules';
 import { readCssFixture, readSourceMap } from './helpers/readFixture';
 import compareErrorMessage from './helpers/compareErrorMessage';
 
-Error.stackTraceLimit = Infinity;
-
 const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
 
 async function compileAndCompare(
