@@ -10,7 +10,7 @@ function basic(
   return [
     {
       test: /\.less$/,
-      loaders: [
+      use: [
         {
           loader: helperLoader,
           options: lessLoaderContext,
@@ -34,7 +34,7 @@ function nonLessImport(inspectCallback) {
   return [
     {
       test: /\.less$/,
-      loaders: [
+      use: [
         {
           loader: helperLoader,
         },
@@ -51,7 +51,7 @@ function nonLessImport(inspectCallback) {
     },
     {
       test: /some\.file$/,
-      loaders: [
+      use: [
         {
           loader: someFileLoader,
         },
