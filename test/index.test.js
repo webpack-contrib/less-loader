@@ -49,13 +49,9 @@ test('should add all resolved imports as dependencies', async () => {
     },
   });
 
-  expect(dependencies.sort()).toEqual(
-    [
-      lessFixturePath('import.less'),
-      lessFixturePath('css.css'),
-      lessFixturePath('basic.less'),
-    ].sort()
-  );
+  expect(dependencies).toContain(lessFixturePath('import.less'));
+  expect(dependencies).toContain(lessFixturePath('css.css'));
+  expect(dependencies).toContain(lessFixturePath('basic.less'));
 });
 
 test("should resolve all imports from node_modules using webpack's resolver", async () => {
@@ -75,12 +71,12 @@ test('should add all resolved imports as dependencies, including node_modules', 
     },
   });
 
-  expect(dependencies.sort()).toEqual(
-    [
-      lessFixturePath('import-webpack.less'),
-      lessFixturePath('../node_modules/some/module.less'),
-      lessFixturePath('../node_modules/some/css.css'),
-    ].sort()
+  expect(dependencies).toContain(lessFixturePath('import-webpack.less'));
+  expect(dependencies).toContain(
+    lessFixturePath('../node_modules/some/module.less')
+  );
+  expect(dependencies).toContain(
+    lessFixturePath('../node_modules/some/css.css')
   );
 });
 
@@ -108,11 +104,9 @@ test('should add all resolved imports as dependencies, including aliased ones', 
     },
   });
 
-  expect(dependencies.sort()).toEqual(
-    [
-      lessFixturePath('import-webpack-alias.less'),
-      lessFixturePath('../node_modules/some/module.less'),
-    ].sort()
+  expect(dependencies).toContain(lessFixturePath('import-webpack-alias.less'));
+  expect(dependencies).toContain(
+    lessFixturePath('../node_modules/some/module.less')
   );
 });
 
@@ -136,11 +130,9 @@ test('should add all resolved imports as dependencies, including those from the 
     },
   });
 
-  expect(dependencies.sort()).toEqual(
-    [
-      lessFixturePath('import-paths.less'),
-      lessFixturePath('../node_modules/some/module.less'),
-    ].sort()
+  expect(dependencies).toContain(lessFixturePath('import-paths.less'));
+  expect(dependencies).toContain(
+    lessFixturePath('../node_modules/some/module.less')
   );
 });
 
@@ -300,12 +292,10 @@ test('should add a file with an error as dependency so that the watcher is trigg
 
   await compile('error-import-file-with-error', rules).catch((e) => e);
 
-  expect(dependencies.sort()).toEqual(
-    [
-      lessFixturePath('error-import-file-with-error.less'),
-      lessFixturePath('error-syntax.less'),
-    ].sort()
+  expect(dependencies).toContain(
+    lessFixturePath('error-import-file-with-error.less')
   );
+  expect(dependencies).toContain(lessFixturePath('error-syntax.less'));
 });
 
 test('should be able to import a file with an absolute path', async () => {
