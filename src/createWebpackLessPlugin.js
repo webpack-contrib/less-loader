@@ -1,7 +1,7 @@
-/* eslint-disable class-methods-use-this */
-const less = require('less');
-const loaderUtils = require('loader-utils');
-const pify = require('pify');
+import less from 'less';
+import pify from 'pify';
+
+import { urlToRequest } from 'loader-utils';
 
 const stringifyLoader = require.resolve('./stringifyLoader.js');
 const trailingSlash = /[/\\]$/;
@@ -69,7 +69,7 @@ function createWebpackLessPlugin(loaderContext) {
     async loadFile(filename, currentDirectory, options) {
       const url = this.getUrl(filename, options);
 
-      const moduleRequest = loaderUtils.urlToRequest(
+      const moduleRequest = urlToRequest(
         url,
         url.charAt(0) === '/' ? '' : null
       );
