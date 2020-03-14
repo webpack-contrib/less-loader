@@ -29,9 +29,15 @@ const isModuleName = /^~[^/\\]+$/;
  */
 function createWebpackLessPlugin(loaderContext) {
   const { fs } = loaderContext;
-  const resolve = pify(loaderContext.resolve.bind(loaderContext));
+
   const loadModule = pify(loaderContext.loadModule.bind(loaderContext));
   const readFile = pify(fs.readFile.bind(fs));
+
+  const resolve = loaderContext.getResolve({
+    mainFields: ['less', 'style', 'main', '...'],
+    mainFiles: ['_index', 'index', '...'],
+    extensions: ['.less', '.css', '...'],
+  });
 
   class WebpackFileManager extends less.FileManager {
     supports() {
@@ -48,46 +54,51 @@ function createWebpackLessPlugin(loaderContext) {
       return false;
     }
 
-    loadFile(filename, currentDirectory, options) {
-      let url;
+    getUrl(filename, options) {
       if (less.version[0] >= 3) {
         if (options.ext && !isModuleName.test(filename)) {
-          url = this.tryAppendExtension(filename, options.ext);
-        } else {
-          url = filename;
+          return this.tryAppendExtension(filename, options.ext);
         }
-      } else {
-        url = filename.replace(matchMalformedModuleFilename, '$1');
+
+        return filename;
       }
+
+      return filename.replace(matchMalformedModuleFilename, '$1');
+    }
+
+    async loadFile(filename, currentDirectory, options) {
+      const url = this.getUrl(filename, options);
+
       const moduleRequest = loaderUtils.urlToRequest(
         url,
         url.charAt(0) === '/' ? '' : null
       );
+
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, '');
-      let resolvedFilename;
+      const resolvedFilename = await resolve(context, moduleRequest);
 
-      return resolve(context, moduleRequest)
-        .then((f) => {
-          resolvedFilename = f;
-          loaderContext.addDependency(resolvedFilename);
+      loaderContext.addDependency(resolvedFilename);
 
-          if (isLessCompatible.test(resolvedFilename)) {
-            return readFile(resolvedFilename).then((contents) =>
-              contents.toString('utf8')
-            );
-          }
+      if (isLessCompatible.test(resolvedFilename)) {
+        const fileBuffer = await readFile(resolvedFilename);
+        const contents = fileBuffer.toString('utf8');
 
-          return loadModule([stringifyLoader, resolvedFilename].join('!')).then(
-            JSON.parse
-          );
-        })
-        .then((contents) => {
-          return {
-            contents,
-            filename: resolvedFilename,
-          };
-        });
+        return {
+          contents,
+          filename: resolvedFilename,
+        };
+      }
+
+      const loadedModule = await loadModule(
+        [stringifyLoader, resolvedFilename].join('!')
+      );
+      const contents = JSON.parse(loadedModule);
+
+      return {
+        contents,
+        filename: resolvedFilename,
+      };
     }
   }
 
