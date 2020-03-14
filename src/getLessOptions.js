@@ -22,10 +22,13 @@ function getLessOptions(loaderContext, loaderOptions) {
     lessOptions.plugins.push(createWebpackLessPlugin(loaderContext));
   }
 
-  if (loaderOptions.sourceMap) {
-    if (typeof loaderOptions.sourceMap === 'boolean') {
-      lessOptions.sourceMap = {};
-    }
+  const useSourceMap =
+    typeof loaderOptions.sourceMap === 'boolean'
+      ? loaderOptions.sourceMap
+      : loaderContext.sourceMap;
+
+  if (useSourceMap) {
+    lessOptions.sourceMap = {};
 
     if (typeof loaderOptions.sourceMap.outputSourceFiles === 'undefined') {
       // Include source files as `sourceContents` as sane default since this makes source maps "just work" in most cases
