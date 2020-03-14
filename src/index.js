@@ -1,4 +1,3 @@
-import clone from 'clone';
 import less from 'less';
 import pify from 'pify';
 
@@ -7,7 +6,7 @@ import validateOptions from 'schema-utils';
 
 import schema from './options.json';
 import processResult from './processResult';
-import createWebpackLessPlugin from './createWebpackLessPlugin';
+import getLessOptions from './getLessOptions';
 
 const render = pify(less.render.bind(less));
 
@@ -28,28 +27,7 @@ function lessLoader(source) {
     );
   }
 
-  const lessOptions = {
-    plugins: [],
-    relativeUrls: true,
-    // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
-    filename: this.resourcePath,
-    ...(options.lessOptions ? clone(options.lessOptions) : {}),
-  };
-
-  if (typeof lessOptions.paths === 'undefined') {
-    lessOptions.plugins.push(createWebpackLessPlugin(this));
-  }
-
-  if (options.sourceMap) {
-    if (typeof options.sourceMap === 'boolean') {
-      lessOptions.sourceMap = {};
-    }
-
-    if (typeof options.sourceMap.outputSourceFiles === 'undefined') {
-      // Include source files as `sourceContents` as sane default since this makes source maps "just work" in most cases
-      lessOptions.sourceMap.outputSourceFiles = true;
-    }
-  }
+  const lessOptions = getLessOptions(this, options);
 
   processResult(this, render(source, lessOptions));
 }
