@@ -3,6 +3,8 @@ import pify from 'pify';
 
 import { urlToRequest } from 'loader-utils';
 
+/* eslint-disable class-methods-use-this */
+
 const stringifyLoader = require.resolve('./stringifyLoader.js');
 const trailingSlash = /[/\\]$/;
 const isLessCompatible = /\.(le|c)ss$/;
