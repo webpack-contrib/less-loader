@@ -28,12 +28,9 @@ function getLessOptions(loaderContext, loaderOptions) {
       : loaderContext.sourceMap;
 
   if (useSourceMap) {
-    lessOptions.sourceMap = {};
-
-    if (typeof loaderOptions.sourceMap.outputSourceFiles === 'undefined') {
-      // Include source files as `sourceContents` as sane default since this makes source maps "just work" in most cases
-      lessOptions.sourceMap.outputSourceFiles = true;
-    }
+    lessOptions.sourceMap = {
+      outputSourceFiles: true,
+    };
   }
 
   return lessOptions;

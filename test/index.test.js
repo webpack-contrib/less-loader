@@ -222,23 +222,6 @@ test('should generate source maps with sourcesContent by default', async () => {
   expect(actualMap).toEqual(expectedMap);
 });
 
-test('should be possible to override sourceMap.outputSourceFiles', async () => {
-  let inspect;
-  const rules = moduleRules.basic(
-    { sourceMap: { outputSourceFiles: false } },
-    {},
-    (i) => {
-      inspect = i;
-    }
-  );
-
-  await compile('source-map', rules);
-
-  const [actualMap] = inspect.arguments;
-
-  expect(actualMap).not.toHaveProperty('sourcesContent');
-});
-
 test('should install plugins', async () => {
   let pluginInstalled = false;
   // Using prototype inheritance here since Less plugins are usually instances of classes
