@@ -49,7 +49,7 @@ The `less-loader` requires [less](https://github.com/less/less.js) as [`peerDepe
 
 ### `lessOptions`
 
-Type: `Object`
+Type: `Object|Function`
 
 You can pass any Less specific options to the `less-loader` through the `lessOptions` property in the [loader options](https://webpack.js.org/configuration/module/#rule-options-rule-query). See the [Less documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options in dash-case. Since we're passing these options to Less programmatically, you need to pass them in camelCase here:
 
