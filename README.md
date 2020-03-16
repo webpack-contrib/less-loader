@@ -53,6 +53,10 @@ Type: `Object|Function`
 
 You can pass any Less specific options to the `less-loader` through the `lessOptions` property in the [loader options](https://webpack.js.org/configuration/module/#rule-options-rule-query). See the [Less documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options in dash-case. Since we're passing these options to Less programmatically, you need to pass them in camelCase here:
 
+#### `Object`
+
+Use an object to pass options through to Less.
+
 **webpack.config.js**
 
 ```js
@@ -74,6 +78,46 @@ module.exports = {
               lessOptions: {
                 strictMath: true,
                 noIeCompat: true,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+#### `Function`
+
+Allows setting the options passed through to Less based off of the loader context.
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: (loaderContext) => {
+                // More information about available properties https://webpack.js.org/api/loaders/
+                const { resourcePath, rootContext } = loaderContext;
+                const relativePath = path.relative(rootContext, resourcePath);
+
+                if (relativePath === 'styles/foo.scss') {
+                  return {
+                    paths: ['absolute/path/c', 'absolute/path/d'],
+                  };
+                }
+
+                return {
+                  paths: ['absolute/path/a', 'absolute/path/b'],
+                };
               },
             },
           },
