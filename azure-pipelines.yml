@@ -4,7 +4,7 @@ trigger:
 
 variables:
   npm_config_cache: $(Pipeline.Workspace)/.npm
---das-d-as-d-as-d-sa
+
 jobs:
   - job: Lint
     pool:
