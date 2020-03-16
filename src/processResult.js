@@ -6,10 +6,9 @@ const formatLessError = require('./formatLessError');
  *
  * @param {loaderContext} loaderContext
  * @param {Promise<LessResult>} resultPromise
+ * @param {Function} callback
  */
-function processResult(loaderContext, resultPromise) {
-  const { callback } = loaderContext;
-
+function processResult(loaderContext, resultPromise, callback) {
   resultPromise
     .then(
       ({ css, map, imports }) => {
