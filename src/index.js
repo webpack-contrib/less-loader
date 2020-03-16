@@ -1,15 +1,24 @@
 import less from 'less';
 import pify from 'pify';
 
+import { getOptions } from 'loader-utils';
+import validateOptions from 'schema-utils';
+
+import schema from './options.json';
 import processResult from './processResult';
-import getOptions from './getOptions';
+import getLessOptions from './getLessOptions';
 
 const render = pify(less.render.bind(less));
 
 function lessLoader(source) {
-  const loaderContext = this;
-  const options = getOptions(loaderContext);
-  const done = loaderContext.async();
+  const options = getOptions(this) || {};
+
+  validateOptions(schema, options, {
+    name: 'Less Loader',
+    baseDataPath: 'options',
+  });
+
+  const done = this.async();
   const isSync = typeof done !== 'function';
 
   if (isSync) {
@@ -18,7 +27,9 @@ function lessLoader(source) {
     );
   }
 
-  processResult(loaderContext, render(source, options));
+  const lessOptions = getLessOptions(this, options);
+
+  processResult(this, render(source, lessOptions));
 }
 
 export default lessLoader;

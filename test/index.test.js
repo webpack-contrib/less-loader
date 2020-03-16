@@ -36,6 +36,14 @@ test('should resolve all imports', async () => {
   await compileAndCompare('import');
 });
 
+test('should fail when passed incorrect configuration', async () => {
+  await expect(
+    compileAndCompare('basic', {
+      lessLoaderOptions: { randomProperty: 'randomValue' },
+    })
+  ).rejects.toThrow();
+});
+
 test('should add all resolved imports as dependencies', async () => {
   const dependencies = [];
 
@@ -112,7 +120,11 @@ test('should add all resolved imports as dependencies, including aliased ones', 
 
 test("should resolve all imports from the given paths using Less' resolver", async () => {
   await compileAndCompare('import-paths', {
-    lessLoaderOptions: { paths: [__dirname, nodeModulesPath] },
+    lessLoaderOptions: {
+      lessOptions: {
+        paths: [__dirname, nodeModulesPath],
+      },
+    },
   });
 });
 
@@ -120,7 +132,11 @@ test('should add all resolved imports as dependencies, including those from the 
   const dependencies = [];
 
   await compileAndCompare('import-paths', {
-    lessLoaderOptions: { paths: [__dirname, nodeModulesPath] },
+    lessLoaderOptions: {
+      lessOptions: {
+        paths: [__dirname, nodeModulesPath],
+      },
+    },
     lessLoaderContext: {
       addDependency(dep) {
         if (dependencies.indexOf(dep) === -1) {
@@ -139,7 +155,7 @@ test('should add all resolved imports as dependencies, including those from the 
 test("should allow to disable webpack's resolver by passing an empty paths array", async () => {
   const err = await compile(
     'import-webpack',
-    moduleRules.basic({ paths: [] })
+    moduleRules.basic({ lessOptions: { paths: [] } })
   ).catch((e) => e);
 
   expect(err).toBeInstanceOf(Error);
@@ -206,23 +222,6 @@ test('should generate source maps with sourcesContent by default', async () => {
   expect(actualMap).toEqual(expectedMap);
 });
 
-test('should be possible to override sourceMap.outputSourceFiles', async () => {
-  let inspect;
-  const rules = moduleRules.basic(
-    { sourceMap: { outputSourceFiles: false } },
-    {},
-    (i) => {
-      inspect = i;
-    }
-  );
-
-  await compile('source-map', rules);
-
-  const [actualMap] = inspect.arguments;
-
-  expect(actualMap).not.toHaveProperty('sourcesContent');
-});
-
 test('should install plugins', async () => {
   let pluginInstalled = false;
   // Using prototype inheritance here since Less plugins are usually instances of classes
@@ -233,13 +232,16 @@ test('should install plugins', async () => {
     },
   });
 
-  await compile('basic', moduleRules.basic({ plugins: [testPlugin] }));
+  await compile(
+    'basic',
+    moduleRules.basic({ lessOptions: { plugins: [testPlugin] } })
+  );
 
   expect(pluginInstalled).toBe(true);
 });
 
 test('should not alter the original options object', async () => {
-  const options = { plugins: [] };
+  const options = { lessOptions: { plugins: [] } };
   const copiedOptions = { ...options };
 
   await compile('basic', moduleRules.basic(options));
@@ -250,7 +252,7 @@ test('should not alter the original options object', async () => {
 test("should fail if a file is tried to be loaded from include paths and with webpack's resolver simultaneously", async () => {
   const err = await compile(
     'error-mixed-resolvers',
-    moduleRules.basic({ paths: [nodeModulesPath] })
+    moduleRules.basic({ lessOptions: { paths: [nodeModulesPath] } })
   ).catch((e) => e);
 
   expect(err).toBeInstanceOf(Error);
@@ -306,8 +308,10 @@ test('should be able to import a file with an absolute path', async () => {
     'import-absolute-target.less'
   );
   const loaderOptions = {
-    globalVars: {
-      absolutePath: `'${importedFilePath}'`,
+    lessOptions: {
+      globalVars: {
+        absolutePath: `'${importedFilePath}'`,
+      },
     },
   };
 
