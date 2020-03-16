@@ -10,12 +10,20 @@ import createWebpackLessPlugin from './createWebpackLessPlugin';
  * @returns {Object}
  */
 function getLessOptions(loaderContext, loaderOptions) {
+  const options = clone(
+    loaderOptions.lessOptions
+      ? typeof loaderOptions.lessOptions === 'function'
+        ? loaderOptions.lessOptions(loaderContext) || {}
+        : loaderOptions.lessOptions
+      : {}
+  );
+
   const lessOptions = {
     plugins: [],
     relativeUrls: true,
     // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
     filename: loaderContext.resourcePath,
-    ...(loaderOptions.lessOptions ? clone(loaderOptions.lessOptions) : {}),
+    ...options,
   };
 
   if (typeof lessOptions.paths === 'undefined') {

@@ -128,6 +128,16 @@ test("should resolve all imports from the given paths using Less' resolver", asy
   });
 });
 
+test('should allow a function to be passed through for `lessOptions`', async () => {
+  await compileAndCompare('import-paths', {
+    lessLoaderOptions: {
+      lessOptions: () => ({
+        paths: [__dirname, nodeModulesPath],
+      }),
+    },
+  });
+});
+
 test('should add all resolved imports as dependencies, including those from the Less resolver', async () => {
   const dependencies = [];
 
