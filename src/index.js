@@ -20,9 +20,9 @@ function lessLoader(source) {
   });
 
   const callback = this.async();
-  const lessOptions = getLessOptions(this, options);
+  const lessOptions = getLessOptions(this, options, source);
 
-  processResult(this, render(source, lessOptions), callback);
+  processResult(this, render(lessOptions.data, lessOptions), callback);
 }
 
 export default lessLoader;

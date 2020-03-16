@@ -128,6 +128,26 @@ test("should resolve all imports from the given paths using Less' resolver", asy
   });
 });
 
+test('should prepend data', async () => {
+  const loaderOptions = {
+    prependData() {
+      return `@background: red;`;
+    },
+  };
+
+  let inspect;
+
+  const rules = moduleRules.basic(loaderOptions, {}, (i) => {
+    inspect = i;
+  });
+
+  await compile('prepend-data', rules).catch((e) => e);
+
+  const [css] = inspect.arguments;
+
+  expect(css).toEqual('.background {\n  color: red;\n}\n');
+});
+
 test('should allow a function to be passed through for `lessOptions`', async () => {
   await compileAndCompare('import-paths', {
     lessLoaderOptions: {
