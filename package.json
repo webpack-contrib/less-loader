@@ -45,7 +45,6 @@
   "dependencies": {
     "clone": "^2.1.1",
     "loader-utils": "^1.4.0",
-    "pify": "^4.0.1",
     "schema-utils": "^2.6.5"
   },
   "devDependencies": {
