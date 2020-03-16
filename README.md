@@ -109,7 +109,7 @@ module.exports = {
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
-                if (relativePath === 'styles/foo.scss') {
+                if (relativePath === 'styles/foo.less') {
                   return {
                     paths: ['absolute/path/c', 'absolute/path/d'],
                   };
@@ -118,6 +118,75 @@ module.exports = {
                 return {
                   paths: ['absolute/path/a', 'absolute/path/b'],
                 };
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+### `prependData`
+
+Type: `String|Function`
+Default: `undefined`
+
+Prepends `Less` code before the actual entry file.
+
+This is especially useful when some of your Less variables depend on the environment:
+
+> ℹ Since you're injecting code, this will break the source mappings in your entry file. Often there's a simpler solution than this, like multiple Less entry files.
+
+#### `String`
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              prependData: `@env: ${process.env.NODE_ENV};`,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+#### `Function`
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              prependData: (loaderContext) => {
+                // More information about available properties https://webpack.js.org/api/loaders/
+                const { resourcePath, rootContext } = loaderContext;
+                const relativePath = path.relative(rootContext, resourcePath);
+
+                if (relativePath === 'styles/foo.less') {
+                  return '@value: 100px;';
+                }
+
+                return '@value: 200px;';
               },
             },
           },
