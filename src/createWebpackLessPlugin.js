@@ -1,5 +1,6 @@
+import { promisify } from 'util';
+
 import less from 'less';
-import pify from 'pify';
 
 import { urlToRequest } from 'loader-utils';
 
@@ -32,8 +33,8 @@ const isModuleName = /^~[^/\\]+$/;
 function createWebpackLessPlugin(loaderContext) {
   const { fs } = loaderContext;
 
-  const loadModule = pify(loaderContext.loadModule.bind(loaderContext));
-  const readFile = pify(fs.readFile.bind(fs));
+  const loadModule = promisify(loaderContext.loadModule.bind(loaderContext));
+  const readFile = promisify(fs.readFile.bind(fs));
 
   const resolve = loaderContext.getResolve({
     mainFields: ['less', 'style', 'main', '...'],

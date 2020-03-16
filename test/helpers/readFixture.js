@@ -1,9 +1,8 @@
 const path = require('path');
 const fs = require('fs');
+const util = require('util');
 
-const pify = require('pify');
-
-const readFile = pify(fs.readFile);
+const readFile = util.promisify(fs.readFile);
 const testFolder = path.resolve(__dirname, '..');
 
 function readCssFixture(testId) {

@@ -1,5 +1,6 @@
+import { promisify } from 'util';
+
 import less from 'less';
-import pify from 'pify';
 
 import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
@@ -8,7 +9,7 @@ import schema from './options.json';
 import processResult from './processResult';
 import getLessOptions from './getLessOptions';
 
-const render = pify(less.render.bind(less));
+const render = promisify(less.render.bind(less));
 
 function lessLoader(source) {
   const options = getOptions(this) || {};
