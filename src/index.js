@@ -18,18 +18,10 @@ function lessLoader(source) {
     baseDataPath: 'options',
   });
 
-  const done = this.async();
-  const isSync = typeof done !== 'function';
-
-  if (isSync) {
-    throw new Error(
-      'Synchronous compilation is not supported anymore. See https://github.com/webpack-contrib/less-loader/issues/84'
-    );
-  }
-
+  const callback = this.async();
   const lessOptions = getLessOptions(this, options);
 
-  processResult(this, render(source, lessOptions));
+  processResult(this, render(source, lessOptions), callback);
 }
 
 export default lessLoader;
