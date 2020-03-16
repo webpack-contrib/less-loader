@@ -109,7 +109,7 @@ module.exports = {
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
-                if (relativePath === 'styles/foo.scss') {
+                if (relativePath === 'styles/foo.less') {
                   return {
                     paths: ['absolute/path/c', 'absolute/path/d'],
                   };
@@ -182,7 +182,7 @@ module.exports = {
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
-                if (relativePath === 'styles/foo.scss') {
+                if (relativePath === 'styles/foo.less') {
                   return '@value: 100px;';
                 }
 
