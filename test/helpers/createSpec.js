@@ -17,6 +17,7 @@ const ignore = [
   'error-import-file-with-error',
   'import-absolute',
   'import-absolute-target',
+  'prepend-data',
 ];
 const lessReplacements = [
   [/~some\//g, '../node_modules/some/'],
