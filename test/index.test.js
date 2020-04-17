@@ -88,10 +88,12 @@ test('should add all resolved imports as dependencies, including node_modules', 
   );
 });
 
-test('should resolve aliases as configured', async () => {
+test('should resolve aliases in diffrent variants', async () => {
   await compileAndCompare('import-webpack-alias', {
     resolveAlias: {
       'aliased-some': 'some',
+      fileAlias: path.resolve(__dirname, 'fixtures', 'less', 'img.less'),
+      assets: path.resolve(__dirname, 'fixtures', 'less'),
     },
   });
 });
@@ -300,7 +302,7 @@ test('should provide a useful error message if the import could not be found', a
     moduleRules.basic()
   ).catch((e) => e);
 
-  expect(err).toBeInstanceOf(Error);
+  expect(err.stats.compilation.errors).toMatchSnapshot('errors');
 
   compareErrorMessage(err.message);
 });

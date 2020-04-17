@@ -31,7 +31,7 @@ function createWebpackLessPlugin(loaderContext) {
   const resolve = loaderContext.getResolve({
     mainFields: ['less', 'style', 'main', '...'],
     mainFiles: ['_index', 'index', '...'],
-    extensions: ['.less', '.css', '...'],
+    extensions: ['.less', '.css'],
   });
 
   class WebpackFileManager extends less.FileManager {
@@ -61,7 +61,27 @@ function createWebpackLessPlugin(loaderContext) {
       return filename;
     }
 
-    async loadFile(filename, currentDirectory, options) {
+    resolveRequests(context, possibleRequests) {
+      if (possibleRequests.length === 0) {
+        return Promise.reject();
+      }
+
+      return resolve(context, possibleRequests[0])
+        .then((result) => {
+          return result;
+        })
+        .catch((error) => {
+          const [, ...tailPossibleRequests] = possibleRequests;
+
+          if (tailPossibleRequests.length === 0) {
+            throw error;
+          }
+
+          return this.resolveRequests(context, tailPossibleRequests);
+        });
+    }
+
+    async loadFile(filename, currentDirectory, options, ...args) {
       const url = this.getUrl(filename, options);
 
       const moduleRequest = urlToRequest(
@@ -71,7 +91,18 @@ function createWebpackLessPlugin(loaderContext) {
 
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, '');
-      const resolvedFilename = await resolve(context, moduleRequest);
+      let resolvedFilename;
+
+      try {
+        resolvedFilename = await this.resolveRequests(context, [
+          moduleRequest,
+          url,
+        ]);
+      } catch (error) {
+        loaderContext.emitError(error);
+
+        return super.loadFile(filename, currentDirectory, options, ...args);
+      }
 
       loaderContext.addDependency(resolvedFilename);
 
