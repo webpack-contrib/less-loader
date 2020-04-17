@@ -4,6 +4,7 @@ import compile from './helpers/compile';
 import moduleRules from './helpers/moduleRules';
 import { readCssFixture, readSourceMap } from './helpers/readFixture';
 import compareErrorMessage from './helpers/compareErrorMessage';
+import getErrors from './helpers/getErrors';
 
 const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
 
@@ -302,9 +303,7 @@ test('should provide a useful error message if the import could not be found', a
     moduleRules.basic()
   ).catch((e) => e);
 
-  expect(err.stats.compilation.errors).toMatchSnapshot('errors');
-
-  compareErrorMessage(err.message);
+  expect(getErrors(err.stats)).toMatchSnapshot('errors');
 });
 
 test('should provide a useful error message if there was a syntax error', async () => {
