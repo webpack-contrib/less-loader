@@ -206,6 +206,10 @@ test('should not try to resolve CSS imports with URLs', async () => {
   await compileAndCompare('import-url');
 });
 
+test('should delegate resolving (LESS) imports with URLs to "less" package', async () => {
+  await compileAndCompare('import-keyword-url');
+});
+
 test('should allow to import non-less files', async () => {
   let inspect;
   const rules = moduleRules.nonLessImport((i) => {
