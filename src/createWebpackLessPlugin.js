@@ -10,14 +10,6 @@ const stringifyLoader = require.resolve('./stringifyLoader.js');
 const trailingSlash = /[/\\]$/;
 const isLessCompatible = /\.(le|c)ss$/;
 
-// Less automatically adds a .less file extension if no extension was given.
-// This is problematic if there is a module request like @import "~some-module";
-// because in this case Less will call our file manager with `~some-module.less`.
-// Since dots in module names are highly discouraged, we can safely assume that
-// this is an error and we need to remove the .less extension again.
-// However, we must not match something like @import "~some-module/file.less";
-const matchMalformedModuleFilename = /(~[^/\\]+)\.less$/;
-
 // This somewhat changed in Less 3.x. Now the file name comes without the
 // automatically added extension whereas the extension is passed in as `options.ext`.
 // So, if the file name matches this regexp, we simply ignore the proposed extension.
@@ -43,7 +35,11 @@ function createWebpackLessPlugin(loaderContext) {
   });
 
   class WebpackFileManager extends less.FileManager {
-    supports() {
+    supports(filename) {
+      if (this.isPathAbsolute(filename)) {
+        return false;
+      }
+
       // Our WebpackFileManager handles all the files
       return true;
     }
@@ -58,15 +54,11 @@ function createWebpackLessPlugin(loaderContext) {
     }
 
     getUrl(filename, options) {
-      if (less.version[0] >= 3) {
-        if (options.ext && !isModuleName.test(filename)) {
-          return this.tryAppendExtension(filename, options.ext);
-        }
-
-        return filename;
+      if (options.ext && !isModuleName.test(filename)) {
+        return this.tryAppendExtension(filename, options.ext);
       }
 
-      return filename.replace(matchMalformedModuleFilename, '$1');
+      return filename;
     }
 
     async loadFile(filename, currentDirectory, options) {
@@ -109,7 +101,7 @@ function createWebpackLessPlugin(loaderContext) {
     install(lessInstance, pluginManager) {
       pluginManager.addFileManager(new WebpackFileManager());
     },
-    minVersion: [2, 1, 1],
+    minVersion: [3, 0, 0],
   };
 }
 
