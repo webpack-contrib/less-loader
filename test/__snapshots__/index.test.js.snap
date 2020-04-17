@@ -11,14 +11,18 @@ exports[`should fail if a file is tried to be loaded from include paths and with
       in /test/fixtures/less/error-mixed-resolvers.less (line 3, column 0)"
 `;
 
-exports[`should provide a useful error message if the import could not be found 1`] = `
-"Module build failed (from ./src/cjs.js):
+exports[`should provide a useful error message if the import could not be found: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
 
 
 @import \\"not-existing\\";
 ^
-Can't resolve './not-existing.less' in '/test/fixtures/less'
-      in /test/fixtures/less/error-import-not-existing.less (line 1, column 0)"
+'not-existing' wasn't found. Tried - /test/fixtures/less/not-existing.less,npm://not-existing,npm://not-existing.less,not-existing.less
+      in /test/fixtures/less/error-import-not-existing.less (line 1, column 0)",
+  "ModuleError: Module Error (from \`replaced original path\`):
+Can't resolve 'not-existing.less' in '/test/fixtures/less'",
+]
 `;
 
 exports[`should provide a useful error message if there was a syntax error 1`] = `
