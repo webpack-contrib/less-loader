@@ -43,8 +43,6 @@ module.exports = {
 
 And run `webpack` via your preferred method.
 
-The `less-loader` requires [less](https://github.com/less/less.js) as [`peerDependency`](https://docs.npmjs.com/files/package.json#peerdependencies). Thus you are able to control the versions accurately.
-
 ## Options
 
 ### `lessOptions`
