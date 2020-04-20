@@ -151,6 +151,26 @@ test('should prepend data', async () => {
   expect(css).toEqual('.background {\n  color: red;\n}\n');
 });
 
+test('should append data', async () => {
+  const loaderOptions = {
+    appendData() {
+      return `@color1: coral;`;
+    },
+  };
+
+  let inspect;
+
+  const rules = moduleRules.basic(loaderOptions, {}, (i) => {
+    inspect = i;
+  });
+
+  await compile('append-data', rules).catch((e) => e);
+
+  const [css] = inspect.arguments;
+
+  expect(css).toEqual('.background {\n  color: coral;\n}\n');
+});
+
 test('should allow a function to be passed through for `lessOptions`', async () => {
   await compileAndCompare('import-paths', {
     lessLoaderOptions: {

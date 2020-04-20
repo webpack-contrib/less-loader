@@ -77,7 +77,6 @@ module.exports = {
             options: {
               lessOptions: {
                 strictMath: true,
-                noIeCompat: true,
               },
             },
           },
@@ -178,6 +177,75 @@ module.exports = {
             loader: 'less-loader',
             options: {
               prependData: (loaderContext) => {
+                // More information about available properties https://webpack.js.org/api/loaders/
+                const { resourcePath, rootContext } = loaderContext;
+                const relativePath = path.relative(rootContext, resourcePath);
+
+                if (relativePath === 'styles/foo.less') {
+                  return '@value: 100px;';
+                }
+
+                return '@value: 200px;';
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+### `appendData`
+
+Type: `String|Function`
+Default: `undefined`
+
+AppendData `Less` code after the actual entry file.
+
+This can be useful when you need to rewrite some of your Less variables.:
+
+> ℹ Since you're injecting code, this will break the source mappings in your entry file. Often there's a simpler solution than this, like multiple Less entry files.
+
+#### `String`
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              appendData: `@env: ${process.env.NODE_ENV};`,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+#### `Function`
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              appendData: (loaderContext) => {
                 // More information about available properties https://webpack.js.org/api/loaders/
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
