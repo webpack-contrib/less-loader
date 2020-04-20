@@ -1,5 +1,3 @@
-import os from 'os';
-
 import clone from 'clone';
 
 import createWebpackLessPlugin from './createWebpackLessPlugin';
@@ -13,24 +11,24 @@ import createWebpackLessPlugin from './createWebpackLessPlugin';
  * @returns {Object}
  */
 function getLessOptions(loaderContext, loaderOptions, content) {
-  function prependContent(target, addedData) {
+  function prependData(target, addedData) {
     if (!addedData) {
       return target;
     }
 
     return typeof addedData === 'function'
-      ? addedData(loaderContext) + os.EOL + target
-      : addedData + os.EOL + target;
+      ? `${addedData(loaderContext)}\n${target}`
+      : `${addedData}\n${target}`;
   }
 
-  function appendContent(target, addedData) {
+  function appendData(target, addedData) {
     if (!addedData) {
       return target;
     }
 
     return typeof addedData === 'function'
-      ? target + os.EOL + addedData(loaderContext)
-      : target + os.EOL + addedData;
+      ? `${target}\n${addedData(loaderContext)}`
+      : `${target}\n${addedData}`;
   }
 
   const options = clone(
@@ -42,8 +40,8 @@ function getLessOptions(loaderContext, loaderOptions, content) {
   );
 
   let data = content;
-  data = prependContent(data, loaderOptions.prependData);
-  data = appendContent(data, loaderOptions.appendData);
+  data = prependData(data, loaderOptions.prependData);
+  data = appendData(data, loaderOptions.appendData);
 
   const lessOptions = {
     plugins: [],
