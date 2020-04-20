@@ -3,7 +3,6 @@ import less from 'less';
 import { urlToRequest } from 'loader-utils';
 
 /* eslint-disable class-methods-use-this */
-
 const trailingSlash = /[/\\]$/;
 
 // This somewhat changed in Less 3.x. Now the file name comes without the
@@ -51,6 +50,20 @@ function createWebpackLessPlugin(loaderContext) {
       return filename;
     }
 
+    async resolveFilename(filename, currentDirectory, options) {
+      const url = this.getUrl(filename, options);
+
+      const moduleRequest = urlToRequest(
+        url,
+        url.charAt(0) === '/' ? '' : null
+      );
+
+      // Less is giving us trailing slashes, but the context should have no trailing slash
+      const context = currentDirectory.replace(trailingSlash, '');
+
+      return this.resolveRequests(context, [moduleRequest, url]);
+    }
+
     resolveRequests(context, possibleRequests) {
       if (possibleRequests.length === 0) {
         return Promise.reject();
@@ -71,53 +84,34 @@ function createWebpackLessPlugin(loaderContext) {
         });
     }
 
-    async loadFile(filename, currentDirectory, options, ...args) {
-      try {
-        const resolvedData = await super.loadFile(
-          filename,
-          currentDirectory,
-          options,
-          ...args
-        );
-        loaderContext.addDependency(resolvedData.filename);
+    async loadFile(filename, ...args) {
+      let result;
 
-        return resolvedData;
+      try {
+        result = await super.loadFile(filename, ...args);
       } catch (error) {
         if (error.type !== 'File') {
           loaderContext.emitError(error);
+
+          return Promise.reject(error);
         }
-
-        const url = this.getUrl(filename, options);
-
-        const moduleRequest = urlToRequest(
-          url,
-          url.charAt(0) === '/' ? '' : null
-        );
-
-        // Less is giving us trailing slashes, but the context should have no trailing slash
-        const context = currentDirectory.replace(trailingSlash, '');
 
         try {
-          const resolvedFilename = await this.resolveRequests(context, [
-            moduleRequest,
-            url,
-          ]);
+          result = await this.resolveFilename(filename, ...args);
+        } catch (e) {
+          loaderContext.emitError(e);
 
-          const resolvedData = await super.loadFile(
-            resolvedFilename,
-            currentDirectory,
-            options,
-            ...args
-          );
-          loaderContext.addDependency(resolvedData.filename);
-
-          return resolvedData;
-        } catch (error) {
-          loaderContext.emitError(error);
-
-          return super.loadFile(filename, currentDirectory, options, ...args);
+          return Promise.reject(error);
         }
+
+        loaderContext.addDependency(result);
+
+        return super.loadFile(result, ...args);
       }
+
+      loaderContext.addDependency(result.filename);
+
+      return result;
     }
   }
 
