@@ -499,8 +499,8 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/less-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/less-loader
-[tests]: https://dev.azure.com/webpack-contrib/less-loader/_apis/build/status/webpack-contrib.less-loader?branchName=master
-[tests-url]: https://dev.azure.com/webpack-contrib/less-loader/_build/latest?definitionId=2&branchName=master
+[tests]: https://github.com/webpack-contrib/less-loader/workflows/less-loader/badge.svg
+[tests-url]: https://github.com/webpack-contrib/less-loader/actions
 [cover]: https://codecov.io/gh/webpack-contrib/less-loader/branch/master/graph/badge.svg
 [cover-url]: https://codecov.io/gh/webpack-contrib/less-loader
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
