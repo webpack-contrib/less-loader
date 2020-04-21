@@ -37,6 +37,10 @@ test('should resolve all imports', async () => {
   await compileAndCompare('import');
 });
 
+test('should resolve nested imports', async () => {
+  await compileAndCompare('import-nested');
+});
+
 test('should fail when passed incorrect configuration', async () => {
   await expect(
     compileAndCompare('basic', {
