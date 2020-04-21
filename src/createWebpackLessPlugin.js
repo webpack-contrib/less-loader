@@ -1,14 +1,9 @@
-import { promisify } from 'util';
-
 import less from 'less';
 
 import { urlToRequest } from 'loader-utils';
 
 /* eslint-disable class-methods-use-this */
-
-const stringifyLoader = require.resolve('./stringifyLoader.js');
 const trailingSlash = /[/\\]$/;
-const isLessCompatible = /\.(le|c)ss$/;
 
 // This somewhat changed in Less 3.x. Now the file name comes without the
 // automatically added extension whereas the extension is passed in as `options.ext`.
@@ -23,11 +18,6 @@ const isModuleName = /^~[^/\\]+$/;
  * @returns {LessPlugin}
  */
 function createWebpackLessPlugin(loaderContext) {
-  const { fs } = loaderContext;
-
-  const loadModule = promisify(loaderContext.loadModule.bind(loaderContext));
-  const readFile = promisify(fs.readFile.bind(fs));
-
   const resolve = loaderContext.getResolve({
     mainFields: ['less', 'style', 'main', '...'],
     mainFiles: ['_index', 'index', '...'],
@@ -40,7 +30,6 @@ function createWebpackLessPlugin(loaderContext) {
         return false;
       }
 
-      // Our WebpackFileManager handles all the files
       return true;
     }
 
@@ -59,6 +48,20 @@ function createWebpackLessPlugin(loaderContext) {
       }
 
       return filename;
+    }
+
+    async resolveFilename(filename, currentDirectory, options) {
+      const url = this.getUrl(filename, options);
+
+      const moduleRequest = urlToRequest(
+        url,
+        url.charAt(0) === '/' ? '' : null
+      );
+
+      // Less is giving us trailing slashes, but the context should have no trailing slash
+      const context = currentDirectory.replace(trailingSlash, '');
+
+      return this.resolveRequests(context, [moduleRequest, url]);
     }
 
     resolveRequests(context, possibleRequests) {
@@ -81,50 +84,34 @@ function createWebpackLessPlugin(loaderContext) {
         });
     }
 
-    async loadFile(filename, currentDirectory, options, ...args) {
-      const url = this.getUrl(filename, options);
-
-      const moduleRequest = urlToRequest(
-        url,
-        url.charAt(0) === '/' ? '' : null
-      );
-
-      // Less is giving us trailing slashes, but the context should have no trailing slash
-      const context = currentDirectory.replace(trailingSlash, '');
-      let resolvedFilename;
+    async loadFile(filename, ...args) {
+      let result;
 
       try {
-        resolvedFilename = await this.resolveRequests(context, [
-          moduleRequest,
-          url,
-        ]);
+        result = await super.loadFile(filename, ...args);
       } catch (error) {
-        loaderContext.emitError(error);
+        if (error.type !== 'File') {
+          loaderContext.emitError(error);
 
-        return super.loadFile(filename, currentDirectory, options, ...args);
+          return Promise.reject(error);
+        }
+
+        try {
+          result = await this.resolveFilename(filename, ...args);
+        } catch (e) {
+          loaderContext.emitError(e);
+
+          return Promise.reject(error);
+        }
+
+        loaderContext.addDependency(result);
+
+        return super.loadFile(result, ...args);
       }
 
-      loaderContext.addDependency(resolvedFilename);
+      loaderContext.addDependency(result.filename);
 
-      if (isLessCompatible.test(resolvedFilename)) {
-        const fileBuffer = await readFile(resolvedFilename);
-        const contents = fileBuffer.toString('utf8');
-
-        return {
-          contents,
-          filename: resolvedFilename,
-        };
-      }
-
-      const loadedModule = await loadModule(
-        [stringifyLoader, resolvedFilename].join('!')
-      );
-      const contents = JSON.parse(loadedModule);
-
-      return {
-        contents,
-        filename: resolvedFilename,
-      };
+      return result;
     }
   }
 
