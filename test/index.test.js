@@ -5,6 +5,7 @@ import moduleRules from './helpers/moduleRules';
 import { readCssFixture, readSourceMap } from './helpers/readFixture';
 import compareErrorMessage from './helpers/compareErrorMessage';
 import getErrors from './helpers/getErrors';
+import CustomImportPlugin from './fixtures/less/folder/customImportPlugin';
 
 const nodeModulesPath = path.resolve(__dirname, 'fixtures', 'node_modules');
 
@@ -295,6 +296,26 @@ test('should install plugins', async () => {
   );
 
   expect(pluginInstalled).toBe(true);
+});
+
+test('should import from plugins', async () => {
+  const loaderOptions = {
+    lessOptions: {
+      plugins: [new CustomImportPlugin()],
+    },
+  };
+
+  let inspect;
+
+  const rules = moduleRules.basic(loaderOptions, {}, (i) => {
+    inspect = i;
+  });
+
+  await compile('empty', rules).catch((e) => e);
+
+  const [css] = inspect.arguments;
+
+  expect(css).toEqual('.imported-class {\n  color: coral;\n}\n');
 });
 
 test('should not alter the original options object', async () => {
