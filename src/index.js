@@ -6,8 +6,9 @@ import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
 import schema from './options.json';
-import processResult from './processResult';
 import getLessOptions from './getLessOptions';
+import removeSourceMappingUrl from './removeSourceMappingUrl';
+import formatLessError from './formatLessError';
 
 const render = promisify(less.render.bind(less));
 
@@ -22,7 +23,25 @@ function lessLoader(source) {
   const callback = this.async();
   const lessOptions = getLessOptions(this, options, source);
 
-  processResult(this, render(lessOptions.data, lessOptions), callback);
+  render(lessOptions.data, lessOptions)
+    .then(({ css, map, imports }) => {
+      imports.forEach(this.addDependency, this);
+
+      // Removing the sourceMappingURL comment.
+      // See removeSourceMappingUrl.js for the reasoning behind this.
+      callback(
+        null,
+        removeSourceMappingUrl(css),
+        typeof map === 'string' ? JSON.parse(map) : map
+      );
+    })
+    .catch((lessError) => {
+      if (lessError.filename) {
+        this.addDependency(lessError.filename);
+      }
+
+      callback(formatLessError(lessError));
+    });
 }
 
 export default lessLoader;

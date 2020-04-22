@@ -1,5 +1,3 @@
-const os = require('os');
-
 /**
  * Tries to get an excerpt of the file where the error happened.
  * Uses err.line and err.column.
@@ -51,11 +49,11 @@ function formatLessError(err) {
   err.hideStack = true;
 
   err.message = [
-    os.EOL,
+    '\n',
     ...getFileExcerptIfPossible(err),
     msg.charAt(0).toUpperCase() + msg.slice(1),
     `      in ${err.filename} (line ${err.line}, column ${err.column})`,
-  ].join(os.EOL);
+  ].join('\n');
 
   return err;
 } /* eslint-enable no-param-reassign */
