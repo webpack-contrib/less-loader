@@ -140,6 +140,21 @@ test("should resolve all imports from the given paths using Less' resolver", asy
   });
 });
 
+test("should resolve all imports from the given paths using Less' and webpack resolver", async () => {
+  await compileAndCompare('import-paths-extended', {
+    resolveAlias: {
+      'aliased-some': 'some',
+      fileAlias: path.resolve(__dirname, 'fixtures', 'less', 'img.less'),
+      assets: path.resolve(__dirname, 'fixtures', 'less'),
+    },
+    lessLoaderOptions: {
+      lessOptions: {
+        paths: [__dirname, nodeModulesPath],
+      },
+    },
+  });
+});
+
 test('should prepend data', async () => {
   const loaderOptions = {
     prependData() {

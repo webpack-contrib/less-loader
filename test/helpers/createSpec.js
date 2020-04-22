@@ -41,6 +41,9 @@ const lessOptions = {
   'import-paths': [
     `--include-path=${path.resolve(fixturesPath, 'node_modules')}`,
   ],
+  'import-paths-extended': [
+    `--include-path=${path.resolve(fixturesPath, 'node_modules')}`,
+  ],
 };
 const testIds = fs
   .readdirSync(lessFixturesPath)
