@@ -8,7 +8,7 @@ const trailingSlash = /[/\\]$/;
 // This somewhat changed in Less 3.x. Now the file name comes without the
 // automatically added extension whereas the extension is passed in as `options.ext`.
 // So, if the file name matches this regexp, we simply ignore the proposed extension.
-const isModuleName = /^~[^/\\]+$/;
+const isModuleName = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
 
 /**
  * Creates a Less plugin that uses webpack's resolving engine that is provided by the loaderContext.
@@ -88,9 +88,16 @@ function createWebpackLessPlugin(loaderContext) {
       let result;
 
       try {
+        if (isModuleName.test(filename)) {
+          const error = new Error();
+
+          error.type = 'Next';
+          throw error;
+        }
+
         result = await super.loadFile(filename, ...args);
       } catch (error) {
-        if (error.type !== 'File') {
+        if (error.type !== 'File' && error.type !== 'Next') {
           loaderContext.emitError(error);
 
           return Promise.reject(error);
