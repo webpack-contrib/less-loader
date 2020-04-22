@@ -106,6 +106,8 @@ function createWebpackLessPlugin(loaderContext) {
         try {
           result = await this.resolveFilename(filename, ...args);
         } catch (e) {
+          loaderContext.emitError(e);
+
           return Promise.reject(error);
         }
 
