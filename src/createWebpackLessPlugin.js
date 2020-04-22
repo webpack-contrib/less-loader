@@ -89,12 +89,15 @@ function createWebpackLessPlugin(loaderContext) {
 
       try {
         if (isModuleName.test(filename)) {
-          throw new Error('Next');
+          const error = new Error();
+
+          error.type = 'Next';
+          throw error;
         }
 
         result = await super.loadFile(filename, ...args);
       } catch (error) {
-        if (error.type !== 'File' && error.message !== 'Next') {
+        if (error.type !== 'File' && error.type !== 'Next') {
           loaderContext.emitError(error);
 
           return Promise.reject(error);
