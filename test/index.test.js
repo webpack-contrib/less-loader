@@ -156,11 +156,47 @@ test('should prepend data', async () => {
   expect(css).toEqual('.background {\n  color: red;\n}\n');
 });
 
+test('should prepend data', async () => {
+  const loaderOptions = {
+    prependData: `@background: red;`,
+  };
+
+  let inspect;
+
+  const rules = moduleRules.basic(loaderOptions, {}, (i) => {
+    inspect = i;
+  });
+
+  await compile('prepend-data', rules).catch((e) => e);
+
+  const [css] = inspect.arguments;
+
+  expect(css).toEqual('.background {\n  color: red;\n}\n');
+});
+
 test('should append data', async () => {
   const loaderOptions = {
     appendData() {
       return `@color1: coral;`;
     },
+  };
+
+  let inspect;
+
+  const rules = moduleRules.basic(loaderOptions, {}, (i) => {
+    inspect = i;
+  });
+
+  await compile('append-data', rules).catch((e) => e);
+
+  const [css] = inspect.arguments;
+
+  expect(css).toEqual('.background {\n  color: coral;\n}\n');
+});
+
+test('should append data', async () => {
+  const loaderOptions = {
+    appendData: `@color1: coral;`,
   };
 
   let inspect;
