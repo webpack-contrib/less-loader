@@ -20,8 +20,6 @@ Array [
 ^
 'not-existing' wasn't found. Tried - /test/fixtures/less/not-existing.less,npm://not-existing,npm://not-existing.less,not-existing.less
       in /test/fixtures/less/error-import-not-existing.less (line 1, column 0)",
-  "ModuleError: Module Error (from \`replaced original path\`):
-Can't resolve 'not-existing.less' in '/test/fixtures/less'",
 ]
 `;
 

@@ -21,11 +21,15 @@ const ignore = [
 ];
 const lessReplacements = [
   [/~some\//g, '../node_modules/some/'],
+  [/~@scope\//g, '../node_modules/@scope/'],
   [/(~)?assets\//g, '../less/'],
   [/~fileAlias/g, '../less/img.less'],
   [/~(aliased-)?some"/g, '../node_modules/some/module.less"'],
 ];
-const cssReplacements = [[/\.\.\/node_modules\/some\//g, '~some/']];
+const cssReplacements = [
+  [/\.\.\/node_modules\/some\//g, '~some/'],
+  [/\.\.\/node_modules\/@scope\//g, '~@scope/'],
+];
 // Maps test ids on cli arguments
 const lessOptions = {
   'source-map': [
