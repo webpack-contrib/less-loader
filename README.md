@@ -411,7 +411,7 @@ module.exports = {
 
 #### Less resolver
 
-If you specify the `paths` option, the `less-loader` will not use webpack's resolver. Modules, that can't be resolved in the local folder, will be searched in the given `paths`. This is Less' default behavior. `paths` should be an array with absolute paths:
+If you specify the `paths` option, modules will be searched in the given `paths`. This is Less' default behavior. `paths` should be an array with absolute paths:
 
 **webpack.config.js**
 
@@ -442,8 +442,6 @@ module.exports = {
   },
 };
 ```
-
-In this case, all webpack features like importing non-Less files or aliasing won't work of course.
 
 ### Plugins
 

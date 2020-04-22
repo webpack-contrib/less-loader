@@ -12,7 +12,6 @@ const lessBin = require.resolve('.bin/lessc');
 const ignore = [
   'import-non-less',
   'error-import-not-existing',
-  'error-mixed-resolvers',
   'error-syntax',
   'error-import-file-with-error',
   'import-absolute',

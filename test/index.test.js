@@ -265,16 +265,6 @@ test('should add all resolved imports as dependencies, including those from the 
   );
 });
 
-test("should allow to disable webpack's resolver by passing an empty paths array", async () => {
-  const err = await compile(
-    'import-webpack',
-    moduleRules.basic({ lessOptions: { paths: [] } })
-  ).catch((e) => e);
-
-  expect(err).toBeInstanceOf(Error);
-  expect(err.message).toMatch(/'~some\/css\.css' wasn't found/);
-});
-
 // This test was invalid because it tested imports like this:
 //   @import url("//fonts.googleapis.com/css?family=Roboto:300,400,500");
 // and expected them to be preserved in the output of Less and not resolved.
@@ -384,17 +374,6 @@ test('should not alter the original options object', async () => {
   await compile('basic', moduleRules.basic(options));
 
   expect(copiedOptions).toEqual(options);
-});
-
-test("should fail if a file is tried to be loaded from include paths and with webpack's resolver simultaneously", async () => {
-  const err = await compile(
-    'error-mixed-resolvers',
-    moduleRules.basic({ lessOptions: { paths: [nodeModulesPath] } })
-  ).catch((e) => e);
-
-  expect(err).toBeInstanceOf(Error);
-
-  compareErrorMessage(err.message);
 });
 
 test('should provide a useful error message if the import could not be found', async () => {
