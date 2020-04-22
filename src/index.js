@@ -7,10 +7,10 @@ import validateOptions from 'schema-utils';
 
 import schema from './options.json';
 import getLessOptions from './getLessOptions';
+import removeSourceMappingUrl from './removeSourceMappingUrl';
+import formatLessError from './formatLessError';
 
 const render = promisify(less.render.bind(less));
-const removeSourceMappingUrl = require('./removeSourceMappingUrl');
-const formatLessError = require('./formatLessError');
 
 function lessLoader(source) {
   const options = getOptions(this) || {};
