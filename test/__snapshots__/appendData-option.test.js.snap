@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`appendData option should work append data as function: css 1`] = `
+".background {
+  color: coral;
+}
+"
+`;
+
+exports[`appendData option should work append data as function: errors 1`] = `Array []`;
+
+exports[`appendData option should work append data as function: warnings 1`] = `Array []`;
+
+exports[`appendData option should work append data as string: css 1`] = `
+".background {
+  color: coral;
+}
+"
+`;
+
+exports[`appendData option should work append data as string: errors 1`] = `Array []`;
+
+exports[`appendData option should work append data as string: warnings 1`] = `Array []`;

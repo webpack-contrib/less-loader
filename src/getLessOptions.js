@@ -52,9 +52,7 @@ function getLessOptions(loaderContext, loaderOptions, content) {
     data,
   };
 
-  if (typeof lessOptions.paths === 'undefined') {
-    lessOptions.plugins.push(createWebpackLessPlugin(loaderContext));
-  }
+  lessOptions.plugins.push(createWebpackLessPlugin(loaderContext));
 
   const useSourceMap =
     typeof loaderOptions.sourceMap === 'boolean'
