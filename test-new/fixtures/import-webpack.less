@@ -1,0 +1,9 @@
+@import (reference) "~some/module";
+@import "~some/css.css";
+@import (css) "~some/css.css";
+@import (less) "~some/css.css";
+@import (inline) "~some/css.css";
+
+#it-works:extend(.modules-dir-some-module) {
+  margin: 10px;
+}
