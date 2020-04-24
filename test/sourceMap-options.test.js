@@ -19,7 +19,6 @@ describe('sourceMap options', () => {
 
     expect(codeFromBundle.css).toBeDefined();
     expect(codeFromBundle.map).toBeDefined();
-    expect(codeFromBundle.map).toMatchSnapshot('map');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
