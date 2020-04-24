@@ -1,6 +1,36 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [6.0.0](https://github.com/webpack-contrib/less-loader/compare/v5.0.0...v6.0.0) (2020-04-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* minimum supported Node.js version is `10.13`, 
+* minimum support webpack version is `4`
+* `2` version of `less` is not supported anymore
+* using `3` versin of `less` by default, so you don't need to have `less` in your `package.json`, we already supply it
+* move less-specific options to the `lessOptions` option, please look at [README](https://github.com/webpack-contrib/less-loader#lessoptions)
+
+
+### Features
+
+* the `paths` options now works with webpack resolver ([3931470](https://github.com/webpack-contrib/less-loader/commit/393147064672ace986ec84aca21f69f0ab819a9c))
+* allow a function to be used for `lessOptions` ([#325](https://github.com/webpack-contrib/less-loader/issues/325)) ([a6be94a](https://github.com/webpack-contrib/less-loader/commit/a6be94a6da291a27026415d509249e0203e977ad))
+* added the `appendData` option ([#336](https://github.com/webpack-contrib/less-loader/issues/336)) ([fb94605](https://github.com/webpack-contrib/less-loader/commit/fb946051bb4d52a6f9a93fe40a8cd09a56a2c5f1))
+* added the `prependData` option ([#327](https://github.com/webpack-contrib/less-loader/issues/327)) ([9df8755](https://github.com/webpack-contrib/less-loader/commit/9df87554ee1ac57d2c32743049174da20e8a8a61))
+* support `less` and `style` fields in `package.json`
+* support `index.less` file for packages
+
+### Bug Fixes
+
+* support import aliases without tilde ([#335](https://github.com/webpack-contrib/less-loader/issues/335)) ([24021cd](https://github.com/webpack-contrib/less-loader/commit/24021cdb9dc0496fcebd6966516ff66584525cf3))
+* do not crash on remotely imports ([#333](https://github.com/webpack-contrib/less-loader/issues/333)) ([8e020e9](https://github.com/webpack-contrib/less-loader/commit/8e020e9cf794d958024cc91ad490b621d5170878))
+* add webpack v5 support ([#317](https://github.com/webpack-contrib/less-loader/issues/317)) ([f0b42b4](https://github.com/webpack-contrib/less-loader/commit/f0b42b4e64dceed0bbb2557c0d88d1c36fe3e553))
+* first resolve an import using less resolver, then using webpack resolver ([#340](https://github.com/webpack-contrib/less-loader/issues/340)) ([443bd5a](https://github.com/webpack-contrib/less-loader/commit/443bd5ac0539ca93a998326754bcd607aaecdf1a))
+* fix a resolution for `@import 'package/file.ess';` and `@import './package/file.ess';`
+
 
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/webpack-contrib/less-loader/compare/v4.1.0...v5.0.0) (2019-04-29)

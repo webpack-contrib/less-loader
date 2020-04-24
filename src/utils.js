@@ -20,7 +20,7 @@ const isModuleName = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/
 function createWebpackLessPlugin(loaderContext) {
   const resolve = loaderContext.getResolve({
     mainFields: ['less', 'style', 'main', '...'],
-    mainFiles: ['_index', 'index', '...'],
+    mainFiles: ['index', '...'],
     extensions: ['.less', '.css'],
   });
 
