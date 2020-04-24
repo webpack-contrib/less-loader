@@ -1,5 +1,3 @@
-import { promisify } from 'util';
-
 import less from 'less';
 
 import { getOptions } from 'loader-utils';
@@ -10,10 +8,8 @@ import getLessOptions from './getLessOptions';
 import removeSourceMappingUrl from './removeSourceMappingUrl';
 import formatLessError from './formatLessError';
 
-const render = promisify(less.render.bind(less));
-
 function lessLoader(source) {
-  const options = getOptions(this) || {};
+  const options = getOptions(this);
 
   validateOptions(schema, options, {
     name: 'Less Loader',
@@ -23,7 +19,8 @@ function lessLoader(source) {
   const callback = this.async();
   const lessOptions = getLessOptions(this, options, source);
 
-  render(lessOptions.data, lessOptions)
+  less
+    .render(lessOptions.data, lessOptions)
     .then(({ css, map, imports }) => {
       imports.forEach(this.addDependency, this);
 

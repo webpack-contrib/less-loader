@@ -1,0 +1,343 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loader should add a file with an error as dependency so that the watcher is triggered when the error is fixed: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+",
+]
+`;
+
+exports[`loader should add a file with an error as dependency so that the watcher is triggered when the error is fixed: warnings 1`] = `Array []`;
+
+exports[`loader should add all resolved imports as dependencies, including aliased ones: errors 1`] = `Array []`;
+
+exports[`loader should add all resolved imports as dependencies, including aliased ones: warnings 1`] = `Array []`;
+
+exports[`loader should add all resolved imports as dependencies, including node_modules: errors 1`] = `Array []`;
+
+exports[`loader should add all resolved imports as dependencies, including node_modules: warnings 1`] = `Array []`;
+
+exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: errors 1`] = `Array []`;
+
+exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: warnings 1`] = `Array []`;
+
+exports[`loader should add all resolved imports as dependencies: errors 1`] = `Array []`;
+
+exports[`loader should add all resolved imports as dependencies: warnings 1`] = `Array []`;
+
+exports[`loader should allow to import non-less files: css 1`] = `
+".some-file {
+  background: hotpink;
+}
+"
+`;
+
+exports[`loader should allow to import non-less files: errors 1`] = `Array []`;
+
+exports[`loader should allow to import non-less files: warnings 1`] = `Array []`;
+
+exports[`loader should be able to import a file with an absolute path: css 1`] = `
+".it-works {
+  color: yellow;
+}
+"
+`;
+
+exports[`loader should be able to import a file with an absolute path: errors 1`] = `Array []`;
+
+exports[`loader should be able to import a file with an absolute path: warnings 1`] = `Array []`;
+
+exports[`loader should compile data-uri function: css 1`] = `
+".img {
+  background: url(\\"data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2210%22%2F%3E%0A%3C%2Fsvg%3E\\");
+}
+"
+`;
+
+exports[`loader should compile data-uri function: errors 1`] = `Array []`;
+
+exports[`loader should compile data-uri function: warnings 1`] = `Array []`;
+
+exports[`loader should delegate resolving (LESS) imports with URLs to "less" package: css 1`] = `
+"@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(https://fonts.gstatic.com/s/opensans/v17/mem5YaGs126MiZpBA-UN_r8OUuhs.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0e.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
+}
+"
+`;
+
+exports[`loader should delegate resolving (LESS) imports with URLs to "less" package: errors 1`] = `Array []`;
+
+exports[`loader should delegate resolving (LESS) imports with URLs to "less" package: warnings 1`] = `Array []`;
+
+exports[`loader should import from plugins: css 1`] = `
+".imported-class {
+  color: coral;
+}
+"
+`;
+
+exports[`loader should import from plugins: errors 1`] = `Array []`;
+
+exports[`loader should import from plugins: warnings 1`] = `Array []`;
+
+exports[`loader should install plugins: errors 1`] = `Array []`;
+
+exports[`loader should install plugins: warnings 1`] = `Array []`;
+
+exports[`loader should not alter the original options object: errors 1`] = `Array []`;
+
+exports[`loader should not alter the original options object: warnings 1`] = `Array []`;
+
+exports[`loader should not to disable webpack's resolver by passing an empty paths array: css 1`] = `
+".img {
+  background: url(some/img.jpg);
+}
+.img2 {
+  background: url(../img.jpg);
+}
+.box {
+  color: #fe33ac;
+  border-color: #fdcdea;
+  background: url(box.png);
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+body {
+  background: url(assets/resources/circle.svg);
+}
+.abs {
+  background: url(~assets/resources/circle.svg);
+}
+"
+`;
+
+exports[`loader should not to disable webpack's resolver by passing an empty paths array: errors 1`] = `Array []`;
+
+exports[`loader should not to disable webpack's resolver by passing an empty paths array: warnings 1`] = `Array []`;
+
+exports[`loader should not try to resolve CSS imports with URLs: css 1`] = `
+"@import url(\\"http://fonts.googleapis.com/css?family=Roboto:300,400,500\\");
+@import url(\\"https://fonts.googleapis.com/css?family=Roboto:300,400,500\\");
+@import url(\\"//fonts.googleapis.com/css?family=Roboto:300,400,500\\");
+"
+`;
+
+exports[`loader should not try to resolve CSS imports with URLs: errors 1`] = `Array []`;
+
+exports[`loader should not try to resolve CSS imports with URLs: warnings 1`] = `Array []`;
+
+exports[`loader should provide a useful error message if the import could not be found: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+",
+  "ModuleError: Module Error (from \`replaced original path\`):
+Can't resolve 'not-existing.less' in '/test/fixtures'",
+]
+`;
+
+exports[`loader should provide a useful error message if the import could not be found: warnings 1`] = `Array []`;
+
+exports[`loader should provide a useful error message if there was a syntax error: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+",
+]
+`;
+
+exports[`loader should provide a useful error message if there was a syntax error: warnings 1`] = `Array []`;
+
+exports[`loader should resolve aliases in diffrent variants: css 1`] = `
+".img {
+  background: url(some/img.jpg);
+}
+.img2 {
+  background: url(../img.jpg);
+}
+.box {
+  color: #fe33ac;
+  border-color: #fdcdea;
+  background: url(box.png);
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+body {
+  background: url(assets/resources/circle.svg);
+}
+.abs {
+  background: url(~assets/resources/circle.svg);
+}
+"
+`;
+
+exports[`loader should resolve aliases in diffrent variants: errors 1`] = `Array []`;
+
+exports[`loader should resolve aliases in diffrent variants: warnings 1`] = `Array []`;
+
+exports[`loader should resolve all imports from node_modules using webpack's resolver: css 1`] = `
+"@import \\"~some/css.css\\";
+@import \\"~some/css.css\\";
+#it-works {
+  color: hotpink;
+}
+.modules-dir-some-module,
+#it-works {
+  background: hotpink;
+}
+#it-works {
+  margin: 10px;
+}
+"
+`;
+
+exports[`loader should resolve all imports from node_modules using webpack's resolver: css 2`] = `
+"@import \\"~@scope/css.css\\";
+.modules-dir-scope-module,
+#it-works {
+  color: hotpink;
+}
+#it-works {
+  margin: 10px;
+}
+"
+`;
+
+exports[`loader should resolve all imports from node_modules using webpack's resolver: errors 1`] = `Array []`;
+
+exports[`loader should resolve all imports from node_modules using webpack's resolver: errors 2`] = `Array []`;
+
+exports[`loader should resolve all imports from node_modules using webpack's resolver: warnings 1`] = `Array []`;
+
+exports[`loader should resolve all imports from node_modules using webpack's resolver: warnings 2`] = `Array []`;
+
+exports[`loader should resolve all imports from the given paths using Less resolver: css 1`] = `
+".modules-dir-some-module {
+  color: hotpink;
+}
+"
+`;
+
+exports[`loader should resolve all imports from the given paths using Less resolver: errors 1`] = `Array []`;
+
+exports[`loader should resolve all imports from the given paths using Less resolver: warnings 1`] = `Array []`;
+
+exports[`loader should resolve all imports: css 1`] = `
+"@import \\"css.css\\";
+@import \\"css.css\\";
+.classical-css,
+#it-works {
+  background: hotpink;
+}
+.box,
+#it-works {
+  color: #fe33ac;
+  border-color: #fdcdea;
+  background: url(box.png);
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+#it-works {
+  margin: 10px;
+}
+"
+`;
+
+exports[`loader should resolve all imports: errors 1`] = `Array []`;
+
+exports[`loader should resolve all imports: warnings 1`] = `Array []`;
+
+exports[`loader should resolve nested imports: css 1`] = `
+".top-import {
+  background: red;
+}
+.nested-import {
+  background: coral;
+}
+"
+`;
+
+exports[`loader should resolve nested imports: errors 1`] = `Array []`;
+
+exports[`loader should resolve nested imports: warnings 1`] = `Array []`;
+
+exports[`loader should transform urls: css 1`] = `
+".img4 {
+  background: url(folder/img.jpg);
+}
+.img5 {
+  background: url(folder/some/img.jpg);
+}
+.img6 {
+  background: url(./img.jpg);
+}
+.img1 {
+  background: url(img.jpg);
+}
+.img2 {
+  background: url(some/img.jpg);
+}
+.img3 {
+  background: url(../img.jpg);
+}
+"
+`;
+
+exports[`loader should transform urls: errors 1`] = `Array []`;
+
+exports[`loader should transform urls: warnings 1`] = `Array []`;
+
+exports[`loader should work: css 1`] = `
+".box {
+  color: #fe33ac;
+  border-color: #fdcdea;
+  background: url(box.png);
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+"
+`;
+
+exports[`loader should work: errors 1`] = `Array []`;
+
+exports[`loader should work: warnings 1`] = `Array []`;

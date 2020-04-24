@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validate options should throw an error on the "appendData" option with "/test/" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.appendData should be one of these:
+   string | function
+   -> Add \`Less\` code after the actual entry file (https://github.com/webpack-contrib/less-loader#postponeddata).
+   Details:
+    * options.appendData should be a string.
+    * options.appendData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "appendData" option with "[]" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.appendData should be one of these:
+   string | function
+   -> Add \`Less\` code after the actual entry file (https://github.com/webpack-contrib/less-loader#postponeddata).
+   Details:
+    * options.appendData should be a string.
+    * options.appendData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "appendData" option with "{}" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.appendData should be one of these:
+   string | function
+   -> Add \`Less\` code after the actual entry file (https://github.com/webpack-contrib/less-loader#postponeddata).
+   Details:
+    * options.appendData should be a string.
+    * options.appendData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "appendData" option with "1" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.appendData should be one of these:
+   string | function
+   -> Add \`Less\` code after the actual entry file (https://github.com/webpack-contrib/less-loader#postponeddata).
+   Details:
+    * options.appendData should be a string.
+    * options.appendData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "appendData" option with "false" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.appendData should be one of these:
+   string | function
+   -> Add \`Less\` code after the actual entry file (https://github.com/webpack-contrib/less-loader#postponeddata).
+   Details:
+    * options.appendData should be a string.
+    * options.appendData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "appendData" option with "true" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.appendData should be one of these:
+   string | function
+   -> Add \`Less\` code after the actual entry file (https://github.com/webpack-contrib/less-loader#postponeddata).
+   Details:
+    * options.appendData should be a string.
+    * options.appendData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "lessOptions" option with "[]" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.lessOptions should be one of these:
+   object { … } | function
+   -> Options to pass through to \`less\`. (https://github.com/webpack-contrib/less-loader#lessoptions).
+   Details:
+    * options.lessOptions should be an object:
+      object { … }
+    * options.lessOptions should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "lessOptions" option with "1" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.lessOptions should be one of these:
+   object { … } | function
+   -> Options to pass through to \`less\`. (https://github.com/webpack-contrib/less-loader#lessoptions).
+   Details:
+    * options.lessOptions should be an object:
+      object { … }
+    * options.lessOptions should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "lessOptions" option with "false" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.lessOptions should be one of these:
+   object { … } | function
+   -> Options to pass through to \`less\`. (https://github.com/webpack-contrib/less-loader#lessoptions).
+   Details:
+    * options.lessOptions should be an object:
+      object { … }
+    * options.lessOptions should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "lessOptions" option with "test" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.lessOptions should be one of these:
+   object { … } | function
+   -> Options to pass through to \`less\`. (https://github.com/webpack-contrib/less-loader#lessoptions).
+   Details:
+    * options.lessOptions should be an object:
+      object { … }
+    * options.lessOptions should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "lessOptions" option with "true" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.lessOptions should be one of these:
+   object { … } | function
+   -> Options to pass through to \`less\`. (https://github.com/webpack-contrib/less-loader#lessoptions).
+   Details:
+    * options.lessOptions should be an object:
+      object { … }
+    * options.lessOptions should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "prependData" option with "/test/" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.prependData should be one of these:
+   string | function
+   -> Prepends \`Less\` code before the actual entry file (https://github.com/webpack-contrib/less-loader#prependdata).
+   Details:
+    * options.prependData should be a string.
+    * options.prependData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "prependData" option with "[]" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.prependData should be one of these:
+   string | function
+   -> Prepends \`Less\` code before the actual entry file (https://github.com/webpack-contrib/less-loader#prependdata).
+   Details:
+    * options.prependData should be a string.
+    * options.prependData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "prependData" option with "{}" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.prependData should be one of these:
+   string | function
+   -> Prepends \`Less\` code before the actual entry file (https://github.com/webpack-contrib/less-loader#prependdata).
+   Details:
+    * options.prependData should be a string.
+    * options.prependData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "prependData" option with "1" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.prependData should be one of these:
+   string | function
+   -> Prepends \`Less\` code before the actual entry file (https://github.com/webpack-contrib/less-loader#prependdata).
+   Details:
+    * options.prependData should be a string.
+    * options.prependData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "prependData" option with "false" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.prependData should be one of these:
+   string | function
+   -> Prepends \`Less\` code before the actual entry file (https://github.com/webpack-contrib/less-loader#prependdata).
+   Details:
+    * options.prependData should be a string.
+    * options.prependData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "prependData" option with "true" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.prependData should be one of these:
+   string | function
+   -> Prepends \`Less\` code before the actual entry file (https://github.com/webpack-contrib/less-loader#prependdata).
+   Details:
+    * options.prependData should be a string.
+    * options.prependData should be an instance of function."
+`;
+
+exports[`validate options should throw an error on the "sourceMap" option with "string" value 1`] = `
+"Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
+ - options.sourceMap should be a boolean.
+   -> Enables/Disables generation of source maps (https://github.com/webpack-contrib/less-loader#sourcemap)."
+`;

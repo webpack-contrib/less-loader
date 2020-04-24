@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sourceMap options should generate source maps with sourcesContent by default: errors 1`] = `Array []`;
+
+exports[`sourceMap options should generate source maps with sourcesContent by default: warnings 1`] = `Array []`;
