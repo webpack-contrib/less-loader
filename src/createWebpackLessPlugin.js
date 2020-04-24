@@ -98,15 +98,16 @@ function createWebpackLessPlugin(loaderContext) {
         result = await super.loadFile(filename, ...args);
       } catch (error) {
         if (error.type !== 'File' && error.type !== 'Next') {
-          loaderContext.emitError(error);
-
           return Promise.reject(error);
         }
 
         try {
           result = await this.resolveFilename(filename, ...args);
-        } catch (e) {
-          loaderContext.emitError(e);
+        } catch (webpackResolveError) {
+          error.message =
+            `Less resolver error:\n${error.message}\n\n` +
+            `Webpack resolver error details:\n${webpackResolveError.details}\n\n` +
+            `Webpack resolver error missing:\n${webpackResolveError.missing}\n\n`;
 
           return Promise.reject(error);
         }

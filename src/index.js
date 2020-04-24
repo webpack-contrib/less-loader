@@ -5,8 +5,7 @@ import validateOptions from 'schema-utils';
 
 import schema from './options.json';
 import getLessOptions from './getLessOptions';
-import removeSourceMappingUrl from './removeSourceMappingUrl';
-import formatLessError from './formatLessError';
+import LessError from './LessError';
 
 function lessLoader(source) {
   const options = getOptions(this);
@@ -17,28 +16,48 @@ function lessLoader(source) {
   });
 
   const callback = this.async();
-  const lessOptions = getLessOptions(this, options, source);
+  const lessOptions = getLessOptions(this, options);
+
+  let data = source;
+  data = prependData(data, options.prependData);
+  data = appendData(data, options.appendData);
 
   less
-    .render(lessOptions.data, lessOptions)
+    .render(data, lessOptions)
     .then(({ css, map, imports }) => {
       imports.forEach(this.addDependency, this);
 
       // Removing the sourceMappingURL comment.
       // See removeSourceMappingUrl.js for the reasoning behind this.
-      callback(
-        null,
-        removeSourceMappingUrl(css),
-        typeof map === 'string' ? JSON.parse(map) : map
-      );
+      callback(null, css, typeof map === 'string' ? JSON.parse(map) : map);
     })
     .catch((lessError) => {
       if (lessError.filename) {
         this.addDependency(lessError.filename);
       }
 
-      callback(formatLessError(lessError));
+      callback(new LessError(lessError));
     });
+
+  function prependData(target, addedData) {
+    if (!addedData) {
+      return target;
+    }
+
+    return typeof addedData === 'function'
+      ? `${addedData(this)}\n${target}`
+      : `${addedData}\n${target}`;
+  }
+
+  function appendData(target, addedData) {
+    if (!addedData) {
+      return target;
+    }
+
+    return typeof addedData === 'function'
+      ? `${target}\n${addedData(this)}`
+      : `${target}\n${addedData}`;
+  }
 }
 
 export default lessLoader;

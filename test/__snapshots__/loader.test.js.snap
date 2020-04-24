@@ -166,8 +166,6 @@ exports[`loader should provide a useful error message if the import could not be
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ",
-  "ModuleError: Module Error (from \`replaced original path\`):
-Can't resolve 'not-existing.less' in '/test/fixtures'",
 ]
 `;
 
