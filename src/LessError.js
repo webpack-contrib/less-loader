@@ -13,21 +13,20 @@ class LessError extends Error {
   }
 
   static getFileExcerptIfPossible(lessErr) {
-    try {
-      const excerpt = lessErr.extract.slice(0, 2);
-      const column = Math.max(lessErr.column - 1, 0);
-
-      if (typeof excerpt[0] === 'undefined') {
-        excerpt.shift();
-      }
-
-      excerpt.push(`${new Array(column).join(' ')}^`);
-
-      return excerpt;
-    } catch (unexpectedErr) {
-      // If anything goes wrong here, we don't want any errors to be reported to the user
+    if (lessErr.extract === 'undefined') {
       return [];
     }
+
+    const excerpt = lessErr.extract.slice(0, 2);
+    const column = Math.max(lessErr.column - 1, 0);
+
+    if (typeof excerpt[0] === 'undefined') {
+      excerpt.shift();
+    }
+
+    excerpt.push(`${new Array(column).join(' ')}^`);
+
+    return excerpt;
   }
 }
 
