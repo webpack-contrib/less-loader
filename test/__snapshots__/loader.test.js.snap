@@ -1,62 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loader should add a file with an error as dependency so that the watcher is triggered when the error is fixed: dependencies 1`] = `
-Array [
-  "/test/fixtures/error-import-file-with-error.less",
-  "/test/fixtures/error-syntax.less",
-]
-`;
-
 exports[`loader should add a file with an error as dependency so that the watcher is triggered when the error is fixed: errors 1`] = `
 Array [
-  "ModuleBuildError: Module build failed (from /src/index.js):
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ",
 ]
 `;
 
 exports[`loader should add a file with an error as dependency so that the watcher is triggered when the error is fixed: warnings 1`] = `Array []`;
 
-exports[`loader should add all resolved imports as dependencies, including aliased ones: dependencies 1`] = `
-Array [
-  "/test/fixtures/import-webpack-alias.less",
-  "/test/fixtures/node_modules/some/module.less",
-]
-`;
-
 exports[`loader should add all resolved imports as dependencies, including aliased ones: errors 1`] = `Array []`;
 
 exports[`loader should add all resolved imports as dependencies, including aliased ones: warnings 1`] = `Array []`;
-
-exports[`loader should add all resolved imports as dependencies, including node_modules: dependencies 1`] = `
-Array [
-  "/test/fixtures/import-webpack.less",
-  "/test/fixtures/node_modules/some/css.css",
-  "/test/fixtures/node_modules/some/module.less",
-]
-`;
 
 exports[`loader should add all resolved imports as dependencies, including node_modules: errors 1`] = `Array []`;
 
 exports[`loader should add all resolved imports as dependencies, including node_modules: warnings 1`] = `Array []`;
 
-exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: dependencies 1`] = `
-Array [
-  "/test/fixtures/import-dependency.less",
-  "/test/fixtures/node_modules/some/module.less",
-]
-`;
-
 exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: errors 1`] = `Array []`;
 
 exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: warnings 1`] = `Array []`;
-
-exports[`loader should add all resolved imports as dependencies: dependencies 1`] = `
-Array [
-  "/test/fixtures/basic.less",
-  "/test/fixtures/css.css",
-  "/test/fixtures/import.less",
-]
-`;
 
 exports[`loader should add all resolved imports as dependencies: errors 1`] = `Array []`;
 
@@ -201,9 +164,9 @@ exports[`loader should not try to resolve CSS imports with URLs: warnings 1`] = 
 
 exports[`loader should provide a useful error message if the import could not be found: errors 1`] = `
 Array [
-  "ModuleBuildError: Module build failed (from /src/index.js):
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ",
-  "ModuleError: Module Error (from /src/index.js):
+  "ModuleError: Module Error (from \`replaced original path\`):
 Can't resolve 'not-existing.less' in '/test/fixtures'",
 ]
 `;
@@ -212,7 +175,7 @@ exports[`loader should provide a useful error message if the import could not be
 
 exports[`loader should provide a useful error message if there was a syntax error: errors 1`] = `
 Array [
-  "ModuleBuildError: Module build failed (from /src/index.js):
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ",
 ]
 `;

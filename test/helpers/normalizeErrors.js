@@ -9,7 +9,9 @@ function removeCWD(str) {
     cwd = cwd.replace(/\\/g, '/');
   }
 
-  return str.replace(new RegExp(cwd, 'g'), '');
+  return str
+    .replace(/\(from .*?\)/, '(from `replaced original path`)')
+    .replace(new RegExp(cwd, 'g'), '');
 }
 
 export default (errors) => {

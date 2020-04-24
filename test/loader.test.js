@@ -1,8 +1,5 @@
 import path from 'path';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import normalizePath from 'normalize-path';
-
 import CustomImportPlugin from './fixtures/folder/customImportPlugin';
 
 import {
@@ -320,13 +317,17 @@ describe('loader', () => {
     const testId = './import.less';
     const compiler = getCompiler(testId);
     const stats = await compile(compiler);
-    const dependencies = Array.from(stats.compilation.fileDependencies).map(
-      (dep) => {
-        return normalizePath(dep.replace(process.cwd(), ''));
-      }
-    );
+    const dependencies = stats.compilation.fileDependencies;
 
-    expect(dependencies).toMatchSnapshot('dependencies');
+    const fixtures = [
+      path.resolve(__dirname, 'fixtures', 'import.less'),
+      path.resolve(__dirname, 'fixtures', 'css.css'),
+      path.resolve(__dirname, 'fixtures', 'basic.less'),
+    ];
+
+    fixtures.forEach((fixture) => {
+      expect(dependencies.has(fixture)).toBe(true);
+    });
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
@@ -345,13 +346,22 @@ describe('loader', () => {
       }
     );
     const stats = await compile(compiler);
-    const dependencies = Array.from(stats.compilation.fileDependencies).map(
-      (dep) => {
-        return normalizePath(dep.replace(process.cwd(), ''));
-      }
-    );
+    const dependencies = stats.compilation.fileDependencies;
 
-    expect(dependencies).toMatchSnapshot('dependencies');
+    const fixtures = [
+      path.resolve(__dirname, 'fixtures', 'import-webpack-alias.less'),
+      path.resolve(
+        __dirname,
+        'fixtures',
+        'node_modules',
+        'some',
+        'module.less'
+      ),
+    ];
+
+    fixtures.forEach((fixture) => {
+      expect(dependencies.has(fixture)).toBe(true);
+    });
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
@@ -364,13 +374,22 @@ describe('loader', () => {
       },
     });
     const stats = await compile(compiler);
-    const dependencies = Array.from(stats.compilation.fileDependencies).map(
-      (dep) => {
-        return normalizePath(dep.replace(process.cwd(), ''));
-      }
-    );
+    const dependencies = stats.compilation.fileDependencies;
 
-    expect(dependencies).toMatchSnapshot('dependencies');
+    const fixtures = [
+      path.resolve(__dirname, 'fixtures', 'import-dependency.less'),
+      path.resolve(
+        __dirname,
+        'fixtures',
+        'node_modules',
+        'some',
+        'module.less'
+      ),
+    ];
+
+    fixtures.forEach((fixture) => {
+      expect(dependencies.has(fixture)).toBe(true);
+    });
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
@@ -383,13 +402,16 @@ describe('loader', () => {
       },
     });
     const stats = await compile(compiler);
-    const dependencies = Array.from(stats.compilation.fileDependencies).map(
-      (dep) => {
-        return normalizePath(dep.replace(process.cwd(), ''));
-      }
-    );
+    const dependencies = stats.compilation.fileDependencies;
 
-    expect(dependencies).toMatchSnapshot('dependencies');
+    const fixtures = [
+      path.resolve(__dirname, 'fixtures', 'error-import-file-with-error.less'),
+      path.resolve(__dirname, 'fixtures', 'error-syntax.less'),
+    ];
+
+    fixtures.forEach((fixture) => {
+      expect(dependencies.has(fixture)).toBe(true);
+    });
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
@@ -398,13 +420,22 @@ describe('loader', () => {
     const testId = './import-webpack.less';
     const compiler = getCompiler(testId);
     const stats = await compile(compiler);
-    const dependencies = Array.from(stats.compilation.fileDependencies).map(
-      (dep) => {
-        return normalizePath(dep.replace(process.cwd(), ''));
-      }
-    );
+    const dependencies = stats.compilation.fileDependencies;
 
-    expect(dependencies).toMatchSnapshot('dependencies');
+    const fixtures = [
+      path.resolve(__dirname, 'fixtures', 'import-webpack.less'),
+      path.resolve(
+        __dirname,
+        'fixtures',
+        'node_modules',
+        'some',
+        'module.less'
+      ),
+    ];
+
+    fixtures.forEach((fixture) => {
+      expect(dependencies.has(fixture)).toBe(true);
+    });
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });

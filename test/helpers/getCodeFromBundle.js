@@ -18,7 +18,12 @@ function getCodeFromBundle(stats, compiler, asset) {
     throw new Error("Can't find compiled code");
   }
 
-  const result = vm.runInNewContext(code, { module: {} });
+  const result = vm.runInNewContext(
+    `${code};\nmodule.exports = lessLoaderExport;`,
+    {
+      module: {},
+    }
+  );
 
   // eslint-disable-next-line no-underscore-dangle
   return result.__esModule ? result.default : result;
