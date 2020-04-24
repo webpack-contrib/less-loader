@@ -13,7 +13,7 @@ class LessError extends Error {
   }
 
   static getFileExcerptIfPossible(lessErr) {
-    if (lessErr.extract === 'undefined') {
+    if (typeof lessErr.extract === 'undefined') {
       return [];
     }
 

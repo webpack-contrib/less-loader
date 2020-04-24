@@ -1,3 +1,4 @@
+import clone from 'clone';
 import less from 'less';
 
 import { urlToRequest } from 'loader-utils';
@@ -14,7 +15,6 @@ const isModuleName = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/
  * Creates a Less plugin that uses webpack's resolving engine that is provided by the loaderContext.
  *
  * @param {LoaderContext} loaderContext
- * @param {string=} root
  * @returns {LessPlugin}
  */
 function createWebpackLessPlugin(loaderContext) {
@@ -92,6 +92,7 @@ function createWebpackLessPlugin(loaderContext) {
           const error = new Error();
 
           error.type = 'Next';
+
           throw error;
         }
 
@@ -131,4 +132,45 @@ function createWebpackLessPlugin(loaderContext) {
   };
 }
 
-module.exports = createWebpackLessPlugin;
+/**
+ * Get the less options from the loader context and normalizes its values
+ *
+ * @param {object} loaderContext
+ * @param {object} loaderOptions
+ * @returns {Object}
+ */
+function getLessOptions(loaderContext, loaderOptions) {
+  const options = clone(
+    loaderOptions.lessOptions
+      ? typeof loaderOptions.lessOptions === 'function'
+        ? loaderOptions.lessOptions(loaderContext) || {}
+        : loaderOptions.lessOptions
+      : {}
+  );
+
+  const lessOptions = {
+    plugins: [],
+    relativeUrls: true,
+    // We need to set the filename because otherwise our WebpackFileManager will receive an undefined path for the entry
+    filename: loaderContext.resourcePath,
+    ...options,
+  };
+
+  lessOptions.plugins.push(createWebpackLessPlugin(loaderContext));
+
+  const useSourceMap =
+    typeof loaderOptions.sourceMap === 'boolean'
+      ? loaderOptions.sourceMap
+      : loaderContext.sourceMap;
+
+  if (useSourceMap) {
+    lessOptions.sourceMap = {
+      outputSourceFiles: true,
+    };
+  }
+
+  return lessOptions;
+}
+
+// eslint-disable-next-line import/prefer-default-export
+export { getLessOptions };

@@ -4,7 +4,7 @@ import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
 import schema from './options.json';
-import getLessOptions from './getLessOptions';
+import { getLessOptions } from './utils';
 import LessError from './LessError';
 
 function lessLoader(source) {
@@ -19,8 +19,20 @@ function lessLoader(source) {
   const lessOptions = getLessOptions(this, options);
 
   let data = source;
-  data = prependData(data, options.prependData);
-  data = appendData(data, options.appendData);
+
+  if (typeof options.prependData !== 'undefined') {
+    data =
+      typeof options.prependData === 'function'
+        ? `${options.prependData(this)}\n${data}`
+        : `${options.prependData}\n${data}`;
+  }
+
+  if (typeof options.appendData !== 'undefined') {
+    data =
+      typeof options.appendData === 'function'
+        ? `${data}\n${options.appendData(this)}`
+        : `${data}\n${options.appendData}`;
+  }
 
   less
     .render(data, lessOptions)
@@ -38,26 +50,6 @@ function lessLoader(source) {
 
       callback(new LessError(lessError));
     });
-
-  function prependData(target, addedData) {
-    if (!addedData) {
-      return target;
-    }
-
-    return typeof addedData === 'function'
-      ? `${addedData(this)}\n${target}`
-      : `${addedData}\n${target}`;
-  }
-
-  function appendData(target, addedData) {
-    if (!addedData) {
-      return target;
-    }
-
-    return typeof addedData === 'function'
-      ? `${target}\n${addedData(this)}`
-      : `${target}\n${addedData}`;
-  }
 }
 
 export default lessLoader;
