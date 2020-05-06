@@ -323,6 +323,23 @@ exports[`loader should transform urls: errors 1`] = `Array []`;
 
 exports[`loader should transform urls: warnings 1`] = `Array []`;
 
+exports[`loader should work third-party plugins as fileLoader: css 1`] = `
+".file-loader {
+  background: coral;
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+}
+"
+`;
+
+exports[`loader should work third-party plugins as fileLoader: errors 1`] = `Array []`;
+
+exports[`loader should work third-party plugins as fileLoader: warnings 1`] = `Array []`;
+
 exports[`loader should work: css 1`] = `
 ".box {
   color: #fe33ac;

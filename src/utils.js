@@ -156,7 +156,7 @@ function getLessOptions(loaderContext, loaderOptions) {
     ...options,
   };
 
-  lessOptions.plugins.push(createWebpackLessPlugin(loaderContext));
+  lessOptions.plugins.unshift(createWebpackLessPlugin(loaderContext));
 
   const useSourceMap =
     typeof loaderOptions.sourceMap === 'boolean'

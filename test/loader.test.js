@@ -1,6 +1,7 @@
 import path from 'path';
 
 import CustomImportPlugin from './fixtures/folder/customImportPlugin';
+import CustomFileLoaderPlugin from './fixtures/folder/customFileLoaderPlugin';
 
 import {
   compile,
@@ -90,6 +91,27 @@ describe('loader', () => {
     const codeFromLess = await getCodeFromLess(testId, {
       lessOptions: {
         plugins: [new CustomImportPlugin()],
+      },
+    });
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should work third-party plugins as fileLoader', async () => {
+    const testId = './file-load.less';
+    const compiler = getCompiler(testId, {
+      lessOptions: {
+        plugins: [new CustomFileLoaderPlugin()],
+      },
+    });
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId, {
+      lessOptions: {
+        plugins: [new CustomFileLoaderPlugin()],
       },
     });
 
