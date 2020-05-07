@@ -96,17 +96,20 @@ class CustomImportPlugin {
 async function getCodeFromLess(testId, options = {}) {
   const pathToFile = path.resolve(__dirname, '..', 'fixtures', testId);
   const defaultOptions = {
-    plugins: [new CustomImportPlugin()],
+    plugins: [],
     relativeUrls: true,
     filename: pathToFile,
   };
   const lessOptions = options.lessOptions || {};
   const data = await fs.promises.readFile(pathToFile);
-
-  const result = await less.render(data.toString(), {
+  const mergedOptions = {
     ...defaultOptions,
     ...lessOptions,
-  });
+  };
+
+  mergedOptions.plugins.unshift(new CustomImportPlugin());
+
+  const result = await less.render(data.toString(), mergedOptions);
 
   return result;
 }
