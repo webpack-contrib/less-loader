@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/webpack-contrib/less-loader/compare/v6.0.0...v6.1.0) (2020-05-07)
+
+
+### Features
+
+* new `implementation` option ([#354](https://github.com/webpack-contrib/less-loader/issues/354)) ([d2de80f](https://github.com/webpack-contrib/less-loader/commit/d2de80f9fe6ee11e784260dbda960853ebd2449b))
+
+
+### Bug Fixes
+
+* respect third-party plugins for `Less` ([#353](https://github.com/webpack-contrib/less-loader/issues/353)) ([d0db4f9](https://github.com/webpack-contrib/less-loader/commit/d0db4f9839c4921440c9a0fdc00fd00bc5a6fbb8))
+
 ## [6.0.0](https://github.com/webpack-contrib/less-loader/compare/v5.0.0...v6.0.0) (2020-04-24)
 
 
