@@ -333,6 +333,9 @@ exports[`loader should work third-party plugins as fileLoader: css 1`] = `
   font-weight: 500;
   src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
 }
+.modules-dir-scope-module {
+  color: hotpink;
+}
 "
 `;
 
