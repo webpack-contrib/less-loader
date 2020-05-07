@@ -23,6 +23,11 @@ describe('validate options', () => {
       success: [true, false],
       failure: ['string'],
     },
+    implementation: {
+      // eslint-disable-next-line global-require
+      success: [require('less')],
+      failure: [true, false, 'string'],
+    },
   };
 
   function stringifyValue(value) {

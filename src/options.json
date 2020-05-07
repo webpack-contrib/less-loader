@@ -2,7 +2,7 @@
   "type": "object",
   "properties": {
     "lessOptions": {
-      "description": "Options to pass through to `less`. (https://github.com/webpack-contrib/less-loader#lessoptions).",
+      "description": "Options to pass through to `Less` (https://github.com/webpack-contrib/less-loader#lessoptions).",
       "anyOf": [
         {
           "type": "object",
@@ -38,6 +38,10 @@
     "sourceMap": {
       "description": "Enables/Disables generation of source maps (https://github.com/webpack-contrib/less-loader#sourcemap).",
       "type": "boolean"
+    },
+    "implementation": {
+      "description": "The implementation of the `Less` to be used (https://github.com/webpack-contrib/less-loader#implementation).",
+      "type": "object"
     }
   },
   "additionalProperties": false
