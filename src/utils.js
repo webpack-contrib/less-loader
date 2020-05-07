@@ -1,5 +1,5 @@
-import clone from 'clone';
 import less from 'less';
+import clone from 'clone';
 
 import { urlToRequest } from 'loader-utils';
 
@@ -172,5 +172,12 @@ function getLessOptions(loaderContext, loaderOptions) {
   return lessOptions;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { getLessOptions };
+function getLessImplementation(implementation) {
+  if (typeof implementation !== 'undefined') {
+    return implementation;
+  }
+
+  return less;
+}
+
+export { getLessImplementation, getLessOptions };

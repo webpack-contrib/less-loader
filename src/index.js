@@ -1,10 +1,8 @@
-import less from 'less';
-
 import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
 import schema from './options.json';
-import { getLessOptions } from './utils';
+import { getLessOptions, getLessImplementation } from './utils';
 import LessError from './LessError';
 
 function lessLoader(source) {
@@ -34,13 +32,11 @@ function lessLoader(source) {
         : `${data}\n${options.appendData}`;
   }
 
-  less
+  getLessImplementation(options.implementation)
     .render(data, lessOptions)
     .then(({ css, map, imports }) => {
       imports.forEach(this.addDependency, this);
 
-      // Removing the sourceMappingURL comment.
-      // See removeSourceMappingUrl.js for the reasoning behind this.
       callback(null, css, typeof map === 'string' ? JSON.parse(map) : map);
     })
     .catch((lessError) => {
