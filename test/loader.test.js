@@ -481,11 +481,6 @@ describe('loader', () => {
       ),
     ];
 
-    // eslint-disable-next-line no-console
-    console.log('fileDependencies', fileDependencies);
-    // eslint-disable-next-line no-console
-    console.log('fixtures', fixtures);
-
     fixtures.forEach((fixture) => {
       expect(fileDependencies.has(fixture)).toBe(true);
     });
