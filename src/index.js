@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
@@ -35,13 +37,19 @@ function lessLoader(source) {
   getLessImplementation(options.implementation)
     .render(data, lessOptions)
     .then(({ css, map, imports }) => {
-      imports.forEach(this.addDependency, this);
+      imports.forEach((item) => {
+        // `less` return forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`
+        // Ref: https://github.com/webpack-contrib/less-loader/issues/357
+        this.addDependency(path.normalize(item));
+      });
 
       callback(null, css, typeof map === 'string' ? JSON.parse(map) : map);
     })
     .catch((lessError) => {
       if (lessError.filename) {
-        this.addDependency(lessError.filename);
+        // `less` return forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`
+        // Ref: https://github.com/webpack-contrib/less-loader/issues/357
+        this.addDependency(path.normalize(lessError.filename));
       }
 
       callback(new LessError(lessError));

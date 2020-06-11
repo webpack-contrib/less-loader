@@ -1,3 +1,5 @@
+import path from 'path';
+
 class LessError extends Error {
   constructor(error) {
     super();
@@ -6,7 +8,9 @@ class LessError extends Error {
       '\n',
       ...LessError.getFileExcerptIfPossible(error),
       error.message.charAt(0).toUpperCase() + error.message.slice(1),
-      `      Error in ${error.filename} (line ${error.line}, column ${error.column})`,
+      `      Error in ${path.normalize(error.filename)} (line ${
+        error.line
+      }, column ${error.column})`,
     ].join('\n');
 
     this.hideStack = true;
