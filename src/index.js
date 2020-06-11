@@ -37,6 +37,7 @@ function lessLoader(source) {
   getLessImplementation(options.implementation)
     .render(data, lessOptions)
     .then(({ css, map, imports }) => {
+      // eslint-disable-next-line no-console
       console.log('imports', imports);
       imports.forEach(this.addDependency, this);
       // imports.forEach((item) => {
