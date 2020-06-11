@@ -481,6 +481,9 @@ describe('loader', () => {
       ),
     ];
 
+    console.log('fileDependencies', fileDependencies);
+    console.log('fixtures', fixtures);
+
     fixtures.forEach((fixture) => {
       expect(fileDependencies.has(fixture)).toBe(true);
     });

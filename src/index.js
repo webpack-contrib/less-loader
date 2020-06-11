@@ -37,6 +37,7 @@ function lessLoader(source) {
   getLessImplementation(options.implementation)
     .render(data, lessOptions)
     .then(({ css, map, imports }) => {
+      console.log('imports', imports);
       imports.forEach(this.addDependency, this);
       // imports.forEach((item) => {
       //   // `less` return forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`
