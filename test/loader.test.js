@@ -461,4 +461,33 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
+
+  it('should watch imports correctly', async () => {
+    const testId = './watch.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+    const { fileDependencies } = stats.compilation;
+
+    const fixtures = [
+      path.resolve(__dirname, 'fixtures', 'watch.less'),
+      path.resolve(
+        __dirname,
+        'fixtures',
+        'node_modules',
+        'package',
+        'style.less'
+      ),
+    ];
+
+    fixtures.forEach((fixture) => {
+      expect(fileDependencies.has(fixture)).toBe(true);
+    });
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
 });

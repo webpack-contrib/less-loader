@@ -62,6 +62,14 @@ const pathMap = {
     'fixtures',
     'import-absolute-target.less'
   ),
+  '~package/style.less': path.resolve(
+    __dirname,
+    '..',
+    'fixtures',
+    'node_modules',
+    'package',
+    'style.less'
+  ),
 };
 
 class ResolvePlugin extends less.FileManager {

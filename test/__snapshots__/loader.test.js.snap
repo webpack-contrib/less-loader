@@ -323,6 +323,17 @@ exports[`loader should transform urls: errors 1`] = `Array []`;
 
 exports[`loader should transform urls: warnings 1`] = `Array []`;
 
+exports[`loader should watch imports correctly: css 1`] = `
+"a {
+  color: red;
+}
+"
+`;
+
+exports[`loader should watch imports correctly: errors 1`] = `Array []`;
+
+exports[`loader should watch imports correctly: warnings 1`] = `Array []`;
+
 exports[`loader should work third-party plugins as fileLoader: css 1`] = `
 ".file-loader {
   background: coral;
