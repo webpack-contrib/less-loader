@@ -575,14 +575,13 @@ describe('loader', () => {
     // Create the file with absolute path
     const file = path.resolve(__dirname, 'fixtures', 'generated-2.less');
     const absolutePath = path.resolve(__dirname, 'fixtures', 'unresolved.less');
-    const aliasKey = `${absolutePath}`;
 
     fs.writeFileSync(file, `@import "${absolutePath}";`);
 
     const config = {};
     config.resolve = {};
     config.resolve.alias = {};
-    config.resolve.alias[aliasKey] = path.resolve(
+    config.resolve.alias[absolutePath] = path.resolve(
       __dirname,
       'fixtures',
       'basic.less'

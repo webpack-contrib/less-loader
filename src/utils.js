@@ -1,3 +1,5 @@
+import path from 'path';
+
 import less from 'less';
 import clone from 'clone';
 
@@ -26,7 +28,7 @@ function createWebpackLessPlugin(loaderContext) {
 
   class WebpackFileManager extends less.FileManager {
     supports(filename) {
-      if (filename[0] === '/') {
+      if (filename[0] === '/' || path.win32.isAbsolute(filename)) {
         return true;
       }
 

@@ -75,7 +75,7 @@ const pathMap = {
 
 class ResolvePlugin extends less.FileManager {
   supports(filename) {
-    if (filename[0] === '/') {
+    if (filename[0] === '/' || path.win32.isAbsolute(filename)) {
       return true;
     }
 
