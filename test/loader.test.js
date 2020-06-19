@@ -1,5 +1,7 @@
 import path from 'path';
 
+import fs from 'fs';
+
 import CustomImportPlugin from './fixtures/folder/customImportPlugin';
 import CustomFileLoaderPlugin from './fixtures/folder/customFileLoaderPlugin';
 
@@ -497,6 +499,71 @@ describe('loader', () => {
     fixtures.forEach((fixture) => {
       expect(fileDependencies.has(fixture)).toBe(true);
     });
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should get absolute path relative rootContext', async () => {
+    const testId = './import-absolute-2.less';
+    const compiler = getCompiler(
+      testId,
+      {},
+      {
+        context: path.resolve(__dirname),
+        entry: path.resolve(__dirname, './fixtures', testId),
+      }
+    );
+    const stats = await compile(compiler);
+
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should resolve unresolved url with alias', async () => {
+    const testId = './import-absolute-3.less';
+    const compiler = getCompiler(
+      testId,
+      {},
+      {
+        resolve: {
+          alias: {
+            '/styles/style.less': path.resolve(
+              __dirname,
+              'fixtures',
+              'basic.less'
+            ),
+          },
+        },
+      }
+    );
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should resolve absolute path', async () => {
+    // Create the file with absolute path
+    const file = path.resolve(__dirname, 'fixtures', 'generated-1.less');
+    const absolutePath = path.resolve(__dirname, 'fixtures', 'basic.less');
+
+    fs.writeFileSync(file, `@import "${absolutePath}";`);
+
+    const testId = './generated-1.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
 
     expect(codeFromBundle.css).toBe(codeFromLess.css);
     expect(codeFromBundle.css).toMatchSnapshot('css');

@@ -70,10 +70,15 @@ const pathMap = {
     'package',
     'style.less'
   ),
+  '/styles/style.less': path.resolve(__dirname, '..', 'fixtures', 'basic.less'),
 };
 
 class ResolvePlugin extends less.FileManager {
   supports(filename) {
+    if (filename[0] === '/') {
+      return true;
+    }
+
     if (this.isPathAbsolute(filename)) {
       return false;
     }

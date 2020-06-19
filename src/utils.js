@@ -26,6 +26,10 @@ function createWebpackLessPlugin(loaderContext) {
 
   class WebpackFileManager extends less.FileManager {
     supports(filename) {
+      if (filename[0] === '/') {
+        return true;
+      }
+
       if (this.isPathAbsolute(filename)) {
         return false;
       }
@@ -55,7 +59,7 @@ function createWebpackLessPlugin(loaderContext) {
 
       const moduleRequest = urlToRequest(
         url,
-        url.charAt(0) === '/' ? '' : null
+        url.charAt(0) === '/' ? loaderContext.rootContext : null
       );
 
       // Less is giving us trailing slashes, but the context should have no trailing slash
