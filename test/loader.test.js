@@ -570,4 +570,31 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
+
+  it('should resolve absolute path with alias', async () => {
+    // Create the file with absolute path
+    const file = path.resolve(__dirname, 'fixtures', 'generated-2.less');
+    const absolutePath = path.resolve(__dirname, 'fixtures', 'unresolved.less');
+    const aliasKey = `${absolutePath}`;
+
+    fs.writeFileSync(file, `@import "${absolutePath}";`);
+
+    const config = {};
+    config.resolve = {};
+    config.resolve.alias = {};
+    config.resolve.alias[aliasKey] = path.resolve(
+      __dirname,
+      'fixtures',
+      'basic.less'
+    );
+
+    const testId = './generated-2.less';
+    const compiler = getCompiler(testId, {}, config);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
 });

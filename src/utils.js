@@ -57,7 +57,7 @@ function createWebpackLessPlugin(loaderContext) {
     async resolveFilename(filename, currentDirectory, options) {
       const url = this.getUrl(filename, options);
 
-      const moduleRequest = urlToRequest(
+      const request = urlToRequest(
         url,
         url.charAt(0) === '/' ? loaderContext.rootContext : null
       );
@@ -65,7 +65,7 @@ function createWebpackLessPlugin(loaderContext) {
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, '');
 
-      return this.resolveRequests(context, [moduleRequest, url]);
+      return this.resolveRequests(context, [request, url]);
     }
 
     resolveRequests(context, possibleRequests) {
