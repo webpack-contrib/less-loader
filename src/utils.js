@@ -1,5 +1,3 @@
-import path from 'path';
-
 import less from 'less';
 import clone from 'clone';
 
@@ -12,6 +10,9 @@ const trailingSlash = /[/\\]$/;
 // automatically added extension whereas the extension is passed in as `options.ext`.
 // So, if the file name matches this regexp, we simply ignore the proposed extension.
 const isModuleName = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
+
+// `[drive_letter]:\` + `\\[server]\[sharename]\`
+const isNativeWin32Path = /^[a-zA-Z]:[/\\]|^\\\\/i;
 
 /**
  * Creates a Less plugin that uses webpack's resolving engine that is provided by the loaderContext.
@@ -28,7 +29,7 @@ function createWebpackLessPlugin(loaderContext) {
 
   class WebpackFileManager extends less.FileManager {
     supports(filename) {
-      if (filename[0] === '/' || path.win32.isAbsolute(filename)) {
+      if (filename[0] === '/' || isNativeWin32Path.test(filename)) {
         return true;
       }
 
