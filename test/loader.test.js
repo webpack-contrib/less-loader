@@ -596,4 +596,24 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
+
+  it('should not resolve when resolve.restrictions no passed', async () => {
+    const testId = './import-webpack-js-package.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should prefer a main file with "less" extension over main field with js file', async () => {
+    const testId = './import-webpack-js-package-2.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
 });

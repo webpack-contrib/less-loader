@@ -24,6 +24,7 @@ function createWebpackLessPlugin(loaderContext) {
     mainFields: ['less', 'style', 'main', '...'],
     mainFiles: ['index', '...'],
     extensions: ['.less', '.css'],
+    restrictions: [/\.(le|c)ss$/i],
   });
 
   class WebpackFileManager extends less.FileManager {
