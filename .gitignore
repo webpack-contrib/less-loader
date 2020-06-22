@@ -24,6 +24,7 @@ yarn-debug.log*
 /test/fixtures/css
 /test/fixtures/generated-1.less
 /test/fixtures/generated-2.less
+/test/fixtures/generated-3.less
 /test/output
 .DS_Store
 Thumbs.db
