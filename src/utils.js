@@ -1,3 +1,5 @@
+import path from 'path';
+
 import less from 'less';
 import clone from 'clone';
 
@@ -126,7 +128,7 @@ function createWebpackLessPlugin(loaderContext) {
         return super.loadFile(result, ...args);
       }
 
-      loaderContext.addDependency(result.filename);
+      loaderContext.addDependency(path.normalize(result.filename));
 
       return result;
     }
