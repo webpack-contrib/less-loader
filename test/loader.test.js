@@ -617,7 +617,7 @@ describe('loader', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
 
-  it('should not added to dependencies imports with URLs', async () => {
+  it('should not add to dependencies imports with URLs', async () => {
     const testId = './import-url-deps.less';
     const compiler = getCompiler(testId);
     const stats = await compile(compiler);
