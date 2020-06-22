@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.2](https://github.com/webpack-contrib/less-loader/compare/v6.1.1...v6.1.2) (2020-06-22)
+
+
+### Bug Fixes
+
+* ignore watch for remove URLs ([3946937](https://github.com/webpack-contrib/less-loader/commit/39469376e28cd0e38162f7bdf8935d343830a40e))
+* resolution logic ([2c3a23a](https://github.com/webpack-contrib/less-loader/commit/2c3a23a440cbdad1edb8b232864cb0233a266782))
+* resolve absolute and root relative imports ([3d01b82](https://github.com/webpack-contrib/less-loader/commit/3d01b82fae335d5d69d6290911e788debc732182))
+
 ### [6.1.1](https://github.com/webpack-contrib/less-loader/compare/v6.1.0...v6.1.1) (2020-06-11)
 
 
