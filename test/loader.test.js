@@ -616,4 +616,55 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
+
+  it('should not added to dependencies imports with URLs', async () => {
+    const testId = './import-url-deps.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+    const { fileDependencies } = stats.compilation;
+
+    validateDependencies(fileDependencies);
+
+    Array.from(fileDependencies).forEach((item) => {
+      ['http', 'https'].forEach((protocol) => {
+        expect(item.includes(protocol)).toBe(false);
+      });
+    });
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should add path to dependencies', async () => {
+    // Create the file with absolute path
+    const file = path.resolve(__dirname, 'fixtures', 'generated-3.less');
+    const absolutePath = path.resolve(__dirname, 'fixtures', 'basic.less');
+
+    fs.writeFileSync(file, `@import "${absolutePath}";`);
+
+    const testId = './generated-3.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const { fileDependencies } = stats.compilation;
+
+    validateDependencies(fileDependencies);
+
+    let isAddedToDependensies = false;
+
+    Array.from(fileDependencies).forEach((item) => {
+      if (item === absolutePath) {
+        isAddedToDependensies = true;
+      }
+    });
+
+    expect(isAddedToDependensies).toBe(true);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
 });

@@ -25,6 +25,23 @@ exports[`loader should add all resolved imports as dependencies: errors 1`] = `A
 
 exports[`loader should add all resolved imports as dependencies: warnings 1`] = `Array []`;
 
+exports[`loader should add path to dependencies: css 1`] = `
+".box {
+  color: #fe33ac;
+  border-color: #fdcdea;
+  background: url(box.png);
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+"
+`;
+
+exports[`loader should add path to dependencies: errors 1`] = `Array []`;
+
+exports[`loader should add path to dependencies: warnings 1`] = `Array []`;
+
 exports[`loader should allow to import non-less files: css 1`] = `
 ".some-file {
   background: hotpink;
@@ -134,6 +151,38 @@ exports[`loader should import from plugins: warnings 1`] = `Array []`;
 exports[`loader should install plugins: errors 1`] = `Array []`;
 
 exports[`loader should install plugins: warnings 1`] = `Array []`;
+
+exports[`loader should not added to dependencies imports with URLs: css 1`] = `
+"@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Roboto Light'), local('Roboto-Light'), url(http://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+}
+"
+`;
+
+exports[`loader should not added to dependencies imports with URLs: errors 1`] = `Array []`;
+
+exports[`loader should not added to dependencies imports with URLs: warnings 1`] = `Array []`;
 
 exports[`loader should not alter the original options object: errors 1`] = `Array []`;
 
