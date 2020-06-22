@@ -152,7 +152,7 @@ exports[`loader should install plugins: errors 1`] = `Array []`;
 
 exports[`loader should install plugins: warnings 1`] = `Array []`;
 
-exports[`loader should not added to dependencies imports with URLs: css 1`] = `
+exports[`loader should not add to dependencies imports with URLs: css 1`] = `
 "@font-face {
   font-family: 'Roboto';
   font-style: normal;
@@ -180,9 +180,9 @@ exports[`loader should not added to dependencies imports with URLs: css 1`] = `
 "
 `;
 
-exports[`loader should not added to dependencies imports with URLs: errors 1`] = `Array []`;
+exports[`loader should not add to dependencies imports with URLs: errors 1`] = `Array []`;
 
-exports[`loader should not added to dependencies imports with URLs: warnings 1`] = `Array []`;
+exports[`loader should not add to dependencies imports with URLs: warnings 1`] = `Array []`;
 
 exports[`loader should not alter the original options object: errors 1`] = `Array []`;
 
