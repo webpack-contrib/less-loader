@@ -1,3 +1,5 @@
+import path from 'path';
+
 import less from 'less';
 import clone from 'clone';
 
@@ -26,6 +28,10 @@ function createWebpackLessPlugin(loaderContext) {
 
   class WebpackFileManager extends less.FileManager {
     supports(filename) {
+      if (filename[0] === '/' || path.win32.isAbsolute(filename)) {
+        return true;
+      }
+
       if (this.isPathAbsolute(filename)) {
         return false;
       }
@@ -53,15 +59,15 @@ function createWebpackLessPlugin(loaderContext) {
     async resolveFilename(filename, currentDirectory, options) {
       const url = this.getUrl(filename, options);
 
-      const moduleRequest = urlToRequest(
+      const request = urlToRequest(
         url,
-        url.charAt(0) === '/' ? '' : null
+        url.charAt(0) === '/' ? loaderContext.rootContext : null
       );
 
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, '');
 
-      return this.resolveRequests(context, [moduleRequest, url]);
+      return this.resolveRequests(context, [request, url]);
     }
 
     resolveRequests(context, possibleRequests) {
