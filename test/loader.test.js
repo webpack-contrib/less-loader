@@ -606,7 +606,7 @@ describe('loader', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
 
-  it('should not resolve when resolve.restrictions no passed with index file', async () => {
+  it('should prefer a main file with "less" extension over main field with js file', async () => {
     const testId = './import-webpack-js-package-2.less';
     const compiler = getCompiler(testId);
     const stats = await compile(compiler);
