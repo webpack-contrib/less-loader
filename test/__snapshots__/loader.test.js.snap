@@ -420,6 +420,17 @@ exports[`loader should resolve nested imports: errors 1`] = `Array []`;
 
 exports[`loader should resolve nested imports: warnings 1`] = `Array []`;
 
+exports[`loader should resolve non-less import with alias: css 1`] = `
+".some-file {
+  background: hotpink;
+}
+"
+`;
+
+exports[`loader should resolve non-less import with alias: errors 1`] = `Array []`;
+
+exports[`loader should resolve non-less import with alias: warnings 1`] = `Array []`;
+
 exports[`loader should resolve unresolved url with alias: css 1`] = `
 ".box {
   color: #fe33ac;
