@@ -23,11 +23,11 @@ const isNativeWin32Path = /^[a-zA-Z]:[/\\]|^\\\\/i;
  * @returns {LessPlugin}
  */
 function createWebpackLessPlugin(loaderContext) {
-  const resolverOptions = {
+  const resolve = loaderContext.getResolve({
     mainFields: ['less', 'style', 'main', '...'],
     mainFiles: ['index', '...'],
     extensions: ['.less', '.css'],
-  };
+  });
 
   class WebpackFileManager extends less.FileManager {
     supports(filename) {
@@ -78,17 +78,7 @@ function createWebpackLessPlugin(loaderContext) {
         return Promise.reject();
       }
 
-      const [possibleRequest] = possibleRequests;
-
-      const hasExtension = path.extname(possibleRequest);
-
-      if (!hasExtension) {
-        resolverOptions.restrictions = [/\.(le|c)ss$/i];
-      }
-
-      const resolve = loaderContext.getResolve(resolverOptions);
-
-      return resolve(context, possibleRequest)
+      return resolve(context, possibleRequests[0])
         .then((result) => {
           return result;
         })
