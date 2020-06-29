@@ -597,21 +597,29 @@ describe('loader', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
 
-  it('should not resolve when resolve.restrictions no passed', async () => {
-    const testId = './import-webpack-js-package.less';
-    const compiler = getCompiler(testId);
-    const stats = await compile(compiler);
-
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-  });
-
-  it('should prefer a main file with "less" extension over main field with js file', async () => {
-    const testId = './import-webpack-js-package-2.less';
-    const compiler = getCompiler(testId);
+  it('should resolve non-less import with alias', async () => {
+    const testId = './import-non-less-2.less';
+    const compiler = getCompiler(
+      testId,
+      {},
+      {
+        resolve: {
+          alias: {
+            '../../some.file': path.resolve(
+              __dirname,
+              'fixtures',
+              'folder',
+              'some.file'
+            ),
+          },
+        },
+      }
+    );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
 
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
     expect(codeFromBundle.css).toMatchSnapshot('css');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');

@@ -71,6 +71,13 @@ const pathMap = {
     'style.less'
   ),
   '/styles/style.less': path.resolve(__dirname, '..', 'fixtures', 'basic.less'),
+  '../../some.file': path.resolve(
+    __dirname,
+    '..',
+    'fixtures',
+    'folder',
+    'some.file'
+  ),
 };
 
 class ResolvePlugin extends less.FileManager {
