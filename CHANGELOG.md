@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.3](https://github.com/webpack-contrib/less-loader/compare/v6.1.2...v6.1.3) (2020-06-29)
+
+
+### Bug Fixes
+
+* revert restrictions ([e758837](https://github.com/webpack-contrib/less-loader/commit/e75883706fc3d3bb2b6283a727a405216473362e))
+
 ### [6.1.2](https://github.com/webpack-contrib/less-loader/compare/v6.1.1...v6.1.2) (2020-06-22)
 
 
