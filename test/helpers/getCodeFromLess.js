@@ -78,6 +78,14 @@ const pathMap = {
     'folder',
     'some.file'
   ),
+  'package-with-exports': path.resolve(
+    __dirname,
+    '..',
+    'fixtures',
+    'node_modules',
+    'package-with-exports',
+    'style.less'
+  ),
 };
 
 class ResolvePlugin extends less.FileManager {

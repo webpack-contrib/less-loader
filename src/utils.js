@@ -11,7 +11,7 @@ const trailingSlash = /[/\\]$/;
 // This somewhat changed in Less 3.x. Now the file name comes without the
 // automatically added extension whereas the extension is passed in as `options.ext`.
 // So, if the file name matches this regexp, we simply ignore the proposed extension.
-const isModuleName = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
+const isModuleImport = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
 
 // `[drive_letter]:\` + `\\[server]\[sharename]\`
 const isNativeWin32Path = /^[a-zA-Z]:[/\\]|^\\\\/i;
@@ -24,6 +24,7 @@ const isNativeWin32Path = /^[a-zA-Z]:[/\\]|^\\\\/i;
  */
 function createWebpackLessPlugin(loaderContext) {
   const resolve = loaderContext.getResolve({
+    conditionNames: ['less', 'style'],
     mainFields: ['less', 'style', 'main', '...'],
     mainFiles: ['index', '...'],
     extensions: ['.less', '.css'],
@@ -51,26 +52,17 @@ function createWebpackLessPlugin(loaderContext) {
       return false;
     }
 
-    getUrl(filename, options) {
-      if (options.ext && !isModuleName.test(filename)) {
-        return this.tryAppendExtension(filename, options.ext);
-      }
-
-      return filename;
-    }
-
-    async resolveFilename(filename, currentDirectory, options) {
-      const url = this.getUrl(filename, options);
-
-      const request = urlToRequest(
-        url,
-        url.charAt(0) === '/' ? loaderContext.rootContext : null
-      );
-
+    async resolveFilename(filename, currentDirectory) {
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, '');
 
-      return this.resolveRequests(context, [request, url]);
+      const request = urlToRequest(
+        filename,
+        // eslint-disable-next-line no-undefined
+        filename.charAt(0) === '/' ? loaderContext.rootContext : undefined
+      );
+
+      return this.resolveRequests(context, [...new Set([request, filename])]);
     }
 
     resolveRequests(context, possibleRequests) {
@@ -97,7 +89,7 @@ function createWebpackLessPlugin(loaderContext) {
       let result;
 
       try {
-        if (isModuleName.test(filename)) {
+        if (isModuleImport.test(filename)) {
           const error = new Error();
 
           error.type = 'Next';
