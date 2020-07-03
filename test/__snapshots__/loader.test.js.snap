@@ -246,6 +246,60 @@ Array [
 
 exports[`loader should provide a useful error message if there was a syntax error: warnings 1`] = `Array []`;
 
+exports[`loader should resolve "@import" with "css" extension: css 1`] = `
+"@import \\"css.css\\";
+"
+`;
+
+exports[`loader should resolve "@import" with "css" extension: errors 1`] = `Array []`;
+
+exports[`loader should resolve "@import" with "css" extension: warnings 1`] = `Array []`;
+
+exports[`loader should resolve "@import" with "less" extension: css 1`] = `
+".box {
+  color: #fe33ac;
+  border-color: #fdcdea;
+  background: url(box.png);
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+"
+`;
+
+exports[`loader should resolve "@import" with "less" extension: errors 1`] = `Array []`;
+
+exports[`loader should resolve "@import" with "less" extension: warnings 1`] = `Array []`;
+
+exports[`loader should resolve "@import" with "php" extension: css 1`] = `
+"a {
+  color: red;
+}
+"
+`;
+
+exports[`loader should resolve "@import" with "php" extension: errors 1`] = `Array []`;
+
+exports[`loader should resolve "@import" with "php" extension: warnings 1`] = `Array []`;
+
+exports[`loader should resolve "@import" without "less" extension: css 1`] = `
+".box {
+  color: #fe33ac;
+  border-color: #fdcdea;
+  background: url(box.png);
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+"
+`;
+
+exports[`loader should resolve "@import" without "less" extension: errors 1`] = `Array []`;
+
+exports[`loader should resolve "@import" without "less" extension: warnings 1`] = `Array []`;
+
 exports[`loader should resolve absolute path with alias: css 1`] = `
 ".box {
   color: #fe33ac;
@@ -407,6 +461,17 @@ exports[`loader should resolve non-less import with alias: css 1`] = `
 exports[`loader should resolve non-less import with alias: errors 1`] = `Array []`;
 
 exports[`loader should resolve non-less import with alias: warnings 1`] = `Array []`;
+
+exports[`loader should resolve the "less" field from the "exports" field from "package.json": css 1`] = `
+".load-me {
+  color: red;
+}
+"
+`;
+
+exports[`loader should resolve the "less" field from the "exports" field from "package.json": errors 1`] = `Array []`;
+
+exports[`loader should resolve the "less" field from the "exports" field from "package.json": warnings 1`] = `Array []`;
 
 exports[`loader should resolve unresolved url with alias: css 1`] = `
 ".box {

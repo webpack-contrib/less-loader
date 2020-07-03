@@ -675,4 +675,69 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
+
+  it('should resolve the "less" field from the "exports" field from "package.json"', async () => {
+    const testId = './import-package-with-exports.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should resolve "@import" without "less" extension', async () => {
+    const testId = './import-without-extension.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should resolve "@import" with "less" extension', async () => {
+    const testId = './import-without-extension.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should resolve "@import" with "css" extension', async () => {
+    const testId = './import-with-css-extension.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should resolve "@import" with "php" extension', async () => {
+    const testId = './import-with-php-extension.less';
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
 });
