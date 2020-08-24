@@ -173,14 +173,6 @@ function getLessOptions(loaderContext, loaderOptions) {
   return lessOptions;
 }
 
-function getLessImplementation(implementation) {
-  if (typeof implementation !== 'undefined') {
-    return implementation;
-  }
-
-  return less;
-}
-
 function isUnsupportedUrl(url) {
   // Is Windows paths `c:\`
   if (/^[a-zA-Z]:\\/.test(url)) {
@@ -192,4 +184,4 @@ function isUnsupportedUrl(url) {
   return /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(url);
 }
 
-export { getLessImplementation, getLessOptions, isUnsupportedUrl };
+export { getLessOptions, isUnsupportedUrl };

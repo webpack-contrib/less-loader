@@ -1,14 +1,12 @@
 import path from 'path';
 
+import less from 'less';
+
 import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
 import schema from './options.json';
-import {
-  getLessOptions,
-  getLessImplementation,
-  isUnsupportedUrl,
-} from './utils';
+import { getLessOptions, isUnsupportedUrl } from './utils';
 import LessError from './LessError';
 
 function lessLoader(source) {
@@ -31,7 +29,7 @@ function lessLoader(source) {
         : `${options.additionalData}\n${data}`;
   }
 
-  getLessImplementation(options.implementation)
+  less
     .render(data, lessOptions)
     .then(({ css, map, imports }) => {
       imports.forEach((item) => {
