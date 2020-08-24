@@ -27,6 +27,10 @@
     "sourceMap": {
       "description": "Enables/Disables generation of source maps (https://github.com/webpack-contrib/less-loader#sourcemap).",
       "type": "boolean"
+    },
+    "webpackImporter": {
+      "description": "Enables/Disables default `webpack` importer (https://github.com/webpack-contrib/less-loader#webpackimporter).",
+      "type": "boolean"
     }
   },
   "additionalProperties": false

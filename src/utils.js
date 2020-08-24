@@ -157,7 +157,14 @@ function getLessOptions(loaderContext, loaderOptions) {
     ...options,
   };
 
-  lessOptions.plugins.unshift(createWebpackLessPlugin(loaderContext));
+  const shouldUseWebpackImporter =
+    typeof loaderOptions.webpackImporter === 'boolean'
+      ? loaderOptions.webpackImporter
+      : true;
+
+  if (shouldUseWebpackImporter) {
+    lessOptions.plugins.unshift(createWebpackLessPlugin(loaderContext));
+  }
 
   const useSourceMap =
     typeof loaderOptions.sourceMap === 'boolean'

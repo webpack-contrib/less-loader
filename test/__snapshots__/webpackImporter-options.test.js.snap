@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`webpackImporter option not specify webpackImporter option: css 1`] = `
+"@import \\"~some/css.css\\";
+@import \\"~some/css.css\\";
+#it-works {
+  color: hotpink;
+}
+.modules-dir-some-module,
+#it-works {
+  background: hotpink;
+}
+#it-works {
+  margin: 10px;
+}
+"
+`;
+
+exports[`webpackImporter option not specify webpackImporter option: errors 1`] = `Array []`;
+
+exports[`webpackImporter option not specify webpackImporter option: warnings 1`] = `Array []`;
+
+exports[`webpackImporter option webpackImporter option is false: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+",
+]
+`;
+
+exports[`webpackImporter option webpackImporter option is false: warnings 1`] = `Array []`;
+
+exports[`webpackImporter option webpackImporter option is true: css 1`] = `
+"@import \\"~some/css.css\\";
+@import \\"~some/css.css\\";
+#it-works {
+  color: hotpink;
+}
+.modules-dir-some-module,
+#it-works {
+  background: hotpink;
+}
+#it-works {
+  margin: 10px;
+}
+"
+`;
+
+exports[`webpackImporter option webpackImporter option is true: errors 1`] = `Array []`;
+
+exports[`webpackImporter option webpackImporter option is true: warnings 1`] = `Array []`;
