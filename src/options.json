@@ -13,19 +13,8 @@
         }
       ]
     },
-    "prependData": {
-      "description": "Prepends `Less` code before the actual entry file (https://github.com/webpack-contrib/less-loader#prependdata).",
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "instanceof": "Function"
-        }
-      ]
-    },
-    "appendData": {
-      "description": "Add `Less` code after the actual entry file (https://github.com/webpack-contrib/less-loader#postponeddata).",
+    "additionalData": {
+      "description": "Prepends/Appends `Less` code to the actual entry file (https://github.com/webpack-contrib/less-loader#additionalData).",
       "anyOf": [
         {
           "type": "string"

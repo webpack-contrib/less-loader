@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`additionalData option should work additionalData data as function: css 1`] = `
+"/* RelativePath: additional-data.less; */
+.background {
+  color: coral;
+}
+.custom-class {
+  color: red;
+}
+"
+`;
+
+exports[`additionalData option should work additionalData data as function: errors 1`] = `Array []`;
+
+exports[`additionalData option should work additionalData data as function: warnings 1`] = `Array []`;
+
+exports[`additionalData option should work additionalData data as string: css 1`] = `
+".background {
+  color: coral;
+}
+"
+`;
+
+exports[`additionalData option should work additionalData data as string: errors 1`] = `Array []`;
+
+exports[`additionalData option should work additionalData data as string: warnings 1`] = `Array []`;

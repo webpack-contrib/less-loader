@@ -45,13 +45,12 @@ And run `webpack` via your preferred method.
 
 ## Options
 
-|                  Name                   |         Type         |         Default          | Description                                      |
-| :-------------------------------------: | :------------------: | :----------------------: | :----------------------------------------------- |
-|    **[`lessOptions`](#lessoptions)**    | `{Object\|Function}` | `{ relativeUrls: true }` | Options for Less.                                |
-|    **[`prependData`](#prependdata)**    | `{String\|Function}` |       `undefined`        | Prepends Less code before the actual entry file. |
-|     **[`appendData`](#appenddata)**     | `{String\|Function}` |       `undefined`        | Prepends Less code after the actual entry file.  |
-|      **[`sourceMap`](#sourcemap)**      |     `{Boolean}`      |    `compiler.devtool`    | Enables/Disables generation of source maps.      |
-| **[`implementation`](#implementation)** |      `{Object}`      |          `less`          | Setup Less implementation to use.                |
+|                  Name                   |         Type         |         Default          | Description                                            |
+| :-------------------------------------: | :------------------: | :----------------------: | :----------------------------------------------------- |
+|    **[`lessOptions`](#lessoptions)**    | `{Object\|Function}` | `{ relativeUrls: true }` | Options for Less.                                      |
+| **[`additionalData`](#additionalData)** | `{String\|Function}` |       `undefined`        | Prepends/Appends `Less` code to the actual entry file. |
+|      **[`sourceMap`](#sourcemap)**      |     `{Boolean}`      |    `compiler.devtool`    | Enables/Disables generation of source maps.            |
+| **[`implementation`](#implementation)** |      `{Object}`      |          `less`          | Setup Less implementation to use.                      |
 
 ### `lessOptions`
 
@@ -134,12 +133,13 @@ module.exports = {
 };
 ```
 
-### `prependData`
+### `additionalData`
 
 Type: `String|Function`
 Default: `undefined`
 
 Prepends `Less` code before the actual entry file.
+In this case, the `less-loader` will not override the source but just **prepend** the entry's content.
 
 This is especially useful when some of your Less variables depend on the environment:
 
@@ -159,7 +159,7 @@ module.exports = {
           {
             loader: 'less-loader',
             options: {
-              prependData: `@env: ${process.env.NODE_ENV};`,
+              additionalData: `@env: ${process.env.NODE_ENV};`,
             },
           },
         ],
@@ -183,16 +183,16 @@ module.exports = {
           {
             loader: 'less-loader',
             options: {
-              prependData: (loaderContext) => {
+              additionalData: (content, loaderContext) => {
                 // More information about available properties https://webpack.js.org/api/loaders/
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
                 if (relativePath === 'styles/foo.less') {
-                  return '@value: 100px;';
+                  return '@value: 100px;' + content;
                 }
 
-                return '@value: 200px;';
+                return '@value: 200px;' + content;
               },
             },
           },
@@ -202,17 +202,6 @@ module.exports = {
   },
 };
 ```
-
-### `appendData`
-
-Type: `String|Function`
-Default: `undefined`
-
-AppendData `Less` code after the actual entry file.
-
-This can be useful when you need to rewrite some of your Less variables.:
-
-> ℹ Since you're injecting code, this will break the source mappings in your entry file. Often there's a simpler solution than this, like multiple Less entry files.
 
 #### `String`
 

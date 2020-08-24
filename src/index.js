@@ -24,18 +24,11 @@ function lessLoader(source) {
 
   let data = source;
 
-  if (typeof options.prependData !== 'undefined') {
+  if (typeof options.additionalData !== 'undefined') {
     data =
-      typeof options.prependData === 'function'
-        ? `${options.prependData(this)}\n${data}`
-        : `${options.prependData}\n${data}`;
-  }
-
-  if (typeof options.appendData !== 'undefined') {
-    data =
-      typeof options.appendData === 'function'
-        ? `${data}\n${options.appendData(this)}`
-        : `${data}\n${options.appendData}`;
+      typeof options.additionalData === 'function'
+        ? `${options.additionalData(data, this)}`
+        : `${options.additionalData}\n${data}`;
   }
 
   getLessImplementation(options.implementation)
