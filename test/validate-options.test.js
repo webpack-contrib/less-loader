@@ -11,11 +11,7 @@ describe('validate options', () => {
       ],
       failure: [1, true, false, 'test', []],
     },
-    prependData: {
-      success: ['@background: coral;', () => '@background: coral;'],
-      failure: [1, true, false, /test/, [], {}],
-    },
-    appendData: {
+    additionalData: {
       success: ['@background: coral;', () => '@background: coral;'],
       failure: [1, true, false, /test/, [], {}],
     },

@@ -8,13 +8,11 @@ import {
 
 jest.setTimeout(30000);
 
-describe('prependData option', () => {
-  it('should work prepend data as function', async () => {
-    const testId = './prepend-data.less';
+describe('additionalData option', () => {
+  it('should work additionalData data as string', async () => {
+    const testId = './additional-data.less';
     const compiler = getCompiler(testId, {
-      prependData() {
-        return `@background: coral;`;
-      },
+      additionalData: `@background: coral;`,
     });
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -24,10 +22,27 @@ describe('prependData option', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
 
-  it('should work prepend data as string', async () => {
-    const testId = './prepend-data.less';
+  it('should work additionalData data as function', async () => {
+    const testId = './additional-data.less';
     const compiler = getCompiler(testId, {
-      prependData: `@background: coral;`,
+      additionalData(content, loaderContext) {
+        const { resourcePath, rootContext } = loaderContext;
+        // eslint-disable-next-line global-require
+        const relativePath = require('path').relative(
+          rootContext,
+          resourcePath
+        );
+
+        const result = `
+          /* RelativePath: ${relativePath}; */
+          
+          @background: coral;
+          ${content};
+          .custom-class {color: red};
+        `;
+
+        return result;
+      },
     });
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
