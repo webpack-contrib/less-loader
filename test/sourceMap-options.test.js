@@ -16,7 +16,7 @@ describe('sourceMap options', () => {
     });
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
-
+    console.log(codeFromBundle.map);
     expect(codeFromBundle.css).toBeDefined();
     expect(codeFromBundle.map).toBeDefined();
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
