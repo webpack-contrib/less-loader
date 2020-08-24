@@ -18,10 +18,10 @@ A Less loader for webpack. Compiles Less to CSS.
 
 ## Getting Started
 
-To begin, you'll need to install `less-loader`:
+To begin, you'll need to install `less` and `less-loader`:
 
 ```console
-$ npm install less-loader --save-dev
+$ npm install less less-loader --save-dev
 ```
 
 Then add the loader to your `webpack` config. For example:
@@ -50,7 +50,6 @@ And run `webpack` via your preferred method.
 |    **[`lessOptions`](#lessoptions)**    | `{Object\|Function}` | `{ relativeUrls: true }` | Options for Less.                                      |
 | **[`additionalData`](#additionalData)** | `{String\|Function}` |       `undefined`        | Prepends/Appends `Less` code to the actual entry file. |
 |      **[`sourceMap`](#sourcemap)**      |     `{Boolean}`      |    `compiler.devtool`    | Enables/Disables generation of source maps.            |
-| **[`implementation`](#implementation)** |      `{Object}`      |          `less`          | Setup Less implementation to use.                      |
 
 ### `lessOptions`
 
@@ -288,41 +287,6 @@ module.exports = {
             loader: 'less-loader',
             options: {
               sourceMap: true,
-            },
-          },
-        ],
-      },
-    ],
-  },
-};
-```
-
-### `implementation`
-
-Type: `Object`
-Default: `less`
-
-> ⚠ less-loader compatible with Less version 3 only
-
-The special `implementation` option determines which implementation of Less to use.
-The `implementation` options either accepts `less` as a module.
-This is useful if you want to use Less with a smaller version. Do not forget that then you must install your own version of Less.
-
-For example, to use custom Less implementation, you'd pass:
-
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'less-loader',
-            options: {
-              implementation: require('less'),
             },
           },
         ],
