@@ -45,11 +45,12 @@ And run `webpack` via your preferred method.
 
 ## Options
 
-|                  Name                   |         Type         |         Default          | Description                                            |
-| :-------------------------------------: | :------------------: | :----------------------: | :----------------------------------------------------- |
-|    **[`lessOptions`](#lessoptions)**    | `{Object\|Function}` | `{ relativeUrls: true }` | Options for Less.                                      |
-| **[`additionalData`](#additionalData)** | `{String\|Function}` |       `undefined`        | Prepends/Appends `Less` code to the actual entry file. |
-|      **[`sourceMap`](#sourcemap)**      |     `{Boolean}`      |    `compiler.devtool`    | Enables/Disables generation of source maps.            |
+|                   Name                    |         Type         |         Default          | Description                                            |
+| :---------------------------------------: | :------------------: | :----------------------: | :----------------------------------------------------- |
+|     **[`lessOptions`](#lessoptions)**     | `{Object\|Function}` | `{ relativeUrls: true }` | Options for Less.                                      |
+|  **[`additionalData`](#additionalData)**  | `{String\|Function}` |       `undefined`        | Prepends/Appends `Less` code to the actual entry file. |
+|       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      |    `compiler.devtool`    | Enables/Disables generation of source maps.            |
+| **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |          `true`          | Enables/Disables the default Webpack importer.         |
 
 ### `lessOptions`
 
@@ -287,6 +288,39 @@ module.exports = {
             loader: 'less-loader',
             options: {
               sourceMap: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+### `webpackImporter`
+
+Type: `Boolean`
+Default: `true`
+
+Enables/Disables the default Webpack importer.
+
+This can improve performance in some cases. Use it with caution because aliases and `@import` at-rules starting with `~` will not work.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              webpackImporter: false,
             },
           },
         ],
