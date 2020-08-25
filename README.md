@@ -476,8 +476,7 @@ module.exports = {
 
 ### Plugins
 
-In order to use [plugins](http://lesscss.org/usage/#plugins), simply set the
-`plugins` option like this:
+In order to use [plugins](http://lesscss.org/usage/#plugins), simply set the `plugins` option like this:
 
 ```js
 // webpack.config.js
@@ -496,6 +495,20 @@ module.exports = {
       },
     },
   ...
+};
+```
+
+> ℹ️ Access to the [loader context](https://webpack.js.org/api/loaders/#the-loader-context) inside the custom plugin can be done using the `less.webpackLoaderContext` property.
+
+```js
+module.exports = {
+  install: function (less, pluginManager, functions) {
+    functions.add('pi', function () {
+      // Loader context is available in `less.webpackLoaderContext`
+
+      return Math.PI;
+    });
+  },
 };
 ```
 

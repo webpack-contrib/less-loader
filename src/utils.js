@@ -166,6 +166,13 @@ function getLessOptions(loaderContext, loaderOptions) {
     lessOptions.plugins.unshift(createWebpackLessPlugin(loaderContext));
   }
 
+  lessOptions.plugins.unshift({
+    install(lessProcessor) {
+      // eslint-disable-next-line no-param-reassign
+      lessProcessor.webpackLoaderContext = loaderContext;
+    },
+  });
+
   const useSourceMap =
     typeof loaderOptions.sourceMap === 'boolean'
       ? loaderOptions.sourceMap
