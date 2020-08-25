@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/webpack-contrib/less-loader/compare/v6.2.0...v7.0.0) (2020-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* move `less` to `peerDependencies`, the `implementation` option was removed
+* `prependData` and `appendData` option were removed in favor the `additionaldata` option
+
+### Features
+
+* added `webpackImporter` option ([#377](https://github.com/webpack-contrib/less-loader/issues/377)) ([12dca5b](https://github.com/webpack-contrib/less-loader/commit/12dca5bb573740472cff8176b7aade184c773ebc))
+* added loader context in less plugins ([#378](https://github.com/webpack-contrib/less-loader/issues/378)) ([7b7fc5e](https://github.com/webpack-contrib/less-loader/commit/7b7fc5e841a2c7c587a980648056ed4762014e9d))
+* added `additionaldata` option ([#374](https://github.com/webpack-contrib/less-loader/issues/374)) ([2785803](https://github.com/webpack-contrib/less-loader/commit/27858037a2e307fdf437604300f14c8233df4568))
+
 ## [6.2.0](https://github.com/webpack-contrib/less-loader/compare/v6.1.3...v6.2.0) (2020-07-03)
 
 
