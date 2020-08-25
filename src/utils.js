@@ -1,7 +1,7 @@
 import path from 'path';
 
 import less from 'less';
-import clone from 'clone';
+import { klona } from 'klona/full';
 
 import { urlToRequest } from 'loader-utils';
 
@@ -141,12 +141,10 @@ function createWebpackLessPlugin(loaderContext) {
  * @returns {Object}
  */
 function getLessOptions(loaderContext, loaderOptions) {
-  const options = clone(
-    loaderOptions.lessOptions
-      ? typeof loaderOptions.lessOptions === 'function'
-        ? loaderOptions.lessOptions(loaderContext) || {}
-        : loaderOptions.lessOptions
-      : {}
+  const options = klona(
+    typeof loaderOptions.lessOptions === 'function'
+      ? loaderOptions.lessOptions(loaderContext) || {}
+      : loaderOptions.lessOptions || {}
   );
 
   const lessOptions = {
