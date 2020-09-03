@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.1](https://github.com/webpack-contrib/less-loader/compare/v7.0.0...v7.0.1) (2020-09-03)
+
+
+### Bug Fixes
+
+* normalize `sources` in source maps ([877d99a](https://github.com/webpack-contrib/less-loader/commit/877d99a380deac92e07c41429a9b0c5f0bba2710))
+
 ## [7.0.0](https://github.com/webpack-contrib/less-loader/compare/v6.2.0...v7.0.0) (2020-08-25)
 
 
