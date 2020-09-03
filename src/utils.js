@@ -11,10 +11,10 @@ const trailingSlash = /[/\\]$/;
 // This somewhat changed in Less 3.x. Now the file name comes without the
 // automatically added extension whereas the extension is passed in as `options.ext`.
 // So, if the file name matches this regexp, we simply ignore the proposed extension.
-const isModuleImport = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
+const IS_SPECIAL_MODULE_IMPORT = /^~[^/]+$/;
 
 // `[drive_letter]:\` + `\\[server]\[sharename]\`
-const isNativeWin32Path = /^[a-zA-Z]:[/\\]|^\\\\/i;
+const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i;
 
 /**
  * Creates a Less plugin that uses webpack's resolving engine that is provided by the loaderContext.
@@ -32,7 +32,7 @@ function createWebpackLessPlugin(loaderContext) {
 
   class WebpackFileManager extends less.FileManager {
     supports(filename) {
-      if (filename[0] === '/' || isNativeWin32Path.test(filename)) {
+      if (filename[0] === '/' || IS_NATIVE_WIN32_PATH.test(filename)) {
         return true;
       }
 
@@ -89,7 +89,7 @@ function createWebpackLessPlugin(loaderContext) {
       let result;
 
       try {
-        if (isModuleImport.test(filename)) {
+        if (IS_SPECIAL_MODULE_IMPORT.test(filename)) {
           const error = new Error();
 
           error.type = 'Next';
@@ -186,8 +186,8 @@ function getLessOptions(loaderContext, loaderOptions) {
 }
 
 function isUnsupportedUrl(url) {
-  // Is Windows paths `c:\`
-  if (/^[a-zA-Z]:\\/.test(url)) {
+  // Is Windows path
+  if (IS_NATIVE_WIN32_PATH.test(url)) {
     return false;
   }
 

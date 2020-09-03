@@ -28,6 +28,7 @@ async function lessLoader(source) {
         ? `${options.additionalData(data, this)}`
         : `${options.additionalData}\n${data}`;
   }
+
   let result;
 
   try {
