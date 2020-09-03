@@ -105,7 +105,7 @@ describe('"sourceMap" options', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
 
-  it.only('should generate source maps when value has "false" value, but the "lessOptions.sourceMap.outputSourceFiles" is "true"', async () => {
+  it('should generate source maps when value has "false" value, but the "lessOptions.sourceMap.outputSourceFiles" is "true"', async () => {
     const testId = './source-map.less';
     const compiler = getCompiler(testId, {
       sourceMap: false,
@@ -121,7 +121,6 @@ describe('"sourceMap" options', () => {
     map.sourceRoot = '';
     map.sources = map.sources.map((source) => {
       expect(path.isAbsolute(source)).toBe(true);
-      expect(source).toBe(path.normalize(source));
       expect(fs.existsSync(path.resolve(map.sourceRoot, source))).toBe(true);
 
       return path

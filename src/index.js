@@ -6,7 +6,7 @@ import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
 import schema from './options.json';
-import { getLessOptions, isUnsupportedUrl } from './utils';
+import { getLessOptions, isUnsupportedUrl, normalizeSourceMap } from './utils';
 import LessError from './LessError';
 
 async function lessLoader(source) {
@@ -19,6 +19,14 @@ async function lessLoader(source) {
 
   const callback = this.async();
   const lessOptions = getLessOptions(this, options);
+  const useSourceMap =
+    typeof options.sourceMap === 'boolean' ? options.sourceMap : this.sourceMap;
+
+  if (useSourceMap) {
+    lessOptions.sourceMap = {
+      outputSourceFiles: true,
+    };
+  }
 
   let data = source;
 
@@ -45,7 +53,7 @@ async function lessLoader(source) {
     return;
   }
 
-  const { css, map, imports } = result;
+  const { css, imports } = result;
 
   imports.forEach((item) => {
     if (isUnsupportedUrl(item)) {
@@ -57,7 +65,14 @@ async function lessLoader(source) {
     this.addDependency(path.normalize(item));
   });
 
-  callback(null, css, typeof map === 'string' ? JSON.parse(map) : map);
+  let map =
+    typeof result.map === 'string' ? JSON.parse(result.map) : result.map;
+
+  if (map && useSourceMap) {
+    map = normalizeSourceMap(map, this.rootContext);
+  }
+
+  callback(null, css, map);
 }
 
 export default lessLoader;
