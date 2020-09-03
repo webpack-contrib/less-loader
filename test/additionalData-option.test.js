@@ -1,22 +1,22 @@
 import {
   compile,
   getCodeFromBundle,
+  getCodeFromLess,
   getCompiler,
   getErrors,
   getWarnings,
 } from './helpers';
 
-jest.setTimeout(30000);
-
-describe('additionalData option', () => {
+describe('"additionalData" option', () => {
   it('should work additionalData data as string', async () => {
     const testId = './additional-data.less';
-    const compiler = getCompiler(testId, {
-      additionalData: `@background: coral;`,
-    });
+    const additionalData = '@background: coral;';
+    const compiler = getCompiler(testId, { additionalData });
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId, { additionalData });
 
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
     expect(codeFromBundle.css).toMatchSnapshot('css');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');
@@ -24,29 +24,25 @@ describe('additionalData option', () => {
 
   it('should work additionalData data as function', async () => {
     const testId = './additional-data.less';
-    const compiler = getCompiler(testId, {
-      additionalData(content, loaderContext) {
-        const { resourcePath, rootContext } = loaderContext;
-        // eslint-disable-next-line global-require
-        const relativePath = require('path').relative(
-          rootContext,
-          resourcePath
-        );
+    const additionalData = (content, loaderContext) => {
+      const { resourcePath, rootContext } = loaderContext;
+      // eslint-disable-next-line global-require
+      const relativePath = require('path').relative(rootContext, resourcePath);
 
-        const result = `
+      return `
           /* RelativePath: ${relativePath}; */
-          
+
           @background: coral;
           ${content};
           .custom-class {color: red};
         `;
-
-        return result;
-      },
-    });
+    };
+    const compiler = getCompiler(testId, { additionalData });
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId, { additionalData });
 
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
     expect(codeFromBundle.css).toMatchSnapshot('css');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
     expect(getErrors(stats)).toMatchSnapshot('errors');

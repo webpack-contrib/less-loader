@@ -16,13 +16,13 @@ class LessError extends Error {
     this.hideStack = true;
   }
 
-  static getFileExcerptIfPossible(lessErr) {
-    if (typeof lessErr.extract === 'undefined') {
+  static getFileExcerptIfPossible(lessError) {
+    if (typeof lessError.extract === 'undefined') {
       return [];
     }
 
-    const excerpt = lessErr.extract.slice(0, 2);
-    const column = Math.max(lessErr.column - 1, 0);
+    const excerpt = lessError.extract.slice(0, 2);
+    const column = Math.max(lessError.column - 1, 0);
 
     if (typeof excerpt[0] === 'undefined') {
       excerpt.shift();

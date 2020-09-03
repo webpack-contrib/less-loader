@@ -129,7 +129,19 @@ async function getCodeFromLess(testId, options = {}) {
     filename: pathToFile,
   };
   const lessOptions = options.lessOptions || {};
-  const data = await fs.promises.readFile(pathToFile);
+
+  let data = await fs.promises.readFile(pathToFile);
+
+  if (typeof options.additionalData !== 'undefined') {
+    data =
+      typeof options.additionalData === 'function'
+        ? `${options.additionalData(data, {
+            rootContext: path.resolve(__dirname, '../fixtures'),
+            resourcePath: pathToFile,
+          })}`
+        : `${options.additionalData}\n${data}`;
+  }
+
   const mergedOptions = {
     ...defaultOptions,
     ...lessOptions,
