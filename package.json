@@ -44,12 +44,12 @@
   "dependencies": {
     "klona": "^2.0.3",
     "loader-utils": "^2.0.0",
-    "schema-utils": "^2.7.0"
+    "schema-utils": "^2.7.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.4",
-    "@babel/core": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/cli": "^7.11.5",
+    "@babel/core": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
     "@commitlint/cli": "^10.0.0",
     "@commitlint/config-conventional": "^10.0.0",
     "@webpack-contrib/defaults": "^6.3.0",
@@ -58,7 +58,7 @@
     "cross-env": "^7.0.2",
     "del": "^5.1.0",
     "del-cli": "^3.0.1",
-    "eslint": "^7.3.1",
+    "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -66,10 +66,10 @@
     "inspect-loader": "^1.0.0",
     "jest": "^26.1.0",
     "less": "^3.12.2",
-    "lint-staged": "^10.2.11",
+    "lint-staged": "^10.3.0",
     "memfs": "^3.2.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.1.0",
+    "prettier": "^2.1.1",
     "standard-version": "^9.0.0",
     "strip-ansi": "^6.0.0",
     "webpack": "^4.44.1"
