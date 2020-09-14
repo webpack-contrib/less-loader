@@ -163,6 +163,48 @@ describe('loader', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
   });
 
+  it('should work lessOptions.relativeUrls is true', async () => {
+    const testId = './import-relative.less';
+    const compiler = getCompiler(testId, {
+      lessOptions: {
+        relativeUrls: true,
+      },
+    });
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId, {
+      lessOptions: {
+        relativeUrls: true,
+      },
+    });
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
+  it('should work lessOptions.relativeUrls is false', async () => {
+    const testId = './import-relative.less';
+    const compiler = getCompiler(testId, {
+      lessOptions: {
+        relativeUrls: false,
+      },
+    });
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId, {
+      lessOptions: {
+        relativeUrls: false,
+      },
+    });
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot('css');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+  });
+
   it("should resolve all imports from node_modules using webpack's resolver", async () => {
     const testId = './import-webpack.less';
     const compiler = getCompiler(testId);
