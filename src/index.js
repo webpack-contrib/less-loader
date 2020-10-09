@@ -3,7 +3,7 @@ import path from 'path';
 import less from 'less';
 
 import { getOptions } from 'loader-utils';
-import validateOptions from 'schema-utils';
+import { validate } from 'schema-utils';
 
 import schema from './options.json';
 import { getLessOptions, isUnsupportedUrl, normalizeSourceMap } from './utils';
@@ -12,7 +12,7 @@ import LessError from './LessError';
 async function lessLoader(source) {
   const options = getOptions(this);
 
-  validateOptions(schema, options, {
+  validate(schema, options, {
     name: 'Less Loader',
     baseDataPath: 'options',
   });
