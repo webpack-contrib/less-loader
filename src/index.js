@@ -33,7 +33,7 @@ async function lessLoader(source) {
   if (typeof options.additionalData !== 'undefined') {
     data =
       typeof options.additionalData === 'function'
-        ? `${options.additionalData(data, this)}`
+        ? `${await options.additionalData(data, this)}`
         : `${options.additionalData}\n${data}`;
   }
 
