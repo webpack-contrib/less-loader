@@ -135,7 +135,7 @@ async function getCodeFromLess(testId, options = {}) {
   if (typeof options.additionalData !== 'undefined') {
     data =
       typeof options.additionalData === 'function'
-        ? `${options.additionalData(data, {
+        ? `${await options.additionalData(data, {
             rootContext: path.resolve(__dirname, '../fixtures'),
             resourcePath: pathToFile,
           })}`
@@ -149,9 +149,7 @@ async function getCodeFromLess(testId, options = {}) {
 
   mergedOptions.plugins.unshift(new CustomImportPlugin());
 
-  const result = await less.render(data.toString(), mergedOptions);
-
-  return result;
+  return less.render(data.toString(), mergedOptions);
 }
 
 export default getCodeFromLess;
