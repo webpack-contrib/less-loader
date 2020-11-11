@@ -171,6 +171,8 @@ module.exports = {
 
 #### `Function`
 
+##### Sync
+
 ```js
 module.exports = {
   module: {
@@ -184,6 +186,40 @@ module.exports = {
             loader: "less-loader",
             options: {
               additionalData: (content, loaderContext) => {
+                // More information about available properties https://webpack.js.org/api/loaders/
+                const { resourcePath, rootContext } = loaderContext;
+                const relativePath = path.relative(rootContext, resourcePath);
+
+                if (relativePath === "styles/foo.less") {
+                  return "@value: 100px;" + content;
+                }
+
+                return "@value: 200px;" + content;
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+##### Async
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "less-loader",
+            options: {
+              additionalData: async (content, loaderContext) => {
                 // More information about available properties https://webpack.js.org/api/loaders/
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
