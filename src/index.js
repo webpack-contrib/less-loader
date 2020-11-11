@@ -1,26 +1,26 @@
-import path from 'path';
+import path from "path";
 
-import less from 'less';
+import less from "less";
 
-import { getOptions } from 'loader-utils';
-import { validate } from 'schema-utils';
+import { getOptions } from "loader-utils";
+import { validate } from "schema-utils";
 
-import schema from './options.json';
-import { getLessOptions, isUnsupportedUrl, normalizeSourceMap } from './utils';
-import LessError from './LessError';
+import schema from "./options.json";
+import { getLessOptions, isUnsupportedUrl, normalizeSourceMap } from "./utils";
+import LessError from "./LessError";
 
 async function lessLoader(source) {
   const options = getOptions(this);
 
   validate(schema, options, {
-    name: 'Less Loader',
-    baseDataPath: 'options',
+    name: "Less Loader",
+    baseDataPath: "options",
   });
 
   const callback = this.async();
   const lessOptions = getLessOptions(this, options);
   const useSourceMap =
-    typeof options.sourceMap === 'boolean' ? options.sourceMap : this.sourceMap;
+    typeof options.sourceMap === "boolean" ? options.sourceMap : this.sourceMap;
 
   if (useSourceMap) {
     lessOptions.sourceMap = {
@@ -30,9 +30,9 @@ async function lessLoader(source) {
 
   let data = source;
 
-  if (typeof options.additionalData !== 'undefined') {
+  if (typeof options.additionalData !== "undefined") {
     data =
-      typeof options.additionalData === 'function'
+      typeof options.additionalData === "function"
         ? `${await options.additionalData(data, this)}`
         : `${options.additionalData}\n${data}`;
   }
@@ -66,7 +66,7 @@ async function lessLoader(source) {
   });
 
   let map =
-    typeof result.map === 'string' ? JSON.parse(result.map) : result.map;
+    typeof result.map === "string" ? JSON.parse(result.map) : result.map;
 
   if (map && useSourceMap) {
     map = normalizeSourceMap(map, this.rootContext);

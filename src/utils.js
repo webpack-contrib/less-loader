@@ -1,9 +1,9 @@
-import path from 'path';
+import path from "path";
 
-import less from 'less';
-import { klona } from 'klona/full';
+import less from "less";
+import { klona } from "klona/full";
 
-import { urlToRequest } from 'loader-utils';
+import { urlToRequest } from "loader-utils";
 
 /* eslint-disable class-methods-use-this */
 const trailingSlash = /[/\\]$/;
@@ -24,15 +24,15 @@ const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i;
  */
 function createWebpackLessPlugin(loaderContext) {
   const resolve = loaderContext.getResolve({
-    conditionNames: ['less', 'style'],
-    mainFields: ['less', 'style', 'main', '...'],
-    mainFiles: ['index', '...'],
-    extensions: ['.less', '.css'],
+    conditionNames: ["less", "style"],
+    mainFields: ["less", "style", "main", "..."],
+    mainFiles: ["index", "..."],
+    extensions: [".less", ".css"],
   });
 
   class WebpackFileManager extends less.FileManager {
     supports(filename) {
-      if (filename[0] === '/' || IS_NATIVE_WIN32_PATH.test(filename)) {
+      if (filename[0] === "/" || IS_NATIVE_WIN32_PATH.test(filename)) {
         return true;
       }
 
@@ -54,12 +54,12 @@ function createWebpackLessPlugin(loaderContext) {
 
     async resolveFilename(filename, currentDirectory) {
       // Less is giving us trailing slashes, but the context should have no trailing slash
-      const context = currentDirectory.replace(trailingSlash, '');
+      const context = currentDirectory.replace(trailingSlash, "");
 
       const request = urlToRequest(
         filename,
         // eslint-disable-next-line no-undefined
-        filename.charAt(0) === '/' ? loaderContext.rootContext : undefined
+        filename.charAt(0) === "/" ? loaderContext.rootContext : undefined
       );
 
       return this.resolveRequests(context, [...new Set([request, filename])]);
@@ -92,14 +92,14 @@ function createWebpackLessPlugin(loaderContext) {
         if (IS_SPECIAL_MODULE_IMPORT.test(filename)) {
           const error = new Error();
 
-          error.type = 'Next';
+          error.type = "Next";
 
           throw error;
         }
 
         result = await super.loadFile(filename, ...args);
       } catch (error) {
-        if (error.type !== 'File' && error.type !== 'Next') {
+        if (error.type !== "File" && error.type !== "Next") {
           return Promise.reject(error);
         }
 
@@ -142,7 +142,7 @@ function createWebpackLessPlugin(loaderContext) {
  */
 function getLessOptions(loaderContext, loaderOptions) {
   const options = klona(
-    typeof loaderOptions.lessOptions === 'function'
+    typeof loaderOptions.lessOptions === "function"
       ? loaderOptions.lessOptions(loaderContext) || {}
       : loaderOptions.lessOptions || {}
   );
@@ -156,7 +156,7 @@ function getLessOptions(loaderContext, loaderOptions) {
   };
 
   const shouldUseWebpackImporter =
-    typeof loaderOptions.webpackImporter === 'boolean'
+    typeof loaderOptions.webpackImporter === "boolean"
       ? loaderOptions.webpackImporter
       : true;
 
@@ -194,7 +194,7 @@ function normalizeSourceMap(map) {
   delete newMap.file;
 
   // eslint-disable-next-line no-param-reassign
-  newMap.sourceRoot = '';
+  newMap.sourceRoot = "";
 
   // `less` returns POSIX paths, that's why we need to transform them back to native paths.
   // eslint-disable-next-line no-param-reassign

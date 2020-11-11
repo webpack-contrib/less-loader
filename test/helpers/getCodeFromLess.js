@@ -1,96 +1,96 @@
-import path from 'path';
-import fs from 'fs';
+import path from "path";
+import fs from "fs";
 
-import less from 'less';
+import less from "less";
 
 const pathMap = {
-  '~some/css.css': path.resolve(
+  "~some/css.css": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'node_modules',
-    'some',
-    'css.css'
+    "..",
+    "fixtures",
+    "node_modules",
+    "some",
+    "css.css"
   ),
-  '~some/module': path.resolve(
+  "~some/module": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'node_modules',
-    'some',
-    'module.less'
+    "..",
+    "fixtures",
+    "node_modules",
+    "some",
+    "module.less"
   ),
-  'some/module.less': path.resolve(
+  "some/module.less": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'node_modules',
-    'some',
-    'module.less'
+    "..",
+    "fixtures",
+    "node_modules",
+    "some",
+    "module.less"
   ),
-  'module.less': path.resolve(
+  "module.less": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'node_modules',
-    'some',
-    'module.less'
+    "..",
+    "fixtures",
+    "node_modules",
+    "some",
+    "module.less"
   ),
-  '~@scope/css.css': path.resolve(
+  "~@scope/css.css": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'node_modules',
-    '@scope',
-    'css.css'
+    "..",
+    "fixtures",
+    "node_modules",
+    "@scope",
+    "css.css"
   ),
-  '~@scope/module': path.resolve(
+  "~@scope/module": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'node_modules',
-    '@scope',
-    'module.less'
+    "..",
+    "fixtures",
+    "node_modules",
+    "@scope",
+    "module.less"
   ),
-  '~fileAlias': path.resolve(__dirname, '..', 'fixtures', 'img.less'),
-  fileAlias: path.resolve(__dirname, '..', 'fixtures', 'img.less'),
-  '~assets/basic.less': path.resolve(__dirname, '..', 'fixtures', 'basic.less'),
-  'assets/basic.less': path.resolve(__dirname, '..', 'fixtures', 'basic.less'),
-  '@{absolutePath}': path.resolve(
+  "~fileAlias": path.resolve(__dirname, "..", "fixtures", "img.less"),
+  fileAlias: path.resolve(__dirname, "..", "fixtures", "img.less"),
+  "~assets/basic.less": path.resolve(__dirname, "..", "fixtures", "basic.less"),
+  "assets/basic.less": path.resolve(__dirname, "..", "fixtures", "basic.less"),
+  "@{absolutePath}": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'import-absolute-target.less'
+    "..",
+    "fixtures",
+    "import-absolute-target.less"
   ),
-  '~package/style.less': path.resolve(
+  "~package/style.less": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'node_modules',
-    'package',
-    'style.less'
+    "..",
+    "fixtures",
+    "node_modules",
+    "package",
+    "style.less"
   ),
-  '/styles/style.less': path.resolve(__dirname, '..', 'fixtures', 'basic.less'),
-  '../../some.file': path.resolve(
+  "/styles/style.less": path.resolve(__dirname, "..", "fixtures", "basic.less"),
+  "../../some.file": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'folder',
-    'some.file'
+    "..",
+    "fixtures",
+    "folder",
+    "some.file"
   ),
-  'package-with-exports': path.resolve(
+  "package-with-exports": path.resolve(
     __dirname,
-    '..',
-    'fixtures',
-    'node_modules',
-    'package-with-exports',
-    'style.less'
+    "..",
+    "fixtures",
+    "node_modules",
+    "package-with-exports",
+    "style.less"
   ),
 };
 
 class ResolvePlugin extends less.FileManager {
   supports(filename) {
-    if (filename[0] === '/' || path.win32.isAbsolute(filename)) {
+    if (filename[0] === "/" || path.win32.isAbsolute(filename)) {
       return true;
     }
 
@@ -108,7 +108,7 @@ class ResolvePlugin extends less.FileManager {
 
   async loadFile(filename, ...args) {
     const result =
-      pathMap[filename] || path.resolve(__dirname, '..', 'fixtures', filename);
+      pathMap[filename] || path.resolve(__dirname, "..", "fixtures", filename);
 
     return super.loadFile(result, ...args);
   }
@@ -122,7 +122,7 @@ class CustomImportPlugin {
 }
 
 async function getCodeFromLess(testId, options = {}) {
-  const pathToFile = path.resolve(__dirname, '..', 'fixtures', testId);
+  const pathToFile = path.resolve(__dirname, "..", "fixtures", testId);
   const defaultOptions = {
     plugins: [],
     relativeUrls: true,
@@ -132,11 +132,11 @@ async function getCodeFromLess(testId, options = {}) {
 
   let data = await fs.promises.readFile(pathToFile);
 
-  if (typeof options.additionalData !== 'undefined') {
+  if (typeof options.additionalData !== "undefined") {
     data =
-      typeof options.additionalData === 'function'
-        ? `${options.additionalData(data, {
-            rootContext: path.resolve(__dirname, '../fixtures'),
+      typeof options.additionalData === "function"
+        ? `${await options.additionalData(data, {
+            rootContext: path.resolve(__dirname, "../fixtures"),
             resourcePath: pathToFile,
           })}`
         : `${options.additionalData}\n${data}`;
@@ -149,9 +149,7 @@ async function getCodeFromLess(testId, options = {}) {
 
   mergedOptions.plugins.unshift(new CustomImportPlugin());
 
-  const result = await less.render(data.toString(), mergedOptions);
-
-  return result;
+  return less.render(data.toString(), mergedOptions);
 }
 
 export default getCodeFromLess;
