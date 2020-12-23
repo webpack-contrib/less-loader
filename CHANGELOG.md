@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.2.0](https://github.com/webpack-contrib/less-loader/compare/v7.1.0...v7.2.0) (2020-12-23)
+
+
+### Features
+
+* add less ^4.0 to peerDependencies ([#398](https://github.com/webpack-contrib/less-loader/issues/398)) ([3d1abb7](https://github.com/webpack-contrib/less-loader/commit/3d1abb7be041e44fce59b2109d02eada1451a4e4))
+
 ## [7.1.0](https://github.com/webpack-contrib/less-loader/compare/v7.0.2...v7.1.0) (2020-11-11)
 
 
