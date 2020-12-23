@@ -71,9 +71,7 @@ function createWebpackLessPlugin(loaderContext) {
       }
 
       return resolve(context, possibleRequests[0])
-        .then((result) => {
-          return result;
-        })
+        .then((result) => result)
         .catch((error) => {
           const [, ...tailPossibleRequests] = possibleRequests;
 
@@ -198,9 +196,7 @@ function normalizeSourceMap(map) {
 
   // `less` returns POSIX paths, that's why we need to transform them back to native paths.
   // eslint-disable-next-line no-param-reassign
-  newMap.sources = newMap.sources.map((source) => {
-    return path.normalize(source);
-  });
+  newMap.sources = newMap.sources.map((source) => path.normalize(source));
 
   return newMap;
 }

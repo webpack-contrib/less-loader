@@ -5,9 +5,11 @@ describe("validate options", () => {
     lessOptions: {
       success: [
         { strictMath: true },
-        () => ({
-          strictMath: true,
-        }),
+        () => {
+          return {
+            strictMath: true,
+          };
+        },
       ],
       failure: [1, true, false, "test", []],
     },
