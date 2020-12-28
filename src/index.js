@@ -43,7 +43,7 @@ async function lessLoader(source) {
     result = await less.render(data, lessOptions);
   } catch (error) {
     if (error.filename) {
-      // `less` return forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`
+      // `less` returns forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`
       // Ref: https://github.com/webpack-contrib/less-loader/issues/357
       this.addDependency(path.normalize(error.filename));
     }
