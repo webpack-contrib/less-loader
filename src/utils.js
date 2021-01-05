@@ -66,22 +66,26 @@ function createWebpackLessPlugin(loaderContext) {
       return this.resolveRequests(context, [...new Set([request, filename])]);
     }
 
-    resolveRequests(context, possibleRequests) {
+    async resolveRequests(context, possibleRequests) {
       if (possibleRequests.length === 0) {
         return Promise.reject();
       }
 
-      return resolve(context, possibleRequests[0])
-        .then((result) => result)
-        .catch((error) => {
-          const [, ...tailPossibleRequests] = possibleRequests;
+      let result;
 
-          if (tailPossibleRequests.length === 0) {
-            throw error;
-          }
+      try {
+        result = await resolve(context, possibleRequests[0]);
+      } catch (error) {
+        const [, ...tailPossibleRequests] = possibleRequests;
 
-          return this.resolveRequests(context, tailPossibleRequests);
-        });
+        if (tailPossibleRequests.length === 0) {
+          throw error;
+        }
+
+        result = await this.resolveRequests(context, tailPossibleRequests);
+      }
+
+      return result;
     }
 
     async loadFile(filename, ...args) {
