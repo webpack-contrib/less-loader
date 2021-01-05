@@ -12,7 +12,23 @@ const pathMap = {
     "some",
     "css.css"
   ),
+  "~some/css.css": path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "node_modules",
+    "some",
+    "css.css"
+  ),
   "some/module": path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "node_modules",
+    "some",
+    "module.less"
+  ),
+  "~some/module": path.resolve(
     __dirname,
     "..",
     "fixtures",
@@ -52,6 +68,7 @@ const pathMap = {
     "@scope",
     "module.less"
   ),
+  "~fileAlias": path.resolve(__dirname, "..", "fixtures", "img.less"),
   fileAlias: path.resolve(__dirname, "..", "fixtures", "img.less"),
   "assets/basic.less": path.resolve(__dirname, "..", "fixtures", "basic.less"),
   "@{absolutePath}": path.resolve(
