@@ -287,6 +287,29 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
+  it("should prefer-relativee imports correctly", async () => {
+    const testId = "./import-prefer-relative.less";
+    const compiler = getCompiler(
+      testId,
+      {},
+      {
+        resolve: {
+          alias: {
+            preferAlias: "prefer-relative/style.less",
+          },
+        },
+      }
+    );
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
+
   it("should not try to resolve CSS imports with URLs", async () => {
     const testId = "./import-url.less";
     const compiler = getCompiler(testId);
