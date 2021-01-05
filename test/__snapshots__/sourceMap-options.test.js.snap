@@ -27,7 +27,7 @@ Object {
 	color: hotpink;
 }
 ",
-    "@import \\"~some/module\\";
+    "@import \\"some/module\\";
 
 #it-works:extend(.modules-dir-some-module) {
   margin: 10px;
@@ -67,7 +67,7 @@ Object {
 	color: hotpink;
 }
 ",
-    "@import \\"~some/module\\";
+    "@import \\"some/module\\";
 
 #it-works:extend(.modules-dir-some-module) {
   margin: 10px;
@@ -107,7 +107,7 @@ Object {
 	color: hotpink;
 }
 ",
-    "@import \\"~some/module\\";
+    "@import \\"some/module\\";
 
 #it-works:extend(.modules-dir-some-module) {
   margin: 10px;
@@ -147,7 +147,7 @@ Object {
 	color: hotpink;
 }
 ",
-    "@import \\"~some/module\\";
+    "@import \\"some/module\\";
 
 #it-works:extend(.modules-dir-some-module) {
   margin: 10px;

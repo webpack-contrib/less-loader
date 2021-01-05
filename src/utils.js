@@ -3,8 +3,6 @@ import path from "path";
 import less from "less";
 import { klona } from "klona/full";
 
-import { urlToRequest } from "loader-utils";
-
 /* eslint-disable class-methods-use-this */
 const trailingSlash = /[/\\]$/;
 
@@ -15,6 +13,8 @@ const IS_SPECIAL_MODULE_IMPORT = /^~[^/]+$/;
 
 // `[drive_letter]:\` + `\\[server]\[sharename]\`
 const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i;
+
+const MODULE_REQUEST_REGEX = /^[^?]*~/;
 
 /**
  * Creates a Less plugin that uses webpack's resolving engine that is provided by the loaderContext.
@@ -56,11 +56,12 @@ function createWebpackLessPlugin(loaderContext) {
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, "");
 
-      const request = urlToRequest(
-        filename,
-        // eslint-disable-next-line no-undefined
-        filename.charAt(0) === "/" ? loaderContext.rootContext : undefined
-      );
+      let request = filename;
+
+      // A `~` makes the url an module
+      if (MODULE_REQUEST_REGEX.test(request)) {
+        request = request.replace(MODULE_REQUEST_REGEX, "");
+      }
 
       return this.resolveRequests(context, [...new Set([request, filename])]);
     }
