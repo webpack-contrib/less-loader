@@ -106,7 +106,7 @@ const pathMap = {
     "..",
     "fixtures",
     "prefer-relative",
-    "style.less"
+    "index.less"
   ),
 };
 

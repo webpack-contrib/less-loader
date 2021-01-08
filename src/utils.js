@@ -14,6 +14,14 @@ const IS_SPECIAL_MODULE_IMPORT = /^~[^/]+$/;
 // `[drive_letter]:\` + `\\[server]\[sharename]\`
 const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i;
 
+// Examples:
+// - ~package
+// - ~package/
+// - ~@org
+// - ~@org/
+// - ~@org/package
+// - ~@org/package/
+const IS_MODULE_IMPORT = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
 const MODULE_REQUEST_REGEX = /^[^?]*~/;
 
 /**
@@ -60,8 +68,12 @@ function createWebpackLessPlugin(loaderContext) {
       let request = filename;
 
       // A `~` makes the url an module
-      if (MODULE_REQUEST_REGEX.test(request)) {
+      if (MODULE_REQUEST_REGEX.test(filename)) {
         request = request.replace(MODULE_REQUEST_REGEX, "");
+      }
+
+      if (IS_MODULE_IMPORT.test(filename)) {
+        request = request[request.length - 1] === "/" ? request : `${request}/`;
       }
 
       return this.resolveRequests(context, [...new Set([request, filename])]);
