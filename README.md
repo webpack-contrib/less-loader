@@ -33,7 +33,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         loader: "less-loader", // compiles Less to CSS
       },
     ],
@@ -51,6 +51,7 @@ And run `webpack` via your preferred method.
 |  **[`additionalData`](#additionalData)**  | `{String\|Function}` |       `undefined`        | Prepends/Appends `Less` code to the actual entry file. |
 |       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      |    `compiler.devtool`    | Enables/Disables generation of source maps.            |
 | **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |          `true`          | Enables/Disables the default Webpack importer.         |
+|  **[`implementation`](#implementation)**  |      `{Object}`      |          `less`          | Setup Less implementation to use.                      |
 
 ### `lessOptions`
 
@@ -70,7 +71,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         use: [
           {
             loader: "style-loader",
@@ -102,7 +103,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         use: [
           "style-loader",
           "css-loader",
@@ -152,7 +153,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         use: [
           "style-loader",
           "css-loader",
@@ -178,7 +179,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         use: [
           "style-loader",
           "css-loader",
@@ -212,7 +213,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         use: [
           "style-loader",
           "css-loader",
@@ -308,6 +309,40 @@ module.exports = {
 };
 ```
 
+### `implementation`
+
+Type: `Object`
+
+> ⚠ less-loader compatible with Less 3 and 4 versions
+
+The special `implementation` option determines which implementation of Less to use. Overrides the locally installed `peerDependency` version of `less`.
+
+**This option is only really useful for downstream tooling authors to ease the Less 3-to-4 transition.**
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "less-loader",
+            options: {
+              implementation: require("less"),
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
 ## Examples
 
 ### Normal usage
@@ -321,7 +356,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         use: [
           {
             loader: "style-loader", // creates style nodes from JS strings
@@ -353,7 +388,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         use: [
           "style-loader",
           {
@@ -406,7 +441,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: /\.less$/i,
         use: [
           {
             loader: "style-loader",

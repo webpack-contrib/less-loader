@@ -1,7 +1,6 @@
 import path from "path";
 
 import less from "less";
-
 import { getOptions } from "loader-utils";
 import { validate } from "schema-utils";
 
@@ -40,7 +39,7 @@ async function lessLoader(source) {
   let result;
 
   try {
-    result = await less.render(data, lessOptions);
+    result = await (options.implementation || less).render(data, lessOptions);
   } catch (error) {
     if (error.filename) {
       // `less` returns forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`

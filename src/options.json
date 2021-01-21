@@ -31,6 +31,10 @@
     "webpackImporter": {
       "description": "Enables/Disables default `webpack` importer (https://github.com/webpack-contrib/less-loader#webpackimporter).",
       "type": "boolean"
+    },
+    "implementation": {
+      "description": "The implementation of the `Less` to be used (https://github.com/webpack-contrib/less-loader#implementation).",
+      "type": "object"
     }
   },
   "additionalProperties": false
