@@ -3,8 +3,6 @@ import path from "path";
 import less from "less";
 import { klona } from "klona/full";
 
-import { urlToRequest } from "loader-utils";
-
 /* eslint-disable class-methods-use-this */
 const trailingSlash = /[/\\]$/;
 
@@ -15,6 +13,16 @@ const IS_SPECIAL_MODULE_IMPORT = /^~[^/]+$/;
 
 // `[drive_letter]:\` + `\\[server]\[sharename]\`
 const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i;
+
+// Examples:
+// - ~package
+// - ~package/
+// - ~@org
+// - ~@org/
+// - ~@org/package
+// - ~@org/package/
+const IS_MODULE_IMPORT = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
+const MODULE_REQUEST_REGEX = /^[^?]*~/;
 
 /**
  * Creates a Less plugin that uses webpack's resolving engine that is provided by the loaderContext.
@@ -28,6 +36,7 @@ function createWebpackLessPlugin(loaderContext) {
     mainFields: ["less", "style", "main", "..."],
     mainFiles: ["index", "..."],
     extensions: [".less", ".css"],
+    preferRelative: true,
   });
 
   class WebpackFileManager extends less.FileManager {
@@ -56,31 +65,40 @@ function createWebpackLessPlugin(loaderContext) {
       // Less is giving us trailing slashes, but the context should have no trailing slash
       const context = currentDirectory.replace(trailingSlash, "");
 
-      const request = urlToRequest(
-        filename,
-        // eslint-disable-next-line no-undefined
-        filename.charAt(0) === "/" ? loaderContext.rootContext : undefined
-      );
+      let request = filename;
+
+      // A `~` makes the url an module
+      if (MODULE_REQUEST_REGEX.test(filename)) {
+        request = request.replace(MODULE_REQUEST_REGEX, "");
+      }
+
+      if (IS_MODULE_IMPORT.test(filename)) {
+        request = request[request.length - 1] === "/" ? request : `${request}/`;
+      }
 
       return this.resolveRequests(context, [...new Set([request, filename])]);
     }
 
-    resolveRequests(context, possibleRequests) {
+    async resolveRequests(context, possibleRequests) {
       if (possibleRequests.length === 0) {
         return Promise.reject();
       }
 
-      return resolve(context, possibleRequests[0])
-        .then((result) => result)
-        .catch((error) => {
-          const [, ...tailPossibleRequests] = possibleRequests;
+      let result;
 
-          if (tailPossibleRequests.length === 0) {
-            throw error;
-          }
+      try {
+        result = await resolve(context, possibleRequests[0]);
+      } catch (error) {
+        const [, ...tailPossibleRequests] = possibleRequests;
 
-          return this.resolveRequests(context, tailPossibleRequests);
-        });
+        if (tailPossibleRequests.length === 0) {
+          throw error;
+        }
+
+        result = await this.resolveRequests(context, tailPossibleRequests);
+      }
+
+      return result;
     }
 
     async loadFile(filename, ...args) {

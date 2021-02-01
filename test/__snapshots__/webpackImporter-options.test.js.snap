@@ -37,8 +37,8 @@ exports[`"webpackImporter" option should work when value is "false": errors 1`] 
 exports[`"webpackImporter" option should work when value is "false": warnings 1`] = `Array []`;
 
 exports[`"webpackImporter" option should work when value is "true": css 1`] = `
-"@import \\"~some/css.css\\";
-@import \\"~some/css.css\\";
+"@import \\"some/css.css\\";
+@import \\"some/css.css\\";
 #it-works {
   color: hotpink;
 }
@@ -57,8 +57,8 @@ exports[`"webpackImporter" option should work when value is "true": errors 1`] =
 exports[`"webpackImporter" option should work when value is "true": warnings 1`] = `Array []`;
 
 exports[`"webpackImporter" option should work when value is not specify: css 1`] = `
-"@import \\"~some/css.css\\";
-@import \\"~some/css.css\\";
+"@import \\"some/css.css\\";
+@import \\"some/css.css\\";
 #it-works {
   color: hotpink;
 }

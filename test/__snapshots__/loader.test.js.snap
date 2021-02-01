@@ -208,7 +208,7 @@ body {
   background: url(assets/resources/circle.svg);
 }
 .abs {
-  background: url(~assets/resources/circle.svg);
+  background: url(assets/resources/circle.svg);
 }
 "
 `;
@@ -227,6 +227,20 @@ exports[`loader should not try to resolve CSS imports with URLs: css 1`] = `
 exports[`loader should not try to resolve CSS imports with URLs: errors 1`] = `Array []`;
 
 exports[`loader should not try to resolve CSS imports with URLs: warnings 1`] = `Array []`;
+
+exports[`loader should prefer-relativee imports correctly: css 1`] = `
+".prefer-relative-import {
+  background: red;
+}
+.relative {
+  color: coral;
+}
+"
+`;
+
+exports[`loader should prefer-relativee imports correctly: errors 1`] = `Array []`;
+
+exports[`loader should prefer-relativee imports correctly: warnings 1`] = `Array []`;
 
 exports[`loader should provide a useful error message if the import could not be found: errors 1`] = `
 Array [
@@ -354,7 +368,7 @@ body {
   background: url(assets/resources/circle.svg);
 }
 .abs {
-  background: url(~assets/resources/circle.svg);
+  background: url(assets/resources/circle.svg);
 }
 "
 `;
@@ -364,8 +378,8 @@ exports[`loader should resolve aliases in diffrent variants: errors 1`] = `Array
 exports[`loader should resolve aliases in diffrent variants: warnings 1`] = `Array []`;
 
 exports[`loader should resolve all imports from node_modules using webpack's resolver: css 1`] = `
-"@import \\"~some/css.css\\";
-@import \\"~some/css.css\\";
+"@import \\"some/css.css\\";
+@import \\"some/css.css\\";
 #it-works {
   color: hotpink;
 }

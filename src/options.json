@@ -1,4 +1,5 @@
 {
+  "title": "Less Loader options",
   "type": "object",
   "properties": {
     "lessOptions": {

@@ -4,6 +4,14 @@ import fs from "fs";
 import less from "less";
 
 const pathMap = {
+  "some/css.css": path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "node_modules",
+    "some",
+    "css.css"
+  ),
   "~some/css.css": path.resolve(
     __dirname,
     "..",
@@ -11,6 +19,14 @@ const pathMap = {
     "node_modules",
     "some",
     "css.css"
+  ),
+  "some/module": path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "node_modules",
+    "some",
+    "module.less"
   ),
   "~some/module": path.resolve(
     __dirname,
@@ -36,7 +52,7 @@ const pathMap = {
     "some",
     "module.less"
   ),
-  "~@scope/css.css": path.resolve(
+  "@scope/css.css": path.resolve(
     __dirname,
     "..",
     "fixtures",
@@ -44,7 +60,7 @@ const pathMap = {
     "@scope",
     "css.css"
   ),
-  "~@scope/module": path.resolve(
+  "@scope/module": path.resolve(
     __dirname,
     "..",
     "fixtures",
@@ -54,7 +70,6 @@ const pathMap = {
   ),
   "~fileAlias": path.resolve(__dirname, "..", "fixtures", "img.less"),
   fileAlias: path.resolve(__dirname, "..", "fixtures", "img.less"),
-  "~assets/basic.less": path.resolve(__dirname, "..", "fixtures", "basic.less"),
   "assets/basic.less": path.resolve(__dirname, "..", "fixtures", "basic.less"),
   "@{absolutePath}": path.resolve(
     __dirname,
@@ -62,7 +77,7 @@ const pathMap = {
     "fixtures",
     "import-absolute-target.less"
   ),
-  "~package/style.less": path.resolve(
+  "package/style.less": path.resolve(
     __dirname,
     "..",
     "fixtures",
@@ -85,6 +100,13 @@ const pathMap = {
     "node_modules",
     "package-with-exports",
     "style.less"
+  ),
+  preferAlias: path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "prefer-relative",
+    "index.less"
   ),
 };
 
