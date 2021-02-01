@@ -32,6 +32,7 @@ const MODULE_REQUEST_REGEX = /^[^?]*~/;
  */
 function createWebpackLessPlugin(loaderContext) {
   const resolve = loaderContext.getResolve({
+    dependencyType: "less",
     conditionNames: ["less", "style"],
     mainFields: ["less", "style", "main", "..."],
     mainFiles: ["index", "..."],

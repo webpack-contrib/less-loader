@@ -108,6 +108,13 @@ const pathMap = {
     "prefer-relative",
     "index.less"
   ),
+  "custom-main-files": path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "custom-main-files",
+    "custom.less"
+  ),
 };
 
 class ResolvePlugin extends less.FileManager {
