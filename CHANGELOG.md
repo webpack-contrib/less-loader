@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/webpack-contrib/less-loader/compare/v7.3.0...v8.0.0) (2021-02-01)
+
+
+### Notes
+
+* using `~` is deprecated and can be removed from your code (**we recommend it**), but we still support it for historical reasons. 
+
+Why you can removed it?
+The loader will first try to resolve `@import` as relative, if it cannot be resolved, the loader will try to resolve `@import` inside [`node_modules`](https://webpack.js.org/configuration/resolve/#resolve-modules).
+
+### ⚠ BREAKING CHANGES
+
+* minimum supported `webpack` version is `5`
+
+### Features
+
+* supported the [`resolve.byDependency`](https://webpack.js.org/configuration/resolve/#resolvebydependency) option, you can setup `{ resolve: { byDependency: { less: { mainFiles: ['custom', '...'] } } } }`
+
 ## [7.3.0](https://github.com/webpack-contrib/less-loader/compare/v7.2.1...v7.3.0) (2021-01-21)
 
 

@@ -382,7 +382,7 @@ To enable sourcemaps for CSS, you'll need to pass the `sourceMap` property in th
 
 **webpack.config.js**
 
-```javascript
+```js
 module.exports = {
   devtool: "source-map", // any "source-map"-like devtool is possible
   module: {
@@ -438,6 +438,32 @@ Just prepend them with a `~` which tells webpack to look up the [`modules`](http
 @import "~bootstrap/less/bootstrap";
 ```
 
+Default resolver options can be modified by [`resolve.byDependency`](https://webpack.js.org/configuration/resolve/#resolvebydependency):
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  devtool: "source-map", // any "source-map"-like devtool is possible
+  module: {
+    rules: [
+      {
+        test: /\.less$/i,
+        use: ["style-loader", "css-loader", "less-loader"],
+      },
+    ],
+  },
+  resolve: {
+    byDependency: {
+      // More options can be found here https://webpack.js.org/configuration/resolve/
+      less: {
+        mainFiles: ["custom"],
+      },
+    },
+  },
+};
+```
+
 It's important to only prepend it with `~`, because `~/` resolves to the home-directory. webpack needs to distinguish between `bootstrap` and `~bootstrap`, because CSS and Less files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
 
 #### Less Resolver
@@ -478,8 +504,9 @@ module.exports = {
 
 In order to use [plugins](http://lesscss.org/usage/#plugins), simply set the `plugins` option like this:
 
+**webpack.config.js**
+
 ```js
-// webpack.config.js
 const CleanCSSPlugin = require('less-plugin-clean-css');
 
 module.exports = {
