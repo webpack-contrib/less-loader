@@ -802,7 +802,7 @@ describe("loader", () => {
       constructor(less) {
         super();
 
-        if (typeof less.webpackLoaderContext !== "undefined") {
+        if (typeof less.webpackLoaderContext.version !== "undefined") {
           contextInClass = true;
         }
       }
@@ -817,13 +817,59 @@ describe("loader", () => {
 
     const customObjectPlugin = {
       install(less) {
-        if (typeof less.webpackLoaderContext !== "undefined") {
+        if (typeof less.webpackLoaderContext.version !== "undefined") {
           contextInObject = true;
         }
       },
     };
 
     const testId = "./basic-plugins.less";
+    const compiler = getCompiler(testId, {
+      lessOptions: {
+        plugins: [new CustomClassPlugin(), customObjectPlugin],
+      },
+    });
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+
+    expect(contextInClass).toBe(true);
+    expect(contextInObject).toBe(true);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
+
+  it("should work loaderContext in less plugins 2", async () => {
+    let contextInClass;
+    let contextInObject;
+
+    // eslint-disable-next-line global-require
+    class Plugin extends require("less").FileManager {
+      constructor(less, pluginManager) {
+        super();
+
+        if (typeof pluginManager.webpackLoaderContext !== "undefined") {
+          contextInClass = true;
+        }
+      }
+    }
+
+    class CustomClassPlugin {
+      // eslint-disable-next-line class-methods-use-this
+      install(less, pluginManager) {
+        pluginManager.addFileManager(new Plugin(less, pluginManager));
+      }
+    }
+
+    const customObjectPlugin = {
+      install(less, packageManager) {
+        if (typeof packageManager.webpackLoaderContext !== "undefined") {
+          contextInObject = true;
+        }
+      },
+    };
+
+    const testId = "./basic-plugins-2.less";
     const compiler = getCompiler(testId, {
       lessOptions: {
         plugins: [new CustomClassPlugin(), customObjectPlugin],

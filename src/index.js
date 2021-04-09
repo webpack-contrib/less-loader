@@ -44,6 +44,10 @@ async function lessLoader(source) {
     return;
   }
 
+  if ("webpackLoaderContext" in less) {
+    delete less.webpackLoaderContext;
+  }
+
   const { css, imports } = result;
 
   imports.forEach((item) => {

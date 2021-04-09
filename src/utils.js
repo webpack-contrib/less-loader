@@ -1,4 +1,5 @@
 import path from "path";
+import util from "util";
 
 import less from "less";
 import { klona } from "klona/full";
@@ -181,10 +182,26 @@ function getLessOptions(loaderContext, loaderOptions) {
     lessOptions.plugins.unshift(createWebpackLessPlugin(loaderContext));
   }
 
+  const webpackContextDeprecated = util.deprecate(
+    (context) => context,
+    "less.webpackLoaderContext is deprecated and will be removed in next major release. Instead use pluginManager.webpackLoaderContext (https://webpack.js.org/loaders/less-loader/#plugins)"
+  );
+
   lessOptions.plugins.unshift({
-    install(lessProcessor) {
+    install(lessProcessor, pluginManager) {
       // eslint-disable-next-line no-param-reassign
-      lessProcessor.webpackLoaderContext = loaderContext;
+      pluginManager.webpackLoaderContext = loaderContext;
+
+      // Todo remove in next major release
+      if (typeof lessProcessor.webpackLoaderContext === "undefined") {
+        Object.defineProperty(lessProcessor, "webpackLoaderContext", {
+          configurable: true,
+
+          get() {
+            return webpackContextDeprecated(loaderContext);
+          },
+        });
+      }
     },
   });
 
