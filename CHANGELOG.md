@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* added the `pluginManager.webpackLoaderContext` property for `less` plugin developers, deprecated the `less.webpackLoaderContext` property, it fixed memory leak, please read [this][https://github.com/webpack-contrib/less-loader#plugins] ([#412](https://github.com/webpack-contrib/less-loader/issues/412)) ([e576240](https://github.com/webpack-contrib/less-loader/commit/e5762404093ec6246079c6b975c9f93c0a521bd9))
+* added the `pluginManager.webpackLoaderContext` property for `less` plugin developers, deprecated the `less.webpackLoaderContext` property, it fixed memory leak, please read [this](https://github.com/webpack-contrib/less-loader#plugins) ([#412](https://github.com/webpack-contrib/less-loader/issues/412)) ([e576240](https://github.com/webpack-contrib/less-loader/commit/e5762404093ec6246079c6b975c9f93c0a521bd9))
 
 ## [8.0.0](https://github.com/webpack-contrib/less-loader/compare/v7.3.0...v8.0.0) (2021-02-01)
 
