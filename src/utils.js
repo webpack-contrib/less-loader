@@ -193,7 +193,7 @@ function getLessOptions(loaderContext, loaderOptions) {
       pluginManager.webpackLoaderContext = loaderContext;
 
       // Todo remove in next major release
-      if (typeof lessProcessor.webpackLoaderContext === "undefined") {
+      if (!("webpackLoaderContext" in lessProcessor)) {
         Object.defineProperty(lessProcessor, "webpackLoaderContext", {
           configurable: true,
 
