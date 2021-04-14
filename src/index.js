@@ -9,7 +9,11 @@ import LessError from "./LessError";
 async function lessLoader(source) {
   const options = this.getOptions(schema);
   const callback = this.async();
-  const lessOptions = getLessOptions(this, options);
+  const webpackContextSymbol = Symbol("loaderContext");
+  const lessOptions = getLessOptions(this, {
+    ...options,
+    webpackContextSymbol,
+  });
   const useSourceMap =
     typeof options.sourceMap === "boolean" ? options.sourceMap : this.sourceMap;
 
@@ -44,9 +48,7 @@ async function lessLoader(source) {
     return;
   }
 
-  if ("webpackLoaderContext" in less) {
-    delete less.webpackLoaderContext;
-  }
+  delete less[webpackContextSymbol];
 
   const { css, imports } = result;
 
