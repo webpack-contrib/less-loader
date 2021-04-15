@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.1.1](https://github.com/webpack-contrib/less-loader/compare/v8.1.0...v8.1.1) (2021-04-15)
+
+
+### Bug Fixes
+
+* deprecation warning ([#415](https://github.com/webpack-contrib/less-loader/issues/415)) ([87a4f25](https://github.com/webpack-contrib/less-loader/commit/87a4f25e2c8343ae2c75486749e57c2d10b1490d))
+
 ## [8.1.0](https://github.com/webpack-contrib/less-loader/compare/v8.0.0...v8.1.0) (2021-04-09)
 
 
