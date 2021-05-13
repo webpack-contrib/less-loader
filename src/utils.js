@@ -22,7 +22,8 @@ const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i;
 // - ~@org/
 // - ~@org/package
 // - ~@org/package/
-const IS_MODULE_IMPORT = /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
+const IS_MODULE_IMPORT =
+  /^~([^/]+|[^/]+\/|@[^/]+[/][^/]+|@[^/]+\/?|@[^/]+[/][^/]+\/)$/;
 const MODULE_REQUEST_REGEX = /^[^?]*~/;
 
 /**
