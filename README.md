@@ -56,7 +56,7 @@ And run `webpack` via your preferred method.
 |  **[`additionalData`](#additionalData)**  | `{String\|Function}` |       `undefined`        | Prepends/Appends `Less` code to the actual entry file. |
 |       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      |    `compiler.devtool`    | Enables/Disables generation of source maps.            |
 | **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |          `true`          | Enables/Disables the default Webpack importer.         |
-|  **[`implementation`](#implementation)**  |      `{Object}`      |          `less`          | Setup Less implementation to use.                      |
+|  **[`implementation`](#implementation)**  |  `{Object\|String}`  |          `less`          | Setup Less implementation to use.                      |
 
 ### `lessOptions`
 
@@ -316,7 +316,7 @@ module.exports = {
 
 ### `implementation`
 
-Type: `Object`
+Type: `Object` | `String`
 
 > ⚠ less-loader compatible with Less 3 and 4 versions
 
@@ -338,6 +338,7 @@ module.exports = {
           {
             loader: "less-loader",
             options: {
+              // implementation : require.resolve('less')
               implementation: require("less"),
             },
           },

@@ -60,25 +60,37 @@ exports[`validate options should throw an error on the "additionalData" option w
     * options.additionalData should be an instance of function."
 `;
 
-exports[`validate options should throw an error on the "implementation" option with "false" value 1`] = `
+exports[`validate options should throw an error on the "implementation" option with "1" value 1`] = `
 "Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
- - options.implementation should be an object:
-   object { … }
-   -> The implementation of the \`Less\` to be used (https://github.com/webpack-contrib/less-loader#implementation)."
+ - options.implementation should be one of these:
+   object { … } | string
+   -> The implementation of the \`Less\` to be used (https://github.com/webpack-contrib/less-loader#implementation).
+   Details:
+    * options.implementation should be an object:
+      object { … }
+    * options.implementation should be a string."
 `;
 
-exports[`validate options should throw an error on the "implementation" option with "string" value 1`] = `
+exports[`validate options should throw an error on the "implementation" option with "false" value 1`] = `
 "Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
- - options.implementation should be an object:
-   object { … }
-   -> The implementation of the \`Less\` to be used (https://github.com/webpack-contrib/less-loader#implementation)."
+ - options.implementation should be one of these:
+   object { … } | string
+   -> The implementation of the \`Less\` to be used (https://github.com/webpack-contrib/less-loader#implementation).
+   Details:
+    * options.implementation should be an object:
+      object { … }
+    * options.implementation should be a string."
 `;
 
 exports[`validate options should throw an error on the "implementation" option with "true" value 1`] = `
 "Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
- - options.implementation should be an object:
-   object { … }
-   -> The implementation of the \`Less\` to be used (https://github.com/webpack-contrib/less-loader#implementation)."
+ - options.implementation should be one of these:
+   object { … } | string
+   -> The implementation of the \`Less\` to be used (https://github.com/webpack-contrib/less-loader#implementation).
+   Details:
+    * options.implementation should be an object:
+      object { … }
+    * options.implementation should be a string."
 `;
 
 exports[`validate options should throw an error on the "lessOptions" option with "[]" value 1`] = `

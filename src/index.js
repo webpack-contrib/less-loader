@@ -35,7 +35,13 @@ async function lessLoader(source) {
   let result;
 
   try {
-    result = await (options.implementation || less).render(data, lessOptions);
+    const impl = options.implementation;
+    result =
+      await // eslint-disable-next-line global-require,import/no-dynamic-require
+      ((typeof impl === "string" ? require(impl) : impl) || less).render(
+        data,
+        lessOptions
+      );
   } catch (error) {
     if (error.filename) {
       // `less` returns forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`

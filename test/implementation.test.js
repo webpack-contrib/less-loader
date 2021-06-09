@@ -23,4 +23,19 @@ describe('"implementation" option', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
+
+  it("should work with path string", async () => {
+    const testId = "./basic.less";
+    const compiler = getCompiler(testId, {
+      implementation: "less",
+    });
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
 });
