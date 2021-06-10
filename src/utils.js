@@ -239,4 +239,30 @@ function normalizeSourceMap(map) {
   return newMap;
 }
 
-export { getLessOptions, isUnsupportedUrl, normalizeSourceMap };
+function getLessImplementation(loaderContext, implementation) {
+  let resolvedImplementation = implementation;
+
+  if (!implementation || typeof implementation === "string") {
+    const stylusImplPkg = implementation || "less";
+
+    try {
+      // eslint-disable-next-line import/no-dynamic-require, global-require
+      resolvedImplementation = require(stylusImplPkg);
+    } catch (error) {
+      loaderContext.emitError(error);
+
+      // eslint-disable-next-line consistent-return
+      return;
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  return resolvedImplementation;
+}
+
+export {
+  getLessOptions,
+  isUnsupportedUrl,
+  normalizeSourceMap,
+  getLessImplementation,
+};

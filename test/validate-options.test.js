@@ -27,8 +27,8 @@ describe("validate options", () => {
     },
     implementation: {
       // eslint-disable-next-line global-require
-      success: [require("less")],
-      failure: [true, false, "string"],
+      success: [require("less"), "less"],
+      failure: [true, false, () => {}, []],
     },
     unknown: {
       success: [],
