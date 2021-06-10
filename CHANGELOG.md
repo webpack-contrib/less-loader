@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.1.0](https://github.com/webpack-contrib/less-loader/compare/v9.0.0...v9.1.0) (2021-06-10)
+
+
+### Features
+
+* allow to use `String` value for the `implementation` option ([465ffc4](https://github.com/webpack-contrib/less-loader/commit/465ffc4052642d799bb29a85056517db31ee1bf5))
+
 ## [9.0.0](https://github.com/webpack-contrib/less-loader/compare/v8.1.1...v9.0.0) (2021-05-13)
 
 
