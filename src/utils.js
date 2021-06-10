@@ -1,7 +1,6 @@
 import path from "path";
 import util from "util";
 
-import less from "less";
 import { klona } from "klona/full";
 
 /* eslint-disable class-methods-use-this */
@@ -30,9 +29,10 @@ const MODULE_REQUEST_REGEX = /^[^?]*~/;
  * Creates a Less plugin that uses webpack's resolving engine that is provided by the loaderContext.
  *
  * @param {LoaderContext} loaderContext
+ * @param {object} implementation
  * @returns {LessPlugin}
  */
-function createWebpackLessPlugin(loaderContext) {
+function createWebpackLessPlugin(loaderContext, implementation) {
   const resolve = loaderContext.getResolve({
     dependencyType: "less",
     conditionNames: ["less", "style"],
@@ -42,7 +42,7 @@ function createWebpackLessPlugin(loaderContext) {
     preferRelative: true,
   });
 
-  class WebpackFileManager extends less.FileManager {
+  class WebpackFileManager extends implementation.FileManager {
     supports(filename) {
       if (filename[0] === "/" || IS_NATIVE_WIN32_PATH.test(filename)) {
         return true;
@@ -157,9 +157,10 @@ function createWebpackLessPlugin(loaderContext) {
  *
  * @param {object} loaderContext
  * @param {object} loaderOptions
+ * @param {object} implementation
  * @returns {Object}
  */
-function getLessOptions(loaderContext, loaderOptions) {
+function getLessOptions(loaderContext, loaderOptions, implementation) {
   const options = klona(
     typeof loaderOptions.lessOptions === "function"
       ? loaderOptions.lessOptions(loaderContext) || {}
@@ -180,7 +181,9 @@ function getLessOptions(loaderContext, loaderOptions) {
       : true;
 
   if (shouldUseWebpackImporter) {
-    lessOptions.plugins.unshift(createWebpackLessPlugin(loaderContext));
+    lessOptions.plugins.unshift(
+      createWebpackLessPlugin(loaderContext, implementation)
+    );
   }
 
   lessOptions.plugins.unshift({
@@ -243,11 +246,11 @@ function getLessImplementation(loaderContext, implementation) {
   let resolvedImplementation = implementation;
 
   if (!implementation || typeof implementation === "string") {
-    const stylusImplPkg = implementation || "less";
+    const lessImplPkg = implementation || "less";
 
     try {
       // eslint-disable-next-line import/no-dynamic-require, global-require
-      resolvedImplementation = require(stylusImplPkg);
+      resolvedImplementation = require(lessImplPkg);
     } catch (error) {
       loaderContext.emitError(error);
 

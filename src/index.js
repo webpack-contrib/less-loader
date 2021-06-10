@@ -1,7 +1,5 @@
 import path from "path";
 
-import less from "less";
-
 import schema from "./options.json";
 import {
   getLessOptions,
@@ -17,16 +15,22 @@ async function lessLoader(source) {
   const implementation = getLessImplementation(this, options.implementation);
 
   if (!implementation) {
-    callback();
+    callback(
+      new Error(`The Less implementation "${options.implementation}" not found`)
+    );
 
     return;
   }
 
   const webpackContextSymbol = Symbol("loaderContext");
-  const lessOptions = getLessOptions(this, {
-    ...options,
-    webpackContextSymbol,
-  });
+  const lessOptions = getLessOptions(
+    this,
+    {
+      ...options,
+      webpackContextSymbol,
+    },
+    implementation
+  );
   const useSourceMap =
     typeof options.sourceMap === "boolean" ? options.sourceMap : this.sourceMap;
 
@@ -61,7 +65,7 @@ async function lessLoader(source) {
     return;
   }
 
-  delete less[webpackContextSymbol];
+  delete implementation[webpackContextSymbol];
 
   const { css, imports } = result;
 
