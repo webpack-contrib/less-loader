@@ -1,19 +1,36 @@
 import path from "path";
 
-import less from "less";
-
 import schema from "./options.json";
-import { getLessOptions, isUnsupportedUrl, normalizeSourceMap } from "./utils";
+import {
+  getLessOptions,
+  isUnsupportedUrl,
+  normalizeSourceMap,
+  getLessImplementation,
+} from "./utils";
 import LessError from "./LessError";
 
 async function lessLoader(source) {
   const options = this.getOptions(schema);
   const callback = this.async();
+  const implementation = getLessImplementation(this, options.implementation);
+
+  if (!implementation) {
+    callback(
+      new Error(`The Less implementation "${options.implementation}" not found`)
+    );
+
+    return;
+  }
+
   const webpackContextSymbol = Symbol("loaderContext");
-  const lessOptions = getLessOptions(this, {
-    ...options,
-    webpackContextSymbol,
-  });
+  const lessOptions = getLessOptions(
+    this,
+    {
+      ...options,
+      webpackContextSymbol,
+    },
+    implementation
+  );
   const useSourceMap =
     typeof options.sourceMap === "boolean" ? options.sourceMap : this.sourceMap;
 
@@ -35,7 +52,7 @@ async function lessLoader(source) {
   let result;
 
   try {
-    result = await (options.implementation || less).render(data, lessOptions);
+    result = await implementation.render(data, lessOptions);
   } catch (error) {
     if (error.filename) {
       // `less` returns forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`
@@ -48,7 +65,7 @@ async function lessLoader(source) {
     return;
   }
 
-  delete less[webpackContextSymbol];
+  delete implementation[webpackContextSymbol];
 
   const { css, imports } = result;
 
