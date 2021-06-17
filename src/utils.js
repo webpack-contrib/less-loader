@@ -1,5 +1,4 @@
 import path from "path";
-import util from "util";
 
 import { klona } from "klona/full";
 
@@ -190,23 +189,6 @@ function getLessOptions(loaderContext, loaderOptions, implementation) {
     install(lessProcessor, pluginManager) {
       // eslint-disable-next-line no-param-reassign
       pluginManager.webpackLoaderContext = loaderContext;
-
-      // Todo remove in next major release `lessProcessor[webpackContextSymbol]`
-      const { webpackContextSymbol } = options;
-
-      // eslint-disable-next-line no-param-reassign
-      lessProcessor[webpackContextSymbol] = loaderContext;
-
-      Object.defineProperty(lessProcessor, "webpackLoaderContext", {
-        configurable: true,
-
-        get() {
-          util.deprecate(() => {},
-          "less.webpackLoaderContext is deprecated and will be removed in next major release. Instead use pluginManager.webpackLoaderContext (https://webpack.js.org/loaders/less-loader/#plugins)")();
-
-          return lessProcessor[webpackContextSymbol];
-        },
-      });
     },
   });
 

@@ -525,6 +525,17 @@ exports[`loader should watch imports correctly: errors 1`] = `Array []`;
 
 exports[`loader should watch imports correctly: warnings 1`] = `Array []`;
 
+exports[`loader should work and have loaderContext in less plugins: css 1`] = `
+".webpackLoaderContext {
+  isDefined: true;
+}
+"
+`;
+
+exports[`loader should work and have loaderContext in less plugins: errors 1`] = `Array []`;
+
+exports[`loader should work and have loaderContext in less plugins: warnings 1`] = `Array []`;
+
 exports[`loader should work and respect the 'resolve.byDependecy.less' option: css 1`] = `
 ".a {
   color: red;
@@ -578,28 +589,6 @@ exports[`loader should work lessOptions.relativeUrls is true: css 1`] = `
 exports[`loader should work lessOptions.relativeUrls is true: errors 1`] = `Array []`;
 
 exports[`loader should work lessOptions.relativeUrls is true: warnings 1`] = `Array []`;
-
-exports[`loader should work loaderContext in less plugins 2: css 1`] = `
-".webpackLoaderContext {
-  isDefined: true;
-}
-"
-`;
-
-exports[`loader should work loaderContext in less plugins 2: errors 1`] = `Array []`;
-
-exports[`loader should work loaderContext in less plugins 2: warnings 1`] = `Array []`;
-
-exports[`loader should work loaderContext in less plugins: css 1`] = `
-".webpackLoaderContext {
-  isDefined: true;
-}
-"
-`;
-
-exports[`loader should work loaderContext in less plugins: errors 1`] = `Array []`;
-
-exports[`loader should work loaderContext in less plugins: warnings 1`] = `Array []`;
 
 exports[`loader should work third-party plugins as fileLoader: css 1`] = `
 ".file-loader {
