@@ -22,15 +22,7 @@ async function lessLoader(source) {
     return;
   }
 
-  const webpackContextSymbol = Symbol("loaderContext");
-  const lessOptions = getLessOptions(
-    this,
-    {
-      ...options,
-      webpackContextSymbol,
-    },
-    implementation
-  );
+  const lessOptions = getLessOptions(this, options, implementation);
   const useSourceMap =
     typeof options.sourceMap === "boolean" ? options.sourceMap : this.sourceMap;
 
@@ -64,8 +56,6 @@ async function lessLoader(source) {
 
     return;
   }
-
-  delete implementation[webpackContextSymbol];
 
   const { css, imports } = result;
 
