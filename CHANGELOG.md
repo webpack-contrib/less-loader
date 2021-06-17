@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/webpack-contrib/less-loader/compare/v9.1.0...v10.0.0) (2021-06-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* `less.webpackLoaderContext` was removed, please use `pluginManager.webpackLoaderContext`
+
+### Bug Fixes
+
+* memory usage ([#425](https://github.com/webpack-contrib/less-loader/issues/425)) ([9c03b59](https://github.com/webpack-contrib/less-loader/commit/9c03b5914240e4e18bebd2d3a47ec0a650a67701))
+
 ## [9.1.0](https://github.com/webpack-contrib/less-loader/compare/v9.0.0...v9.1.0) (2021-06-10)
 
 
