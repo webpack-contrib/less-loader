@@ -57,6 +57,9 @@ async function lessLoader(source) {
     return;
   }
 
+  delete lessOptions.pluginManager.webpackLoaderContext;
+  delete lessOptions.pluginManager;
+
   const { css, imports } = result;
 
   imports.forEach((item) => {
