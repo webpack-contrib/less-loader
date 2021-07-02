@@ -189,6 +189,8 @@ function getLessOptions(loaderContext, loaderOptions, implementation) {
     install(lessProcessor, pluginManager) {
       // eslint-disable-next-line no-param-reassign
       pluginManager.webpackLoaderContext = loaderContext;
+
+      lessOptions.pluginManager = pluginManager;
     },
   });
 
