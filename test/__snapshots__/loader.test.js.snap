@@ -80,13 +80,13 @@ exports[`loader should delegate resolving (LESS) imports with URLs to "less" pac
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
-  src: url(https://fonts.gstatic.com/s/opensans/v20/mem5YaGs126MiZpBA-UN_r8OUuhs.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v21/mem5YaGs126MiZpBA-UN_r8OUuhs.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/opensans/v20/mem8YaGs126MiZpBA-UFVZ0e.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v21/mem8YaGs126MiZpBA-UFVZ0e.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
