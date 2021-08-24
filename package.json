@@ -56,7 +56,7 @@
     "del-cli": "^4.0.1",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-import": "^2.24.1",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
     "less": "^4.1.1",
@@ -66,7 +66,7 @@
     "prettier": "^2.3.2",
     "standard-version": "^9.3.1",
     "strip-ansi": "^7.0.0",
-    "webpack": "^5.45.1"
+    "webpack": "^5.51.1"
   },
   "keywords": [
     "webpack",
