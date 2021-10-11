@@ -2,6 +2,8 @@ import path from "path";
 
 import fs from "fs";
 
+import lessPluginGlob from 'less-plugin-glob';
+
 import CustomImportPlugin from "./fixtures/folder/customImportPlugin";
 import CustomFileLoaderPlugin from "./fixtures/folder/customFileLoaderPlugin";
 
@@ -871,6 +873,27 @@ describe("loader", () => {
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
     const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
+
+  it("should import from glob expressions", async () => {
+    const testId = "./glob.less";
+    const compiler = getCompiler(testId, {
+      lessOptions: {
+        plugins: [lessPluginGlob],
+      },
+    });
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId, {
+      lessOptions: {
+        plugins: [lessPluginGlob],
+      },
+    });
 
     expect(codeFromBundle.css).toBe(codeFromLess.css);
     expect(codeFromBundle.css).toMatchSnapshot("css");

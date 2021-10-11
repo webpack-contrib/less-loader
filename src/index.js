@@ -69,7 +69,12 @@ async function lessLoader(source) {
 
     // `less` return forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`
     // Ref: https://github.com/webpack-contrib/less-loader/issues/357
-    this.addDependency(path.normalize(item));
+    const normalizedItem = path.normalize(item);
+
+    // Custom `importer` can return only `contents` so item will be relative
+    if (path.isAbsolute(normalizedItem)) {
+      this.addDependency(normalizedItem);
+    }
   });
 
   let map =
