@@ -2,7 +2,7 @@ import path from "path";
 
 import fs from "fs";
 
-import lessPluginGlob from 'less-plugin-glob';
+import lessPluginGlob from "less-plugin-glob";
 
 import CustomImportPlugin from "./fixtures/folder/customImportPlugin";
 import CustomFileLoaderPlugin from "./fixtures/folder/customFileLoaderPlugin";
