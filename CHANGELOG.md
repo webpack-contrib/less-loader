@@ -2,9 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# Changelog
+## [10.2.0](https://github.com/webpack-contrib/less-loader/compare/v10.1.0...v10.2.0) (2021-10-18)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### Features
+
+* use webpack logger for logging ([#444](https://github.com/webpack-contrib/less-loader/issues/444)) ([239c737](https://github.com/webpack-contrib/less-loader/commit/239c737e2ede1d17d83a6d11a6bd11211cf7d77d))
 
 ## [10.1.0](https://github.com/webpack-contrib/less-loader/compare/v10.0.1...v10.1.0) (2021-10-11)
 
