@@ -122,6 +122,15 @@ exports[`loader should delegate resolving (LESS) imports with URLs to "less" pac
 
 exports[`loader should delegate resolving (LESS) imports with URLs to "less" package: warnings 1`] = `Array []`;
 
+exports[`loader should emit an error: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+",
+]
+`;
+
+exports[`loader should emit an error: warnings 1`] = `Array []`;
+
 exports[`loader should get absolute path relative rootContext: css 1`] = `
 ".box {
   color: #fe33ac;
@@ -548,6 +557,36 @@ exports[`loader should work and have loaderContext in less plugins: css 1`] = `
 exports[`loader should work and have loaderContext in less plugins: errors 1`] = `Array []`;
 
 exports[`loader should work and have loaderContext in less plugins: warnings 1`] = `Array []`;
+
+exports[`loader should work and logging: css 1`] = `
+"nav ul {
+  background: blue;
+}
+"
+`;
+
+exports[`loader should work and logging: errors 1`] = `Array []`;
+
+exports[`loader should work and logging: logs 1`] = `
+Array [
+  Array [
+    Object {
+      "args": Array [
+        "extend ' .inline' has no matches",
+      ],
+      "type": "warn",
+    },
+    Object {
+      "args": Array [
+        "The file undefined was skipped because it was not found and the import was marked optional.",
+      ],
+      "type": "log",
+    },
+  ],
+]
+`;
+
+exports[`loader should work and logging: warnings 1`] = `Array []`;
 
 exports[`loader should work and respect the 'resolve.byDependecy.less' option: css 1`] = `
 ".a {

@@ -41,6 +41,24 @@ async function lessLoader(source) {
         : `${options.additionalData}\n${data}`;
   }
 
+  const logger = this.getLogger("less-loader");
+  const loggerListener = {
+    error(message) {
+      logger.error(message);
+    },
+    warn(message) {
+      logger.warn(message);
+    },
+    info(message) {
+      logger.log(message);
+    },
+    debug(message) {
+      logger.debug(message);
+    },
+  };
+
+  implementation.logger.addListener(loggerListener);
+
   let result;
 
   try {
@@ -55,10 +73,13 @@ async function lessLoader(source) {
     callback(new LessError(error));
 
     return;
-  }
+  } finally {
+    // Fix memory leaks in `less`
+    implementation.logger.removeListener(loggerListener);
 
-  delete lessOptions.pluginManager.webpackLoaderContext;
-  delete lessOptions.pluginManager;
+    delete lessOptions.pluginManager.webpackLoaderContext;
+    delete lessOptions.pluginManager;
+  }
 
   const { css, imports } = result;
 
