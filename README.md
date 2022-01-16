@@ -23,7 +23,9 @@ To begin, you'll need to install `less` and `less-loader`:
 ```console
 npm install less less-loader --save-dev
 ```
-or 
+
+or
+
 ```console
 yarn add -D less less-loader
 ```
