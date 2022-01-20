@@ -21,7 +21,13 @@ A Less loader for webpack. Compiles Less to CSS.
 To begin, you'll need to install `less` and `less-loader`:
 
 ```console
-$ npm install less less-loader --save-dev
+npm install less less-loader --save-dev
+```
+
+or
+
+```console
+yarn add -D less less-loader
 ```
 
 Then add the loader to your `webpack` config. For example:
@@ -324,7 +330,7 @@ The special `implementation` option determines which implementation of Less to u
 
 **This option is only really useful for downstream tooling authors to ease the Less 3-to-4 transition.**
 
-#### Object
+#### `Object`
 
 **webpack.config.js**
 
@@ -350,7 +356,7 @@ module.exports = {
 };
 ```
 
-#### String
+#### `String`
 
 **webpack.config.js**
 
