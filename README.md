@@ -56,22 +56,25 @@ And run `webpack` via your preferred method.
 
 ## Options
 
-|                   Name                    |         Type         |         Default          | Description                                            |
-| :---------------------------------------: | :------------------: | :----------------------: | :----------------------------------------------------- |
-|     **[`lessOptions`](#lessoptions)**     | `{Object\|Function}` | `{ relativeUrls: true }` | Options for Less.                                      |
-|  **[`additionalData`](#additionalData)**  | `{String\|Function}` |       `undefined`        | Prepends/Appends `Less` code to the actual entry file. |
-|       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      |    `compiler.devtool`    | Enables/Disables generation of source maps.            |
-| **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |          `true`          | Enables/Disables the default Webpack importer.         |
-|  **[`implementation`](#implementation)**  |  `{Object\|String}`  |          `less`          | Setup Less implementation to use.                      |
+- **[`lessOptions`](#lessoptions)**
+- **[`additionalData`](#additionalData)**
+- **[`sourceMap`](#sourcemap)**
+- **[`webpackImporter`](#webpackimporter)**
+- **[`implementation`](#implementation)**
 
 ### `lessOptions`
 
-Type: `Object|Function`
+Type:
+
+```ts
+type lessOptions = object | ((loaderContext: LoaderContext) => object})
+```
+
 Default: `{ relativeUrls: true }`
 
 You can pass any Less specific options to the `less-loader` through the `lessOptions` property in the [loader options](https://webpack.js.org/configuration/module/#rule-options-rule-query). See the [Less documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options in dash-case. Since we're passing these options to Less programmatically, you need to pass them in camelCase here:
 
-#### `Object`
+#### `object`
 
 Use an object to pass options through to Less.
 
@@ -105,7 +108,7 @@ module.exports = {
 };
 ```
 
-#### `Function`
+#### `function`
 
 Allows setting the options passed through to Less based off of the loader context.
 
@@ -147,17 +150,24 @@ module.exports = {
 
 ### `additionalData`
 
-Type: `String|Function`
+Type:
+
+```ts
+type additionalData =
+  | string
+  | ((content: string, loaderContext: LoaderContext) => string);
+```
+
 Default: `undefined`
 
-Prepends `Less` code before the actual entry file.
+Prepends/Appends `Less` code to the actual entry file.
 In this case, the `less-loader` will not override the source but just **prepend** the entry's content.
 
 This is especially useful when some of your Less variables depend on the environment:
 
-> ℹ Since you're injecting code, this will break the source mappings in your entry file. Often there's a simpler solution than this, like multiple Less entry files.
+> Since you're injecting code, this will break the source mappings in your entry file. Often there's a simpler solution than this, like multiple Less entry files.
 
-#### `String`
+#### `string`
 
 ```js
 module.exports = {
@@ -181,9 +191,9 @@ module.exports = {
 };
 ```
 
-#### `Function`
+#### `function`
 
-##### Sync
+##### `Sync`
 
 ```js
 module.exports = {
@@ -217,7 +227,7 @@ module.exports = {
 };
 ```
 
-##### Async
+##### `Async`
 
 ```js
 module.exports = {
@@ -253,7 +263,12 @@ module.exports = {
 
 ### `sourceMap`
 
-Type: `Boolean`
+Type:
+
+```ts
+type sourceMap = boolean;
+```
+
 Default: depends on the `compiler.devtool` value
 
 By default generation of source maps depends on the [`devtool`](https://webpack.js.org/configuration/devtool/) option. All values enable source map generation except `eval` and `false` value.
@@ -289,7 +304,12 @@ module.exports = {
 
 ### `webpackImporter`
 
-Type: `Boolean`
+Type:
+
+```ts
+type webpackImporter = boolean;
+```
+
 Default: `true`
 
 Enables/Disables the default `webpack` importer.
@@ -322,15 +342,19 @@ module.exports = {
 
 ### `implementation`
 
-Type: `Object | String`
+Type:
 
-> ⚠ less-loader compatible with Less 3 and 4 versions
+```ts
+type implementation = object | string;
+```
+
+> less-loader compatible with Less 3 and 4 versions
 
 The special `implementation` option determines which implementation of Less to use. Overrides the locally installed `peerDependency` version of `less`.
 
 **This option is only really useful for downstream tooling authors to ease the Less 3-to-4 transition.**
 
-#### `Object`
+#### `object`
 
 **webpack.config.js**
 
@@ -356,7 +380,7 @@ module.exports = {
 };
 ```
 
-#### `String`
+#### `string`
 
 **webpack.config.js**
 
@@ -585,7 +609,7 @@ Bundling CSS with webpack has some nice advantages like referencing images and f
 There are two possibilities to extract a style sheet from the bundle:
 
 - [`extract-loader`](https://github.com/peerigon/extract-loader) (simpler, but specialized on the css-loader's output)
-- [MiniCssExtractPlugin](https://github.com/webpack-contrib/mini-css-extract-plugin) (more complex, but works in all use-cases)
+- [`MiniCssExtractPlugin`](https://github.com/webpack-contrib/mini-css-extract-plugin) (more complex, but works in all use-cases)
 
 ### CSS modules gotcha
 
