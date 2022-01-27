@@ -73,7 +73,7 @@ And run `webpack` via your preferred method.
 Type:
 
 ```ts
-type lessOptions = object | ((loaderContext: LoaderContext) => object})
+type lessOptions = import('less').options | ((loaderContext: LoaderContext) => import('less').options})
 ```
 
 Default: `{ relativeUrls: true }`
