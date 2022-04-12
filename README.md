@@ -320,7 +320,7 @@ Default: `true`
 
 Enables/Disables the default `webpack` importer.
 
-This can improve performance in some cases. Use it with caution because aliases and `@import` at-rules starting with `~` will not work.
+This can improve performance in some cases. Use it with caution because aliases and `@import` from [`node_modules`](https://webpack.js.org/configuration/resolve/#resolvemodules) will not work.
 
 **webpack.config.js**
 
@@ -487,7 +487,7 @@ Usually, it's recommended to extract the style sheets into a dedicated file in p
 
 ### Imports
 
-First we try to use built-in `less` resolve logic, then `webpack` resolve logic (aliases and `~`).
+First we try to use built-in `less` resolve logic, then `webpack` resolve logic.
 
 #### Webpack Resolver
 
@@ -500,12 +500,7 @@ Thus you can import your Less modules from `node_modules`.
 ```
 
 Using `~` is deprecated and can be removed from your code (**we recommend it**), but we still support it for historical reasons.
-Why you can removed it? The loader will first try to resolve `@import` as relative, if it cannot be resolved, the loader will try to resolve `@import` inside [`node_modules`](https://webpack.js.org/configuration/resolve/#resolve-modules).
-Just prepend them with a `~` which tells webpack to look up the [`modules`](https://webpack.js.org/configuration/resolve/#resolve-modules).
-
-```css
-@import "~bootstrap/less/bootstrap";
-```
+Why you can removed it? The loader will first try to resolve `@import` as relative, if it cannot be resolved, the loader will try to resolve `@import` inside [`node_modules`](https://webpack.js.org/configuration/resolve/#resolvemodules).
 
 Default resolver options can be modified by [`resolve.byDependency`](https://webpack.js.org/configuration/resolve/#resolvebydependency):
 
@@ -532,8 +527,6 @@ module.exports = {
   },
 };
 ```
-
-It's important to only prepend it with `~`, because `~/` resolves to the home-directory. webpack needs to distinguish between `bootstrap` and `~bootstrap`, because CSS and Less files have no special syntax for importing relative files. Writing `@import "file"` is the same as `@import "./file";`
 
 #### Less Resolver
 
