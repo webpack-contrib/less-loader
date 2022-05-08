@@ -325,40 +325,40 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  // it('should delegate resolving (LESS) imports with URLs to "less" package', async () => {
-  //   const testId = "./import-keyword-url.less";
-  //   const compiler = getCompiler(testId);
-  //   const stats = await compile(compiler);
-  //   const codeFromBundle = getCodeFromBundle(stats, compiler);
-  //   const codeFromLess = await getCodeFromLess(testId);
+  it('should delegate resolving (LESS) imports with URLs to "less" package', async () => {
+    const testId = "./import-keyword-url.less";
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
 
-  //   expect(codeFromBundle.css).toBe(codeFromLess.css);
-  //   expect(codeFromBundle.css).toMatchSnapshot("css");
-  //   expect(getWarnings(stats)).toMatchSnapshot("warnings");
-  //   expect(getErrors(stats)).toMatchSnapshot("errors");
-  // });
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
 
-  // it("should allow to import non-less files", async () => {
-  //   const testId = "./import-non-less.less";
-  //   const compiler = getCompiler(testId);
-  //   const stats = await compile(compiler);
-  //   const codeFromBundle = getCodeFromBundle(stats, compiler);
-  //   const codeFromLess = await getCodeFromLess(testId);
+  it("should allow to import non-less files", async () => {
+    const testId = "./import-non-less.less";
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
 
-  //   expect(codeFromBundle.css).toBe(codeFromLess.css);
-  //   expect(codeFromBundle.css).toMatchSnapshot("css");
-  //   expect(getWarnings(stats)).toMatchSnapshot("warnings");
-  //   expect(getErrors(stats)).toMatchSnapshot("errors");
-  // });
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
 
-  // it("should provide a useful error message if the import could not be found", async () => {
-  //   const testId = "./error-import-not-existing.less";
-  //   const compiler = getCompiler(testId);
-  //   const stats = await compile(compiler);
+  it("should provide a useful error message if the import could not be found", async () => {
+    const testId = "./error-import-not-existing.less";
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
 
-  //   expect(getWarnings(stats)).toMatchSnapshot("warnings");
-  //   expect(getErrors(stats)).toMatchSnapshot("errors");
-  // });
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
 
   it("should provide a useful error message if there was a syntax error", async () => {
     const testId = "./error-syntax.less";
