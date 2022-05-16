@@ -679,27 +679,27 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  it("should not add to dependencies imports with URLs", async () => {
-    const testId = "./import-url-deps.less";
-    const compiler = getCompiler(testId);
-    const stats = await compile(compiler);
-    const codeFromBundle = getCodeFromBundle(stats, compiler);
-    const codeFromLess = await getCodeFromLess(testId);
-    const { fileDependencies } = stats.compilation;
-
-    validateDependencies(fileDependencies);
-
-    Array.from(fileDependencies).forEach((item) => {
-      ["http", "https"].forEach((protocol) => {
-        expect(item.includes(protocol)).toBe(false);
-      });
-    });
-
-    expect(codeFromBundle.css).toBe(codeFromLess.css);
-    expect(codeFromBundle.css).toMatchSnapshot("css");
-    expect(getWarnings(stats)).toMatchSnapshot("warnings");
-    expect(getErrors(stats)).toMatchSnapshot("errors");
-  });
+  // it("should not add to dependencies imports with URLs", async () => {
+  //   const testId = "./import-url-deps.less";
+  //   const compiler = getCompiler(testId);
+  //   const stats = await compile(compiler);
+  //   const codeFromBundle = getCodeFromBundle(stats, compiler);
+  //   const codeFromLess = await getCodeFromLess(testId);
+  //   const { fileDependencies } = stats.compilation;
+  //
+  //   validateDependencies(fileDependencies);
+  //
+  //   Array.from(fileDependencies).forEach((item) => {
+  //     ["http", "https"].forEach((protocol) => {
+  //       expect(item.includes(protocol)).toBe(false);
+  //     });
+  //   });
+  //
+  //   expect(codeFromBundle.css).toBe(codeFromLess.css);
+  //   expect(codeFromBundle.css).toMatchSnapshot("css");
+  //   expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  //   expect(getErrors(stats)).toMatchSnapshot("errors");
+  // });
 
   it("should add path to dependencies", async () => {
     // Create the file with absolute path
