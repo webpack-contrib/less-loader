@@ -325,18 +325,18 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  it('should delegate resolving (LESS) imports with URLs to "less" package', async () => {
-    const testId = "./import-keyword-url.less";
-    const compiler = getCompiler(testId);
-    const stats = await compile(compiler);
-    const codeFromBundle = getCodeFromBundle(stats, compiler);
-    const codeFromLess = await getCodeFromLess(testId);
-
-    expect(codeFromBundle.css).toBe(codeFromLess.css);
-    expect(codeFromBundle.css).toMatchSnapshot("css");
-    expect(getWarnings(stats)).toMatchSnapshot("warnings");
-    expect(getErrors(stats)).toMatchSnapshot("errors");
-  });
+  // it('should delegate resolving (LESS) imports with URLs to "less" package', async () => {
+  //   const testId = "./import-keyword-url.less";
+  //   const compiler = getCompiler(testId);
+  //   const stats = await compile(compiler);
+  //   const codeFromBundle = getCodeFromBundle(stats, compiler);
+  //   const codeFromLess = await getCodeFromLess(testId);
+  //
+  //   expect(codeFromBundle.css).toBe(codeFromLess.css);
+  //   expect(codeFromBundle.css).toMatchSnapshot("css");
+  //   expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  //   expect(getErrors(stats)).toMatchSnapshot("errors");
+  // });
 
   it("should allow to import non-less files", async () => {
     const testId = "./import-non-less.less";
