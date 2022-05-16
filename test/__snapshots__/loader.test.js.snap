@@ -127,38 +127,6 @@ exports[`loader should install plugins: errors 1`] = `Array []`;
 
 exports[`loader should install plugins: warnings 1`] = `Array []`;
 
-exports[`loader should not add to dependencies imports with URLs: css 1`] = `
-"@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  src: url(http://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
-}
-"
-`;
-
-exports[`loader should not add to dependencies imports with URLs: errors 1`] = `Array []`;
-
-exports[`loader should not add to dependencies imports with URLs: warnings 1`] = `Array []`;
-
 exports[`loader should not alter the original options object: errors 1`] = `Array []`;
 
 exports[`loader should not alter the original options object: warnings 1`] = `Array []`;
