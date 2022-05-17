@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0](https://github.com/webpack-contrib/less-loader/compare/v10.2.0...v11.0.0) (2022-05-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* minimum supported `Node.js` version is `14.15.0`
+
 ## [10.2.0](https://github.com/webpack-contrib/less-loader/compare/v10.1.0...v10.2.0) (2021-10-18)
 
 
