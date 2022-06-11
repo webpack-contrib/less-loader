@@ -6,7 +6,6 @@
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
-[![deps][deps]][deps-url]
 [![tests][tests]][tests-url]
 [![cover][cover]][cover-url]
 [![chat][chat]][chat-url]
@@ -636,7 +635,6 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [node]: https://img.shields.io/node/v/less-loader.svg
 [node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/less-loader.svg
-[deps-url]: https://david-dm.org/webpack-contrib/less-loader
 [tests]: https://github.com/webpack-contrib/less-loader/workflows/less-loader/badge.svg
 [tests-url]: https://github.com/webpack-contrib/less-loader/actions
 [cover]: https://codecov.io/gh/webpack-contrib/less-loader/branch/master/graph/badge.svg
