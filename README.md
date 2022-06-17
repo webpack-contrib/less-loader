@@ -586,7 +586,9 @@ module.exports = {
 };
 ```
 
-> ℹ️ Access to the [loader context](https://webpack.js.org/api/loaders/#the-loader-context) inside the custom plugin can be done using the `pluginManager.webpackLoaderContext` property.
+> **Note**
+>
+> Access to the [loader context](https://webpack.js.org/api/loaders/#the-loader-context) inside the custom plugin can be done using the `pluginManager.webpackLoaderContext` property.
 
 ```js
 module.exports = {
