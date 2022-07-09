@@ -5,7 +5,7 @@ function testLoader(content, sourceMap) {
     result.map = sourceMap;
   }
 
-  return `export default ${JSON.stringify(result)}`;
+  return `module.exports = ${JSON.stringify(result)}`;
 }
 
 module.exports = testLoader;

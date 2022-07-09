@@ -1,6 +1,6 @@
-import path from "path";
+const path = require("path");
 
-import { klona } from "klona/full";
+const { klona } = require("klona/full");
 
 /* eslint-disable class-methods-use-this */
 const trailingSlash = /[/\\]$/;
@@ -247,7 +247,7 @@ function getLessImplementation(loaderContext, implementation) {
   return resolvedImplementation;
 }
 
-export {
+module.exports = {
   getLessOptions,
   isUnsupportedUrl,
   normalizeSourceMap,

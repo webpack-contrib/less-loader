@@ -1,13 +1,13 @@
-import path from "path";
+const path = require("path");
 
-import fs from "fs";
+const fs = require("fs");
 
-import lessPluginGlob from "less-plugin-glob";
+const lessPluginGlob = require("less-plugin-glob");
 
-import CustomImportPlugin from "./fixtures/folder/customImportPlugin";
-import CustomFileLoaderPlugin from "./fixtures/folder/customFileLoaderPlugin";
+const CustomImportPlugin = require("./fixtures/folder/customImportPlugin");
+const CustomFileLoaderPlugin = require("./fixtures/folder/customFileLoaderPlugin");
 
-import {
+const {
   compile,
   getCodeFromBundle,
   getCodeFromLess,
@@ -15,7 +15,7 @@ import {
   getErrors,
   getWarnings,
   validateDependencies,
-} from "./helpers";
+} = require("./helpers");
 
 const nodeModulesPath = path.resolve(__dirname, "fixtures", "node_modules");
 

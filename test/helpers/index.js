@@ -1,16 +1,16 @@
-import compile from "./compile";
-import execute from "./execute";
-import getCodeFromBundle from "./getCodeFromBundle";
-import getCodeFromLess from "./getCodeFromLess";
-import getCompiler from "./getCompiler";
-import getErrors from "./getErrors";
-import getWarnings from "./getWarnings";
-import normalizeErrors from "./normalizeErrors";
-import readAsset from "./readAsset";
-import readsAssets from "./readAssets";
-import validateDependencies from "./validateDependencies";
+const compile = require("./compile");
+const execute = require("./execute");
+const getCodeFromBundle = require("./getCodeFromBundle");
+const getCodeFromLess = require("./getCodeFromLess");
+const getCompiler = require("./getCompiler");
+const getErrors = require("./getErrors");
+const getWarnings = require("./getWarnings");
+const normalizeErrors = require("./normalizeErrors");
+const readAsset = require("./readAsset");
+const readsAssets = require("./readAssets");
+const validateDependencies = require("./validateDependencies");
 
-export {
+module.exports = {
   compile,
   execute,
   getCodeFromBundle,

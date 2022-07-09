@@ -1,14 +1,14 @@
-import path from "path";
-import fs from "fs";
+const path = require("path");
+const fs = require("fs");
 
-import {
+const {
   compile,
   getCodeFromBundle,
   getCodeFromLess,
   getCompiler,
   getErrors,
   getWarnings,
-} from "./helpers";
+} = require("./helpers");
 
 describe('"sourceMap" options', () => {
   it('should generate source maps when value is "true"', async () => {

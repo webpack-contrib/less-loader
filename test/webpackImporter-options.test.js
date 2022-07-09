@@ -1,11 +1,11 @@
-import {
+const {
   compile,
   getCodeFromBundle,
   getCodeFromLess,
   getCompiler,
   getErrors,
   getWarnings,
-} from "./helpers";
+} = require("./helpers");
 
 describe('"webpackImporter" option', () => {
   it("should work when value is not specify", async () => {

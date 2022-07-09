@@ -1,5 +1,5 @@
-import path from "path";
-import less from "less";
+const path = require("path");
+const less = require("less");
 
 class Plugin extends less.FileManager {
   supports(filename) {

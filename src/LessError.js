@@ -1,4 +1,4 @@
-import path from "path";
+const path = require("path");
 
 class LessError extends Error {
   constructor(error) {
@@ -36,4 +36,4 @@ class LessError extends Error {
   }
 }
 
-export default LessError;
+module.exports = LessError;

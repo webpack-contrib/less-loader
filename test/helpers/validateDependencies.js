@@ -1,6 +1,6 @@
 const illegalSymbol = process.platform === "win32" ? "/" : "\\";
 
-export default (dependencies) => {
+module.exports = (dependencies) => {
   for (const item of Array.from(dependencies)) {
     if (item.includes(illegalSymbol)) {
       throw new Error(

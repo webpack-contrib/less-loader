@@ -1,11 +1,11 @@
-import {
+const {
   compile,
   getCodeFromBundle,
   getCodeFromLess,
   getCompiler,
   getErrors,
   getWarnings,
-} from "./helpers";
+} = require("./helpers");
 
 describe('"additionalData" option', () => {
   it("should work as string", async () => {

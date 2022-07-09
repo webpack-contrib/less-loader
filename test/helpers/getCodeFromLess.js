@@ -1,7 +1,7 @@
-import path from "path";
-import fs from "fs";
+const path = require("path");
+const fs = require("fs");
 
-import less from "less";
+const less = require("less");
 
 const pathMap = {
   "some/css.css": path.resolve(
@@ -181,4 +181,4 @@ async function getCodeFromLess(testId, options = {}) {
   return less.render(data.toString(), mergedOptions);
 }
 
-export default getCodeFromLess;
+module.exports = getCodeFromLess;

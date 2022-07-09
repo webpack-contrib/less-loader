@@ -1,13 +1,13 @@
-import path from "path";
+const path = require("path");
 
-import schema from "./options.json";
-import {
+const schema = require("./options.json");
+const {
   getLessOptions,
   isUnsupportedUrl,
   normalizeSourceMap,
   getLessImplementation,
-} from "./utils";
-import LessError from "./LessError";
+} = require("./utils");
+const LessError = require("./LessError");
 
 async function lessLoader(source) {
   const options = this.getOptions(schema);
@@ -108,4 +108,4 @@ async function lessLoader(source) {
   callback(null, css, map);
 }
 
-export default lessLoader;
+module.exports = lessLoader;
