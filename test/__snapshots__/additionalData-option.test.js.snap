@@ -11,9 +11,9 @@ exports[`"additionalData" option should as function: css 1`] = `
 "
 `;
 
-exports[`"additionalData" option should as function: errors 1`] = `Array []`;
+exports[`"additionalData" option should as function: errors 1`] = `[]`;
 
-exports[`"additionalData" option should as function: warnings 1`] = `Array []`;
+exports[`"additionalData" option should as function: warnings 1`] = `[]`;
 
 exports[`"additionalData" option should work as async function: css 1`] = `
 "/* RelativePath: additional-data.less; */
@@ -26,9 +26,9 @@ exports[`"additionalData" option should work as async function: css 1`] = `
 "
 `;
 
-exports[`"additionalData" option should work as async function: errors 1`] = `Array []`;
+exports[`"additionalData" option should work as async function: errors 1`] = `[]`;
 
-exports[`"additionalData" option should work as async function: warnings 1`] = `Array []`;
+exports[`"additionalData" option should work as async function: warnings 1`] = `[]`;
 
 exports[`"additionalData" option should work as string: css 1`] = `
 ".background {
@@ -37,6 +37,6 @@ exports[`"additionalData" option should work as string: css 1`] = `
 "
 `;
 
-exports[`"additionalData" option should work as string: errors 1`] = `Array []`;
+exports[`"additionalData" option should work as string: errors 1`] = `[]`;
 
-exports[`"additionalData" option should work as string: warnings 1`] = `Array []`;
+exports[`"additionalData" option should work as string: warnings 1`] = `[]`;
