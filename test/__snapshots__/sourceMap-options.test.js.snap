@@ -11,23 +11,23 @@ exports[`"sourceMap" options should generate source maps when the "devtool" valu
 "
 `;
 
-exports[`"sourceMap" options should generate source maps when the "devtool" value is "source-map": errors 1`] = `Array []`;
+exports[`"sourceMap" options should generate source maps when the "devtool" value is "source-map": errors 1`] = `[]`;
 
 exports[`"sourceMap" options should generate source maps when the "devtool" value is "source-map": source map 1`] = `
-Object {
+{
   "mappings": "AAAA;ACEA;EDDC,cAAA;;ACCD;EACE,YAAA",
-  "names": Array [],
+  "names": [],
   "sourceRoot": "",
-  "sources": Array [
+  "sources": [
     "test/fixtures/node_modules/some/module.less",
     "test/fixtures/source-map.less",
   ],
-  "sourcesContent": Array [
+  "sourcesContent": [
     ".modules-dir-some-module {
 	color: hotpink;
 }
 ",
-    "@import \\"some/module\\";
+    "@import "some/module";
 
 #it-works:extend(.modules-dir-some-module) {
   margin: 10px;
@@ -38,7 +38,7 @@ Object {
 }
 `;
 
-exports[`"sourceMap" options should generate source maps when the "devtool" value is "source-map": warnings 1`] = `Array []`;
+exports[`"sourceMap" options should generate source maps when the "devtool" value is "source-map": warnings 1`] = `[]`;
 
 exports[`"sourceMap" options should generate source maps when value has "false" value, but the "lessOptions.sourceMap.outputSourceFiles" is "true": css 1`] = `
 ".modules-dir-some-module,
@@ -51,23 +51,23 @@ exports[`"sourceMap" options should generate source maps when value has "false" 
 "
 `;
 
-exports[`"sourceMap" options should generate source maps when value has "false" value, but the "lessOptions.sourceMap.outputSourceFiles" is "true": errors 1`] = `Array []`;
+exports[`"sourceMap" options should generate source maps when value has "false" value, but the "lessOptions.sourceMap.outputSourceFiles" is "true": errors 1`] = `[]`;
 
 exports[`"sourceMap" options should generate source maps when value has "false" value, but the "lessOptions.sourceMap.outputSourceFiles" is "true": source map 1`] = `
-Object {
+{
   "mappings": "AAAA;ACEA;EDDC,cAAA;;ACCD;EACE,YAAA",
-  "names": Array [],
+  "names": [],
   "sourceRoot": "",
-  "sources": Array [
+  "sources": [
     "test/fixtures/node_modules/some/module.less",
     "test/fixtures/source-map.less",
   ],
-  "sourcesContent": Array [
+  "sourcesContent": [
     ".modules-dir-some-module {
 	color: hotpink;
 }
 ",
-    "@import \\"some/module\\";
+    "@import "some/module";
 
 #it-works:extend(.modules-dir-some-module) {
   margin: 10px;
@@ -78,7 +78,7 @@ Object {
 }
 `;
 
-exports[`"sourceMap" options should generate source maps when value has "false" value, but the "lessOptions.sourceMap.outputSourceFiles" is "true": warnings 1`] = `Array []`;
+exports[`"sourceMap" options should generate source maps when value has "false" value, but the "lessOptions.sourceMap.outputSourceFiles" is "true": warnings 1`] = `[]`;
 
 exports[`"sourceMap" options should generate source maps when value is "true" and the "devtool" value is "false": css 1`] = `
 ".modules-dir-some-module,
@@ -91,23 +91,23 @@ exports[`"sourceMap" options should generate source maps when value is "true" an
 "
 `;
 
-exports[`"sourceMap" options should generate source maps when value is "true" and the "devtool" value is "false": errors 1`] = `Array []`;
+exports[`"sourceMap" options should generate source maps when value is "true" and the "devtool" value is "false": errors 1`] = `[]`;
 
 exports[`"sourceMap" options should generate source maps when value is "true" and the "devtool" value is "false": source map 1`] = `
-Object {
+{
   "mappings": "AAAA;ACEA;EDDC,cAAA;;ACCD;EACE,YAAA",
-  "names": Array [],
+  "names": [],
   "sourceRoot": "",
-  "sources": Array [
+  "sources": [
     "test/fixtures/node_modules/some/module.less",
     "test/fixtures/source-map.less",
   ],
-  "sourcesContent": Array [
+  "sourcesContent": [
     ".modules-dir-some-module {
 	color: hotpink;
 }
 ",
-    "@import \\"some/module\\";
+    "@import "some/module";
 
 #it-works:extend(.modules-dir-some-module) {
   margin: 10px;
@@ -118,7 +118,7 @@ Object {
 }
 `;
 
-exports[`"sourceMap" options should generate source maps when value is "true" and the "devtool" value is "false": warnings 1`] = `Array []`;
+exports[`"sourceMap" options should generate source maps when value is "true" and the "devtool" value is "false": warnings 1`] = `[]`;
 
 exports[`"sourceMap" options should generate source maps when value is "true": css 1`] = `
 ".modules-dir-some-module,
@@ -131,23 +131,23 @@ exports[`"sourceMap" options should generate source maps when value is "true": c
 "
 `;
 
-exports[`"sourceMap" options should generate source maps when value is "true": errors 1`] = `Array []`;
+exports[`"sourceMap" options should generate source maps when value is "true": errors 1`] = `[]`;
 
 exports[`"sourceMap" options should generate source maps when value is "true": source map 1`] = `
-Object {
+{
   "mappings": "AAAA;ACEA;EDDC,cAAA;;ACCD;EACE,YAAA",
-  "names": Array [],
+  "names": [],
   "sourceRoot": "",
-  "sources": Array [
+  "sources": [
     "test/fixtures/node_modules/some/module.less",
     "test/fixtures/source-map.less",
   ],
-  "sourcesContent": Array [
+  "sourcesContent": [
     ".modules-dir-some-module {
 	color: hotpink;
 }
 ",
-    "@import \\"some/module\\";
+    "@import "some/module";
 
 #it-works:extend(.modules-dir-some-module) {
   margin: 10px;
@@ -158,7 +158,7 @@ Object {
 }
 `;
 
-exports[`"sourceMap" options should generate source maps when value is "true": warnings 1`] = `Array []`;
+exports[`"sourceMap" options should generate source maps when value is "true": warnings 1`] = `[]`;
 
 exports[`"sourceMap" options should not generate source maps when the "devtool" value is "false": css 1`] = `
 ".modules-dir-some-module,
@@ -171,9 +171,9 @@ exports[`"sourceMap" options should not generate source maps when the "devtool" 
 "
 `;
 
-exports[`"sourceMap" options should not generate source maps when the "devtool" value is "false": errors 1`] = `Array []`;
+exports[`"sourceMap" options should not generate source maps when the "devtool" value is "false": errors 1`] = `[]`;
 
-exports[`"sourceMap" options should not generate source maps when the "devtool" value is "false": warnings 1`] = `Array []`;
+exports[`"sourceMap" options should not generate source maps when the "devtool" value is "false": warnings 1`] = `[]`;
 
 exports[`"sourceMap" options should not generate source maps when value is "false" and the "devtool" value is "source-map": css 1`] = `
 ".modules-dir-some-module,
@@ -186,9 +186,9 @@ exports[`"sourceMap" options should not generate source maps when value is "fals
 "
 `;
 
-exports[`"sourceMap" options should not generate source maps when value is "false" and the "devtool" value is "source-map": errors 1`] = `Array []`;
+exports[`"sourceMap" options should not generate source maps when value is "false" and the "devtool" value is "source-map": errors 1`] = `[]`;
 
-exports[`"sourceMap" options should not generate source maps when value is "false" and the "devtool" value is "source-map": warnings 1`] = `Array []`;
+exports[`"sourceMap" options should not generate source maps when value is "false" and the "devtool" value is "source-map": warnings 1`] = `[]`;
 
 exports[`"sourceMap" options should not generate source maps when value is "false": css 1`] = `
 ".modules-dir-some-module,
@@ -201,6 +201,6 @@ exports[`"sourceMap" options should not generate source maps when value is "fals
 "
 `;
 
-exports[`"sourceMap" options should not generate source maps when value is "false": errors 1`] = `Array []`;
+exports[`"sourceMap" options should not generate source maps when value is "false": errors 1`] = `[]`;
 
-exports[`"sourceMap" options should not generate source maps when value is "false": warnings 1`] = `Array []`;
+exports[`"sourceMap" options should not generate source maps when value is "false": warnings 1`] = `[]`;
