@@ -41,7 +41,6 @@
     "webpack": "^5.0.0"
   },
   "dependencies": {
-    "jest-worker": "^29.0.3",
     "klona": "^2.0.4"
   },
   "devDependencies": {
