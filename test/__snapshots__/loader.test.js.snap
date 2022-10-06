@@ -583,6 +583,28 @@ exports[`loader should work third-party plugins as fileLoader: errors 1`] = `[]`
 
 exports[`loader should work third-party plugins as fileLoader: warnings 1`] = `[]`;
 
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme1): css 1`] = `
+".load-me {
+  color: red;
+}
+"
+`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme1): errors 1`] = `[]`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme1): warnings 1`] = `[]`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme2): css 1`] = `
+".load-me {
+  color: blue;
+}
+"
+`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme2): errors 1`] = `[]`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme2): warnings 1`] = `[]`;
+
 exports[`loader should work: css 1`] = `
 ".box {
   color: #fe33ac;
