@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.1.0](https://github.com/webpack-contrib/less-loader/compare/v11.0.0...v11.1.0) (2022-10-06)
+
+
+### Features
+
+* allow to extend `conditionNames` ([#488](https://github.com/webpack-contrib/less-loader/issues/488)) ([43cd20c](https://github.com/webpack-contrib/less-loader/commit/43cd20c7c321c07d98df73bd16405f46f86cfc4f))
+
+## [11.0.0](https://github.com/webpack-contrib/less-loader/compare/v10.2.0...v11.0.0) (2022-05-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* minimum supported `Node.js` version is `14.15.0`
+
 ## [10.2.0](https://github.com/webpack-contrib/less-loader/compare/v10.1.0...v10.2.0) (2021-10-18)
 
 

@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`loader should add a file with an error as dependency so that the watcher is triggered when the error is fixed: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ",
 ]
 `;
 
-exports[`loader should add a file with an error as dependency so that the watcher is triggered when the error is fixed: warnings 1`] = `Array []`;
+exports[`loader should add a file with an error as dependency so that the watcher is triggered when the error is fixed: warnings 1`] = `[]`;
 
-exports[`loader should add all resolved imports as dependencies, including aliased ones: errors 1`] = `Array []`;
+exports[`loader should add all resolved imports as dependencies, including aliased ones: errors 1`] = `[]`;
 
-exports[`loader should add all resolved imports as dependencies, including aliased ones: warnings 1`] = `Array []`;
+exports[`loader should add all resolved imports as dependencies, including aliased ones: warnings 1`] = `[]`;
 
-exports[`loader should add all resolved imports as dependencies, including node_modules: errors 1`] = `Array []`;
+exports[`loader should add all resolved imports as dependencies, including node_modules: errors 1`] = `[]`;
 
-exports[`loader should add all resolved imports as dependencies, including node_modules: warnings 1`] = `Array []`;
+exports[`loader should add all resolved imports as dependencies, including node_modules: warnings 1`] = `[]`;
 
-exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: errors 1`] = `Array []`;
+exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: errors 1`] = `[]`;
 
-exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: warnings 1`] = `Array []`;
+exports[`loader should add all resolved imports as dependencies, including those from the Less resolver: warnings 1`] = `[]`;
 
-exports[`loader should add all resolved imports as dependencies: errors 1`] = `Array []`;
+exports[`loader should add all resolved imports as dependencies: errors 1`] = `[]`;
 
-exports[`loader should add all resolved imports as dependencies: warnings 1`] = `Array []`;
+exports[`loader should add all resolved imports as dependencies: warnings 1`] = `[]`;
 
 exports[`loader should add path to dependencies: css 1`] = `
 ".box {
@@ -38,9 +38,9 @@ exports[`loader should add path to dependencies: css 1`] = `
 "
 `;
 
-exports[`loader should add path to dependencies: errors 1`] = `Array []`;
+exports[`loader should add path to dependencies: errors 1`] = `[]`;
 
-exports[`loader should add path to dependencies: warnings 1`] = `Array []`;
+exports[`loader should add path to dependencies: warnings 1`] = `[]`;
 
 exports[`loader should allow to import non-less files: css 1`] = `
 ".some-file {
@@ -49,9 +49,9 @@ exports[`loader should allow to import non-less files: css 1`] = `
 "
 `;
 
-exports[`loader should allow to import non-less files: errors 1`] = `Array []`;
+exports[`loader should allow to import non-less files: errors 1`] = `[]`;
 
-exports[`loader should allow to import non-less files: warnings 1`] = `Array []`;
+exports[`loader should allow to import non-less files: warnings 1`] = `[]`;
 
 exports[`loader should be able to import a file with an absolute path: css 1`] = `
 ".it-works {
@@ -60,76 +60,29 @@ exports[`loader should be able to import a file with an absolute path: css 1`] =
 "
 `;
 
-exports[`loader should be able to import a file with an absolute path: errors 1`] = `Array []`;
+exports[`loader should be able to import a file with an absolute path: errors 1`] = `[]`;
 
-exports[`loader should be able to import a file with an absolute path: warnings 1`] = `Array []`;
+exports[`loader should be able to import a file with an absolute path: warnings 1`] = `[]`;
 
 exports[`loader should compile data-uri function: css 1`] = `
 ".img {
-  background: url(\\"data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2210%22%2F%3E%0A%3C%2Fsvg%3E\\");
+  background: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2210%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 "
 `;
 
-exports[`loader should compile data-uri function: errors 1`] = `Array []`;
+exports[`loader should compile data-uri function: errors 1`] = `[]`;
 
-exports[`loader should compile data-uri function: warnings 1`] = `Array []`;
-
-exports[`loader should delegate resolving (LESS) imports with URLs to "less" package: css 1`] = `
-"@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 300;
-  font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v27/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVc.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v27/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
-}
-"
-`;
-
-exports[`loader should delegate resolving (LESS) imports with URLs to "less" package: errors 1`] = `Array []`;
-
-exports[`loader should delegate resolving (LESS) imports with URLs to "less" package: warnings 1`] = `Array []`;
+exports[`loader should compile data-uri function: warnings 1`] = `[]`;
 
 exports[`loader should emit an error: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ",
 ]
 `;
 
-exports[`loader should emit an error: warnings 1`] = `Array []`;
+exports[`loader should emit an error: warnings 1`] = `[]`;
 
 exports[`loader should get absolute path relative rootContext: css 1`] = `
 ".box {
@@ -144,9 +97,9 @@ exports[`loader should get absolute path relative rootContext: css 1`] = `
 "
 `;
 
-exports[`loader should get absolute path relative rootContext: errors 1`] = `Array []`;
+exports[`loader should get absolute path relative rootContext: errors 1`] = `[]`;
 
-exports[`loader should get absolute path relative rootContext: warnings 1`] = `Array []`;
+exports[`loader should get absolute path relative rootContext: warnings 1`] = `[]`;
 
 exports[`loader should import from glob expressions: css 1`] = `
 ".a {
@@ -155,9 +108,9 @@ exports[`loader should import from glob expressions: css 1`] = `
 "
 `;
 
-exports[`loader should import from glob expressions: errors 1`] = `Array []`;
+exports[`loader should import from glob expressions: errors 1`] = `[]`;
 
-exports[`loader should import from glob expressions: warnings 1`] = `Array []`;
+exports[`loader should import from glob expressions: warnings 1`] = `[]`;
 
 exports[`loader should import from plugins: css 1`] = `
 ".imported-class {
@@ -166,49 +119,17 @@ exports[`loader should import from plugins: css 1`] = `
 "
 `;
 
-exports[`loader should import from plugins: errors 1`] = `Array []`;
+exports[`loader should import from plugins: errors 1`] = `[]`;
 
-exports[`loader should import from plugins: warnings 1`] = `Array []`;
+exports[`loader should import from plugins: warnings 1`] = `[]`;
 
-exports[`loader should install plugins: errors 1`] = `Array []`;
+exports[`loader should install plugins: errors 1`] = `[]`;
 
-exports[`loader should install plugins: warnings 1`] = `Array []`;
+exports[`loader should install plugins: warnings 1`] = `[]`;
 
-exports[`loader should not add to dependencies imports with URLs: css 1`] = `
-"@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  src: url(http://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmSU5fBBc9.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
-}
-"
-`;
+exports[`loader should not alter the original options object: errors 1`] = `[]`;
 
-exports[`loader should not add to dependencies imports with URLs: errors 1`] = `Array []`;
-
-exports[`loader should not add to dependencies imports with URLs: warnings 1`] = `Array []`;
-
-exports[`loader should not alter the original options object: errors 1`] = `Array []`;
-
-exports[`loader should not alter the original options object: warnings 1`] = `Array []`;
+exports[`loader should not alter the original options object: warnings 1`] = `[]`;
 
 exports[`loader should not to disable webpack's resolver by passing an empty paths array: css 1`] = `
 ".img {
@@ -235,20 +156,20 @@ body {
 "
 `;
 
-exports[`loader should not to disable webpack's resolver by passing an empty paths array: errors 1`] = `Array []`;
+exports[`loader should not to disable webpack's resolver by passing an empty paths array: errors 1`] = `[]`;
 
-exports[`loader should not to disable webpack's resolver by passing an empty paths array: warnings 1`] = `Array []`;
+exports[`loader should not to disable webpack's resolver by passing an empty paths array: warnings 1`] = `[]`;
 
 exports[`loader should not try to resolve CSS imports with URLs: css 1`] = `
-"@import url(\\"http://fonts.googleapis.com/css?family=Roboto:300,400,500\\");
-@import url(\\"https://fonts.googleapis.com/css?family=Roboto:300,400,500\\");
-@import url(\\"//fonts.googleapis.com/css?family=Roboto:300,400,500\\");
+"@import url("http://fonts.googleapis.com/css?family=Roboto:300,400,500");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500");
+@import url("//fonts.googleapis.com/css?family=Roboto:300,400,500");
 "
 `;
 
-exports[`loader should not try to resolve CSS imports with URLs: errors 1`] = `Array []`;
+exports[`loader should not try to resolve CSS imports with URLs: errors 1`] = `[]`;
 
-exports[`loader should not try to resolve CSS imports with URLs: warnings 1`] = `Array []`;
+exports[`loader should not try to resolve CSS imports with URLs: warnings 1`] = `[]`;
 
 exports[`loader should prefer-relativee imports correctly: css 1`] = `
 ".prefer-relative-import {
@@ -260,36 +181,36 @@ exports[`loader should prefer-relativee imports correctly: css 1`] = `
 "
 `;
 
-exports[`loader should prefer-relativee imports correctly: errors 1`] = `Array []`;
+exports[`loader should prefer-relativee imports correctly: errors 1`] = `[]`;
 
-exports[`loader should prefer-relativee imports correctly: warnings 1`] = `Array []`;
+exports[`loader should prefer-relativee imports correctly: warnings 1`] = `[]`;
 
 exports[`loader should provide a useful error message if the import could not be found: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ",
 ]
 `;
 
-exports[`loader should provide a useful error message if the import could not be found: warnings 1`] = `Array []`;
+exports[`loader should provide a useful error message if the import could not be found: warnings 1`] = `[]`;
 
 exports[`loader should provide a useful error message if there was a syntax error: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ",
 ]
 `;
 
-exports[`loader should provide a useful error message if there was a syntax error: warnings 1`] = `Array []`;
+exports[`loader should provide a useful error message if there was a syntax error: warnings 1`] = `[]`;
 
 exports[`loader should resolve "@import" with "css" extension: css 1`] = `
-"@import \\"css.css\\";
+"@import "css.css";
 "
 `;
 
-exports[`loader should resolve "@import" with "css" extension: errors 1`] = `Array []`;
+exports[`loader should resolve "@import" with "css" extension: errors 1`] = `[]`;
 
-exports[`loader should resolve "@import" with "css" extension: warnings 1`] = `Array []`;
+exports[`loader should resolve "@import" with "css" extension: warnings 1`] = `[]`;
 
 exports[`loader should resolve "@import" with "less" extension: css 1`] = `
 ".box {
@@ -304,9 +225,9 @@ exports[`loader should resolve "@import" with "less" extension: css 1`] = `
 "
 `;
 
-exports[`loader should resolve "@import" with "less" extension: errors 1`] = `Array []`;
+exports[`loader should resolve "@import" with "less" extension: errors 1`] = `[]`;
 
-exports[`loader should resolve "@import" with "less" extension: warnings 1`] = `Array []`;
+exports[`loader should resolve "@import" with "less" extension: warnings 1`] = `[]`;
 
 exports[`loader should resolve "@import" with "php" extension: css 1`] = `
 "a {
@@ -315,9 +236,9 @@ exports[`loader should resolve "@import" with "php" extension: css 1`] = `
 "
 `;
 
-exports[`loader should resolve "@import" with "php" extension: errors 1`] = `Array []`;
+exports[`loader should resolve "@import" with "php" extension: errors 1`] = `[]`;
 
-exports[`loader should resolve "@import" with "php" extension: warnings 1`] = `Array []`;
+exports[`loader should resolve "@import" with "php" extension: warnings 1`] = `[]`;
 
 exports[`loader should resolve "@import" without "less" extension: css 1`] = `
 ".box {
@@ -332,9 +253,9 @@ exports[`loader should resolve "@import" without "less" extension: css 1`] = `
 "
 `;
 
-exports[`loader should resolve "@import" without "less" extension: errors 1`] = `Array []`;
+exports[`loader should resolve "@import" without "less" extension: errors 1`] = `[]`;
 
-exports[`loader should resolve "@import" without "less" extension: warnings 1`] = `Array []`;
+exports[`loader should resolve "@import" without "less" extension: warnings 1`] = `[]`;
 
 exports[`loader should resolve absolute path with alias: css 1`] = `
 ".box {
@@ -349,9 +270,9 @@ exports[`loader should resolve absolute path with alias: css 1`] = `
 "
 `;
 
-exports[`loader should resolve absolute path with alias: errors 1`] = `Array []`;
+exports[`loader should resolve absolute path with alias: errors 1`] = `[]`;
 
-exports[`loader should resolve absolute path with alias: warnings 1`] = `Array []`;
+exports[`loader should resolve absolute path with alias: warnings 1`] = `[]`;
 
 exports[`loader should resolve absolute path: css 1`] = `
 ".box {
@@ -366,9 +287,9 @@ exports[`loader should resolve absolute path: css 1`] = `
 "
 `;
 
-exports[`loader should resolve absolute path: errors 1`] = `Array []`;
+exports[`loader should resolve absolute path: errors 1`] = `[]`;
 
-exports[`loader should resolve absolute path: warnings 1`] = `Array []`;
+exports[`loader should resolve absolute path: warnings 1`] = `[]`;
 
 exports[`loader should resolve aliases in diffrent variants: css 1`] = `
 ".img {
@@ -395,13 +316,13 @@ body {
 "
 `;
 
-exports[`loader should resolve aliases in diffrent variants: errors 1`] = `Array []`;
+exports[`loader should resolve aliases in diffrent variants: errors 1`] = `[]`;
 
-exports[`loader should resolve aliases in diffrent variants: warnings 1`] = `Array []`;
+exports[`loader should resolve aliases in diffrent variants: warnings 1`] = `[]`;
 
 exports[`loader should resolve all imports from node_modules using webpack's resolver: css 1`] = `
-"@import \\"some/css.css\\";
-@import \\"some/css.css\\";
+"@import "some/css.css";
+@import "some/css.css";
 #it-works {
   color: hotpink;
 }
@@ -415,9 +336,9 @@ exports[`loader should resolve all imports from node_modules using webpack's res
 "
 `;
 
-exports[`loader should resolve all imports from node_modules using webpack's resolver: errors 1`] = `Array []`;
+exports[`loader should resolve all imports from node_modules using webpack's resolver: errors 1`] = `[]`;
 
-exports[`loader should resolve all imports from node_modules using webpack's resolver: warnings 1`] = `Array []`;
+exports[`loader should resolve all imports from node_modules using webpack's resolver: warnings 1`] = `[]`;
 
 exports[`loader should resolve all imports from the given paths using Less resolver: css 1`] = `
 ".modules-dir-some-module {
@@ -426,13 +347,13 @@ exports[`loader should resolve all imports from the given paths using Less resol
 "
 `;
 
-exports[`loader should resolve all imports from the given paths using Less resolver: errors 1`] = `Array []`;
+exports[`loader should resolve all imports from the given paths using Less resolver: errors 1`] = `[]`;
 
-exports[`loader should resolve all imports from the given paths using Less resolver: warnings 1`] = `Array []`;
+exports[`loader should resolve all imports from the given paths using Less resolver: warnings 1`] = `[]`;
 
 exports[`loader should resolve all imports: css 1`] = `
-"@import \\"css.css\\";
-@import \\"css.css\\";
+"@import "css.css";
+@import "css.css";
 .classical-css,
 #it-works {
   background: hotpink;
@@ -453,9 +374,9 @@ exports[`loader should resolve all imports: css 1`] = `
 "
 `;
 
-exports[`loader should resolve all imports: errors 1`] = `Array []`;
+exports[`loader should resolve all imports: errors 1`] = `[]`;
 
-exports[`loader should resolve all imports: warnings 1`] = `Array []`;
+exports[`loader should resolve all imports: warnings 1`] = `[]`;
 
 exports[`loader should resolve nested imports: css 1`] = `
 ".top-import {
@@ -467,9 +388,9 @@ exports[`loader should resolve nested imports: css 1`] = `
 "
 `;
 
-exports[`loader should resolve nested imports: errors 1`] = `Array []`;
+exports[`loader should resolve nested imports: errors 1`] = `[]`;
 
-exports[`loader should resolve nested imports: warnings 1`] = `Array []`;
+exports[`loader should resolve nested imports: warnings 1`] = `[]`;
 
 exports[`loader should resolve non-less import with alias: css 1`] = `
 ".some-file {
@@ -478,9 +399,9 @@ exports[`loader should resolve non-less import with alias: css 1`] = `
 "
 `;
 
-exports[`loader should resolve non-less import with alias: errors 1`] = `Array []`;
+exports[`loader should resolve non-less import with alias: errors 1`] = `[]`;
 
-exports[`loader should resolve non-less import with alias: warnings 1`] = `Array []`;
+exports[`loader should resolve non-less import with alias: warnings 1`] = `[]`;
 
 exports[`loader should resolve the "less" field from the "exports" field from "package.json": css 1`] = `
 ".load-me {
@@ -489,9 +410,9 @@ exports[`loader should resolve the "less" field from the "exports" field from "p
 "
 `;
 
-exports[`loader should resolve the "less" field from the "exports" field from "package.json": errors 1`] = `Array []`;
+exports[`loader should resolve the "less" field from the "exports" field from "package.json": errors 1`] = `[]`;
 
-exports[`loader should resolve the "less" field from the "exports" field from "package.json": warnings 1`] = `Array []`;
+exports[`loader should resolve the "less" field from the "exports" field from "package.json": warnings 1`] = `[]`;
 
 exports[`loader should resolve unresolved url with alias: css 1`] = `
 ".box {
@@ -506,9 +427,9 @@ exports[`loader should resolve unresolved url with alias: css 1`] = `
 "
 `;
 
-exports[`loader should resolve unresolved url with alias: errors 1`] = `Array []`;
+exports[`loader should resolve unresolved url with alias: errors 1`] = `[]`;
 
-exports[`loader should resolve unresolved url with alias: warnings 1`] = `Array []`;
+exports[`loader should resolve unresolved url with alias: warnings 1`] = `[]`;
 
 exports[`loader should transform urls: css 1`] = `
 ".img4 {
@@ -532,9 +453,9 @@ exports[`loader should transform urls: css 1`] = `
 "
 `;
 
-exports[`loader should transform urls: errors 1`] = `Array []`;
+exports[`loader should transform urls: errors 1`] = `[]`;
 
-exports[`loader should transform urls: warnings 1`] = `Array []`;
+exports[`loader should transform urls: warnings 1`] = `[]`;
 
 exports[`loader should watch imports correctly: css 1`] = `
 "a {
@@ -543,9 +464,9 @@ exports[`loader should watch imports correctly: css 1`] = `
 "
 `;
 
-exports[`loader should watch imports correctly: errors 1`] = `Array []`;
+exports[`loader should watch imports correctly: errors 1`] = `[]`;
 
-exports[`loader should watch imports correctly: warnings 1`] = `Array []`;
+exports[`loader should watch imports correctly: warnings 1`] = `[]`;
 
 exports[`loader should work and have loaderContext in less plugins: css 1`] = `
 ".webpackLoaderContext {
@@ -554,9 +475,9 @@ exports[`loader should work and have loaderContext in less plugins: css 1`] = `
 "
 `;
 
-exports[`loader should work and have loaderContext in less plugins: errors 1`] = `Array []`;
+exports[`loader should work and have loaderContext in less plugins: errors 1`] = `[]`;
 
-exports[`loader should work and have loaderContext in less plugins: warnings 1`] = `Array []`;
+exports[`loader should work and have loaderContext in less plugins: warnings 1`] = `[]`;
 
 exports[`loader should work and logging: css 1`] = `
 "nav ul {
@@ -565,19 +486,19 @@ exports[`loader should work and logging: css 1`] = `
 "
 `;
 
-exports[`loader should work and logging: errors 1`] = `Array []`;
+exports[`loader should work and logging: errors 1`] = `[]`;
 
 exports[`loader should work and logging: logs 1`] = `
-Array [
-  Array [
-    Object {
-      "args": Array [
+[
+  [
+    {
+      "args": [
         "extend ' .inline' has no matches",
       ],
       "type": "warn",
     },
-    Object {
-      "args": Array [
+    {
+      "args": [
         "The file undefined was skipped because it was not found and the import was marked optional.",
       ],
       "type": "log",
@@ -586,7 +507,7 @@ Array [
 ]
 `;
 
-exports[`loader should work and logging: warnings 1`] = `Array []`;
+exports[`loader should work and logging: warnings 1`] = `[]`;
 
 exports[`loader should work and respect the 'resolve.byDependecy.less' option: css 1`] = `
 ".a {
@@ -598,9 +519,9 @@ exports[`loader should work and respect the 'resolve.byDependecy.less' option: c
 "
 `;
 
-exports[`loader should work and respect the 'resolve.byDependecy.less' option: errors 1`] = `Array []`;
+exports[`loader should work and respect the 'resolve.byDependecy.less' option: errors 1`] = `[]`;
 
-exports[`loader should work and respect the 'resolve.byDependecy.less' option: warnings 1`] = `Array []`;
+exports[`loader should work and respect the 'resolve.byDependecy.less' option: warnings 1`] = `[]`;
 
 exports[`loader should work lessOptions.relativeUrls is false: css 1`] = `
 ".top-import {
@@ -618,9 +539,9 @@ exports[`loader should work lessOptions.relativeUrls is false: css 1`] = `
 "
 `;
 
-exports[`loader should work lessOptions.relativeUrls is false: errors 1`] = `Array []`;
+exports[`loader should work lessOptions.relativeUrls is false: errors 1`] = `[]`;
 
-exports[`loader should work lessOptions.relativeUrls is false: warnings 1`] = `Array []`;
+exports[`loader should work lessOptions.relativeUrls is false: warnings 1`] = `[]`;
 
 exports[`loader should work lessOptions.relativeUrls is true: css 1`] = `
 ".top-import {
@@ -638,9 +559,9 @@ exports[`loader should work lessOptions.relativeUrls is true: css 1`] = `
 "
 `;
 
-exports[`loader should work lessOptions.relativeUrls is true: errors 1`] = `Array []`;
+exports[`loader should work lessOptions.relativeUrls is true: errors 1`] = `[]`;
 
-exports[`loader should work lessOptions.relativeUrls is true: warnings 1`] = `Array []`;
+exports[`loader should work lessOptions.relativeUrls is true: warnings 1`] = `[]`;
 
 exports[`loader should work third-party plugins as fileLoader: css 1`] = `
 ".file-loader {
@@ -658,9 +579,31 @@ exports[`loader should work third-party plugins as fileLoader: css 1`] = `
 "
 `;
 
-exports[`loader should work third-party plugins as fileLoader: errors 1`] = `Array []`;
+exports[`loader should work third-party plugins as fileLoader: errors 1`] = `[]`;
 
-exports[`loader should work third-party plugins as fileLoader: warnings 1`] = `Array []`;
+exports[`loader should work third-party plugins as fileLoader: warnings 1`] = `[]`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme1): css 1`] = `
+".load-me {
+  color: red;
+}
+"
+`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme1): errors 1`] = `[]`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme1): warnings 1`] = `[]`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme2): css 1`] = `
+".load-me {
+  color: blue;
+}
+"
+`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme2): errors 1`] = `[]`;
+
+exports[`loader should work with a package with "sass" and "exports" fields and a custom condition (theme2): warnings 1`] = `[]`;
 
 exports[`loader should work: css 1`] = `
 ".box {
@@ -675,6 +618,6 @@ exports[`loader should work: css 1`] = `
 "
 `;
 
-exports[`loader should work: errors 1`] = `Array []`;
+exports[`loader should work: errors 1`] = `[]`;
 
-exports[`loader should work: warnings 1`] = `Array []`;
+exports[`loader should work: warnings 1`] = `[]`;
