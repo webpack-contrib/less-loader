@@ -937,4 +937,58 @@ describe("loader", () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
+
+  it(`should work with a package with "sass" and "exports" fields and a custom condition (theme1)`, async () => {
+    const testId = "./import-package-with-exports-and-custom-condition.less";
+    const compiler = getCompiler(
+      testId,
+      {},
+      {
+        resolve: {
+          conditionNames: ["theme1", "..."],
+        },
+      }
+    );
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(
+      testId,
+      {},
+      {
+        packageExportsCustomConditionTestVariant: 1,
+      }
+    );
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
+
+  it(`should work with a package with "sass" and "exports" fields and a custom condition (theme2)`, async () => {
+    const testId = "./import-package-with-exports-and-custom-condition.less";
+    const compiler = getCompiler(
+      testId,
+      {},
+      {
+        resolve: {
+          conditionNames: ["theme2", "..."],
+        },
+      }
+    );
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(
+      testId,
+      {},
+      {
+        packageExportsCustomConditionTestVariant: 2,
+      }
+    );
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
 });
