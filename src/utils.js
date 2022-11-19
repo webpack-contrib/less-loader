@@ -10,7 +10,7 @@ const trailingSlash = /[/\\]$/;
 // So, if the file name matches this regexp, we simply ignore the proposed extension.
 const IS_SPECIAL_MODULE_IMPORT = /^~[^/]+$/;
 
-// `[drive_letter]:\` + `\\[server]\[sharename]\`
+// `[drive_letter]:\` + `\\[server]\[share_name]\`
 const IS_NATIVE_WIN32_PATH = /^[a-z]:[/\\]|^\\\\/i;
 
 // Examples:

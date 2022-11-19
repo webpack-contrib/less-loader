@@ -220,7 +220,7 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  it("should resolve aliases in diffrent variants", async () => {
+  it("should resolve aliases in different variants", async () => {
     const testId = "./import-webpack-aliases.less";
     const compiler = getCompiler(
       testId,
@@ -289,7 +289,7 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  it("should prefer-relativee imports correctly", async () => {
+  it("should prefer-relative imports correctly", async () => {
     const testId = "./import-prefer-relative.less";
     const compiler = getCompiler(
       testId,
@@ -716,15 +716,15 @@ describe("loader", () => {
 
     validateDependencies(fileDependencies);
 
-    let isAddedToDependensies = false;
+    let isAddedToDependencies = false;
 
     Array.from(fileDependencies).forEach((item) => {
       if (item === absolutePath) {
-        isAddedToDependensies = true;
+        isAddedToDependencies = true;
       }
     });
 
-    expect(isAddedToDependensies).toBe(true);
+    expect(isAddedToDependencies).toBe(true);
     expect(codeFromBundle.css).toMatchSnapshot("css");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
@@ -855,7 +855,7 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  it("should work and respect the 'resolve.byDependecy.less' option", async () => {
+  it("should work and respect the 'resolve.byDependency.less' option", async () => {
     const testId = "./by-dependency.less";
     const compiler = getCompiler(
       testId,
