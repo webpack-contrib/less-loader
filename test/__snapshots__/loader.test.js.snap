@@ -171,7 +171,7 @@ exports[`loader should not try to resolve CSS imports with URLs: errors 1`] = `[
 
 exports[`loader should not try to resolve CSS imports with URLs: warnings 1`] = `[]`;
 
-exports[`loader should prefer-relativee imports correctly: css 1`] = `
+exports[`loader should prefer-relative imports correctly: css 1`] = `
 ".prefer-relative-import {
   background: red;
 }
@@ -181,9 +181,9 @@ exports[`loader should prefer-relativee imports correctly: css 1`] = `
 "
 `;
 
-exports[`loader should prefer-relativee imports correctly: errors 1`] = `[]`;
+exports[`loader should prefer-relative imports correctly: errors 1`] = `[]`;
 
-exports[`loader should prefer-relativee imports correctly: warnings 1`] = `[]`;
+exports[`loader should prefer-relative imports correctly: warnings 1`] = `[]`;
 
 exports[`loader should provide a useful error message if the import could not be found: errors 1`] = `
 [
@@ -291,7 +291,7 @@ exports[`loader should resolve absolute path: errors 1`] = `[]`;
 
 exports[`loader should resolve absolute path: warnings 1`] = `[]`;
 
-exports[`loader should resolve aliases in diffrent variants: css 1`] = `
+exports[`loader should resolve aliases in different variants: css 1`] = `
 ".img {
   background: url(some/img.jpg);
 }
@@ -316,9 +316,9 @@ body {
 "
 `;
 
-exports[`loader should resolve aliases in diffrent variants: errors 1`] = `[]`;
+exports[`loader should resolve aliases in different variants: errors 1`] = `[]`;
 
-exports[`loader should resolve aliases in diffrent variants: warnings 1`] = `[]`;
+exports[`loader should resolve aliases in different variants: warnings 1`] = `[]`;
 
 exports[`loader should resolve all imports from node_modules using webpack's resolver: css 1`] = `
 "@import "some/css.css";
@@ -509,7 +509,7 @@ exports[`loader should work and logging: logs 1`] = `
 
 exports[`loader should work and logging: warnings 1`] = `[]`;
 
-exports[`loader should work and respect the 'resolve.byDependecy.less' option: css 1`] = `
+exports[`loader should work and respect the 'resolve.byDependency.less' option: css 1`] = `
 ".a {
   color: red;
 }
@@ -519,9 +519,9 @@ exports[`loader should work and respect the 'resolve.byDependecy.less' option: c
 "
 `;
 
-exports[`loader should work and respect the 'resolve.byDependecy.less' option: errors 1`] = `[]`;
+exports[`loader should work and respect the 'resolve.byDependency.less' option: errors 1`] = `[]`;
 
-exports[`loader should work and respect the 'resolve.byDependecy.less' option: warnings 1`] = `[]`;
+exports[`loader should work and respect the 'resolve.byDependency.less' option: warnings 1`] = `[]`;
 
 exports[`loader should work lessOptions.relativeUrls is false: css 1`] = `
 ".top-import {
