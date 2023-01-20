@@ -22,6 +22,9 @@
     "package-lock.json",
     "/test/fixtures/generated-1.less",
     "/test/fixtures/generated-2.less",
-    "/test/fixtures/generated-3.less"
+    "/test/fixtures/generated-3.less",
+    "node_modules",
+    "coverage",
+    "*.log"
   ]
 }
