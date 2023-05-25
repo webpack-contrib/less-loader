@@ -232,15 +232,8 @@ function getLessImplementation(loaderContext, implementation) {
   if (!implementation || typeof implementation === "string") {
     const lessImplPkg = implementation || "less";
 
-    try {
-      // eslint-disable-next-line import/no-dynamic-require, global-require
-      resolvedImplementation = require(lessImplPkg);
-    } catch (error) {
-      loaderContext.emitError(error);
-
-      // eslint-disable-next-line consistent-return
-      return;
-    }
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    resolvedImplementation = require(lessImplPkg);
   }
 
   // eslint-disable-next-line consistent-return
