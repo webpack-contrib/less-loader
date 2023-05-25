@@ -49,4 +49,15 @@ describe('"implementation" option', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
+
+  it("should throw error when unresolved package", async () => {
+    const testId = "./basic.less";
+    const compiler = getCompiler(testId, {
+      implementation: require.resolve("./fixtures/implementation-error.js"),
+    });
+    const stats = await compile(compiler);
+
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
 });

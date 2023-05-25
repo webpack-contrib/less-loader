@@ -12,7 +12,15 @@ import LessError from "./LessError";
 async function lessLoader(source) {
   const options = this.getOptions(schema);
   const callback = this.async();
-  const implementation = getLessImplementation(this, options.implementation);
+  let implementation;
+
+  try {
+    implementation = getLessImplementation(this, options.implementation);
+  } catch (error) {
+    callback(error);
+
+    return;
+  }
 
   if (!implementation) {
     callback(
