@@ -7,7 +7,16 @@ NonErrorEmittedError: (Emitted value instead of an instance of Error) Error: Can
 ]
 `;
 
+exports[`"implementation" option should throw error when unresolved package: errors 2`] = `
+[
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The Less implementation "/test/fixtures/implementation-error.js" not found",
+]
+`;
+
 exports[`"implementation" option should throw error when unresolved package: warnings 1`] = `[]`;
+
+exports[`"implementation" option should throw error when unresolved package: warnings 2`] = `[]`;
 
 exports[`"implementation" option should work when implementation option is string: css 1`] = `
 ".box {
