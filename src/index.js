@@ -6,8 +6,8 @@ import {
   isUnsupportedUrl,
   normalizeSourceMap,
   getLessImplementation,
+  errorFactory,
 } from "./utils";
-import LessError from "./LessError";
 
 async function lessLoader(source) {
   const options = this.getOptions(schema);
@@ -78,7 +78,7 @@ async function lessLoader(source) {
       this.addDependency(path.normalize(error.filename));
     }
 
-    callback(new LessError(error));
+    callback(errorFactory(error));
 
     return;
   } finally {
