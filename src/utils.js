@@ -240,9 +240,46 @@ function getLessImplementation(loaderContext, implementation) {
   return resolvedImplementation;
 }
 
+function getFileExcerptIfPossible(error) {
+  if (typeof error.extract === "undefined") {
+    return [];
+  }
+
+  const excerpt = error.extract.slice(0, 2);
+  const column = Math.max(error.column - 1, 0);
+
+  if (typeof excerpt[0] === "undefined") {
+    excerpt.shift();
+  }
+
+  excerpt.push(`${new Array(column).join(" ")}^`);
+
+  return excerpt;
+}
+
+function errorFactory(error) {
+  const message = [
+    "\n",
+    ...getFileExcerptIfPossible(error),
+    error.message.charAt(0).toUpperCase() + error.message.slice(1),
+    error.filename
+      ? `      Error in ${path.normalize(error.filename)} (line ${
+          error.line
+        }, column ${error.column})`
+      : "",
+  ].join("\n");
+
+  const obj = new Error(message, { cause: error });
+
+  obj.stack = null;
+
+  return obj;
+}
+
 export {
   getLessOptions,
   isUnsupportedUrl,
   normalizeSourceMap,
   getLessImplementation,
+  errorFactory,
 };
