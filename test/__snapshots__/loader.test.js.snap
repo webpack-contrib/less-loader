@@ -431,6 +431,15 @@ exports[`loader should resolve unresolved url with alias: errors 1`] = `[]`;
 
 exports[`loader should resolve unresolved url with alias: warnings 1`] = `[]`;
 
+exports[`loader should throw an error: errors 1`] = `
+[
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+",
+]
+`;
+
+exports[`loader should throw an error: warnings 1`] = `[]`;
+
 exports[`loader should transform urls: css 1`] = `
 ".img4 {
   background: url(folder/img.jpg);
