@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.1.2](https://github.com/webpack-contrib/less-loader/compare/v11.1.1...v11.1.2) (2023-05-31)
+
+
+### Bug Fixes
+
+* remove unused `v` dependency ([#517](https://github.com/webpack-contrib/less-loader/issues/517)) ([8fd9206](https://github.com/webpack-contrib/less-loader/commit/8fd9206aa607ba989fdcccd8f1c000dfc65c9017))
+
 ### [11.1.1](https://github.com/webpack-contrib/less-loader/compare/v11.1.0...v11.1.1) (2023-05-28)
 
 
