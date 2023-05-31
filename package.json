@@ -45,8 +45,7 @@
     "webpack": "^5.0.0"
   },
   "dependencies": {
-    "klona": "^2.0.6",
-    "v": "^0.3.0"
+    "klona": "^2.0.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.5",
