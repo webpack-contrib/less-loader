@@ -1,7 +1,5 @@
 import path from "path";
 
-import { klona } from "klona/full";
-
 /* eslint-disable class-methods-use-this */
 const trailingSlash = /[/\\]$/;
 
@@ -152,7 +150,7 @@ function createWebpackLessPlugin(loaderContext, implementation) {
 }
 
 /**
- * Get the less options from the loader context and normalizes its values
+ * Get the `less` options from the loader context and normalizes its values
  *
  * @param {object} loaderContext
  * @param {object} loaderOptions
@@ -160,11 +158,10 @@ function createWebpackLessPlugin(loaderContext, implementation) {
  * @returns {Object}
  */
 function getLessOptions(loaderContext, loaderOptions, implementation) {
-  const options = klona(
+  const options =
     typeof loaderOptions.lessOptions === "function"
       ? loaderOptions.lessOptions(loaderContext) || {}
-      : loaderOptions.lessOptions || {}
-  );
+      : loaderOptions.lessOptions || {};
 
   const lessOptions = {
     plugins: [],
@@ -174,18 +171,17 @@ function getLessOptions(loaderContext, loaderOptions, implementation) {
     ...options,
   };
 
+  const plugins = lessOptions.plugins.slice();
   const shouldUseWebpackImporter =
     typeof loaderOptions.webpackImporter === "boolean"
       ? loaderOptions.webpackImporter
       : true;
 
   if (shouldUseWebpackImporter) {
-    lessOptions.plugins.unshift(
-      createWebpackLessPlugin(loaderContext, implementation)
-    );
+    plugins.unshift(createWebpackLessPlugin(loaderContext, implementation));
   }
 
-  lessOptions.plugins.unshift({
+  plugins.unshift({
     install(lessProcessor, pluginManager) {
       // eslint-disable-next-line no-param-reassign
       pluginManager.webpackLoaderContext = loaderContext;
@@ -193,6 +189,8 @@ function getLessOptions(loaderContext, loaderOptions, implementation) {
       lessOptions.pluginManager = pluginManager;
     },
   });
+
+  lessOptions.plugins = plugins;
 
   return lessOptions;
 }

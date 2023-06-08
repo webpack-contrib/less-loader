@@ -70,15 +70,14 @@ describe("loader", () => {
         pluginInstalled = true;
       },
     };
-
+    const plugins = [testPlugin];
     const testId = "./basic.less";
     const compiler = await getCompiler(testId, {
-      lessOptions: {
-        plugins: [testPlugin],
-      },
+      lessOptions: { plugins },
     });
     const stats = await compile(compiler);
 
+    expect(plugins).toHaveLength(1);
     expect(pluginInstalled).toBe(true);
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
