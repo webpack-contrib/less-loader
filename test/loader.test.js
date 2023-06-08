@@ -70,15 +70,17 @@ describe("loader", () => {
         pluginInstalled = true;
       },
     };
-
+    const sourceMap = { outputSourceFiles: false };
+    const plugins = [testPlugin];
     const testId = "./basic.less";
     const compiler = await getCompiler(testId, {
-      lessOptions: {
-        plugins: [testPlugin],
-      },
+      sourceMap: true,
+      lessOptions: { plugins, sourceMap },
     });
     const stats = await compile(compiler);
 
+    expect(plugins).toHaveLength(1);
+    expect(sourceMap).toEqual({ outputSourceFiles: false });
     expect(pluginInstalled).toBe(true);
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
