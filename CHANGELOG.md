@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.1.3](https://github.com/webpack-contrib/less-loader/compare/v11.1.2...v11.1.3) (2023-06-08)
+
+
+### Bug Fixes
+
+* **perf:** avoid using `klona` for `less` options ([#520](https://github.com/webpack-contrib/less-loader/issues/520)) ([8a63159](https://github.com/webpack-contrib/less-loader/commit/8a6315985b63c1fbb6b31ada1824951a2d2fbaa8))
+
 ### [11.1.2](https://github.com/webpack-contrib/less-loader/compare/v11.1.1...v11.1.2) (2023-05-31)
 
 
