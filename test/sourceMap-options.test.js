@@ -195,4 +195,28 @@ describe('"sourceMap" options', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
+
+  it("should work and generate custom source maps", async () => {
+    const testId = "./source-map.less";
+    const lessOptions = {
+      sourceMap: {
+        sourceMapFileInline: true,
+        // cspell:disable-next-line
+        sourceMapBasepath: path.resolve(__dirname, "fixtures"),
+        outputSourceFiles: true,
+      },
+    };
+    const options = { lessOptions };
+    const compiler = getCompiler(testId, options);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId, options);
+    const { css, map } = codeFromBundle;
+
+    expect(css).toBe(codeFromLess.css);
+    expect(css).toMatchSnapshot("css");
+    expect(map).toMatchSnapshot("source map");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
 });

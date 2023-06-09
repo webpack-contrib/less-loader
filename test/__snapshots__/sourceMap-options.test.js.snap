@@ -204,3 +204,42 @@ exports[`"sourceMap" options should not generate source maps when value is "fals
 exports[`"sourceMap" options should not generate source maps when value is "false": errors 1`] = `[]`;
 
 exports[`"sourceMap" options should not generate source maps when value is "false": warnings 1`] = `[]`;
+
+exports[`"sourceMap" options should work and generate custom source maps: css 1`] = `
+".modules-dir-some-module,
+#it-works {
+  color: hotpink;
+}
+#it-works {
+  margin: 10px;
+}
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9zb21lL21vZHVsZS5sZXNzIiwic291cmNlLW1hcC5sZXNzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0FDRUE7RUREQyxjQUFBOztBQ0NEO0VBQ0UsWUFBQSIsInNvdXJjZXNDb250ZW50IjpbIi5tb2R1bGVzLWRpci1zb21lLW1vZHVsZSB7XG5cdGNvbG9yOiBob3RwaW5rO1xufVxuIiwiQGltcG9ydCBcInNvbWUvbW9kdWxlXCI7XG5cbiNpdC13b3JrczpleHRlbmQoLm1vZHVsZXMtZGlyLXNvbWUtbW9kdWxlKSB7XG4gIG1hcmdpbjogMTBweDtcbn1cbiJdfQ== */"
+`;
+
+exports[`"sourceMap" options should work and generate custom source maps: errors 1`] = `[]`;
+
+exports[`"sourceMap" options should work and generate custom source maps: source map 1`] = `
+{
+  "mappings": "AAAA;ACEA;EDDC,cAAA;;ACCD;EACE,YAAA",
+  "names": [],
+  "sources": [
+    "node_modules/some/module.less",
+    "source-map.less",
+  ],
+  "sourcesContent": [
+    ".modules-dir-some-module {
+	color: hotpink;
+}
+",
+    "@import "some/module";
+
+#it-works:extend(.modules-dir-some-module) {
+  margin: 10px;
+}
+",
+  ],
+  "version": 3,
+}
+`;
+
+exports[`"sourceMap" options should work and generate custom source maps: warnings 1`] = `[]`;
