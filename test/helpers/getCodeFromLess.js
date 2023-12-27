@@ -115,6 +115,24 @@ const pathMap = {
     "custom-main-files",
     "custom.less"
   ),
+  "less-package-1/index.less": path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "node_modules",
+    "less-package-2",
+    "node_modules",
+    "less-package-1",
+    "index.less"
+  ),
+  "less-package-2": path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "node_modules",
+    "less-package-2",
+    "index.less"
+  ),
 };
 
 class ResolvePlugin extends less.FileManager {
