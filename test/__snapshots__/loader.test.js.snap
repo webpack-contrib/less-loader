@@ -378,6 +378,23 @@ exports[`loader should resolve all imports: errors 1`] = `[]`;
 
 exports[`loader should resolve all imports: warnings 1`] = `[]`;
 
+exports[`loader should resolve in working directory: css 1`] = `
+".test {
+  color: red;
+}
+a {
+  color: red;
+}
+body {
+  margin: 0;
+}
+"
+`;
+
+exports[`loader should resolve in working directory: errors 1`] = `[]`;
+
+exports[`loader should resolve in working directory: warnings 1`] = `[]`;
+
 exports[`loader should resolve nested imports: css 1`] = `
 ".top-import {
   background: red;

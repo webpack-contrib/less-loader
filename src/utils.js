@@ -135,7 +135,11 @@ function createWebpackLessPlugin(loaderContext, implementation) {
         return super.loadFile(result, ...args);
       }
 
-      loaderContext.addDependency(path.normalize(result.filename));
+      const absoluteFilename = path.isAbsolute(result.filename)
+        ? result.filename
+        : path.resolve(".", result.filename);
+
+      loaderContext.addDependency(path.normalize(absoluteFilename));
 
       return result;
     }
