@@ -843,6 +843,32 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
+  it("should resolve nested package", async () => {
+    const testId = "./node_modules/less-package-2/index.less";
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
+
+  it("should resolve nested package #2", async () => {
+    const testId = "./less-package.less";
+    const compiler = getCompiler(testId);
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+    const codeFromLess = await getCodeFromLess(testId);
+
+    expect(codeFromBundle.css).toBe(codeFromLess.css);
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
+
   // TODO bug on windows
   it.skip("should work with circular imports", async () => {
     const testId = "./circular.less";

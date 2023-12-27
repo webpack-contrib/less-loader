@@ -392,6 +392,37 @@ exports[`loader should resolve nested imports: errors 1`] = `[]`;
 
 exports[`loader should resolve nested imports: warnings 1`] = `[]`;
 
+exports[`loader should resolve nested package #2: css 1`] = `
+".less-package-1-nested {
+  background: red;
+}
+.less-package-2 {
+  background: red;
+}
+.top {
+  color: red;
+}
+"
+`;
+
+exports[`loader should resolve nested package #2: errors 1`] = `[]`;
+
+exports[`loader should resolve nested package #2: warnings 1`] = `[]`;
+
+exports[`loader should resolve nested package: css 1`] = `
+".less-package-1-nested {
+  background: red;
+}
+.less-package-2 {
+  background: red;
+}
+"
+`;
+
+exports[`loader should resolve nested package: errors 1`] = `[]`;
+
+exports[`loader should resolve nested package: warnings 1`] = `[]`;
+
 exports[`loader should resolve non-less import with alias: css 1`] = `
 ".some-file {
   background: hotpink;
