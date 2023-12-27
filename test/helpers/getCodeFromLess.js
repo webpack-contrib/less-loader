@@ -133,6 +133,14 @@ const pathMap = {
     "less-package-2",
     "index.less"
   ),
+  "./resolve-working-directory-a.less": path.resolve(
+    __dirname,
+    "..",
+    "fixtures",
+    "resolve-working-directory",
+    "resolve-working-directory-a.less"
+  ),
+  "3rd/b.less": path.resolve(__dirname, "..", "fixtures", "3rd", "b.less"),
 };
 
 class ResolvePlugin extends less.FileManager {
