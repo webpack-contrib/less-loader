@@ -24,7 +24,9 @@ async function lessLoader(source) {
 
   if (!implementation) {
     callback(
-      new Error(`The Less implementation "${options.implementation}" not found`)
+      new Error(
+        `The Less implementation "${options.implementation}" not found`,
+      ),
     );
 
     return;

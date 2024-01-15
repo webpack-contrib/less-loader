@@ -22,7 +22,7 @@ function getCodeFromBundle(stats, compiler, asset) {
     `${code};\nmodule.exports = lessLoaderExport;`,
     {
       module: {},
-    }
+    },
   );
 
   // eslint-disable-next-line no-underscore-dangle

@@ -234,7 +234,7 @@ describe("loader", () => {
             assets: path.resolve(__dirname, "fixtures"),
           },
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -279,7 +279,7 @@ describe("loader", () => {
             assets: path.resolve(__dirname, "fixtures"),
           },
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -302,7 +302,7 @@ describe("loader", () => {
             preferAlias: "prefer-relative/index.less",
           },
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -375,7 +375,7 @@ describe("loader", () => {
     const importedFilePath = path.resolve(
       __dirname,
       "fixtures",
-      "import-absolute-target.less"
+      "import-absolute-target.less",
     );
 
     const testId = "./import-absolute.less";
@@ -426,7 +426,7 @@ describe("loader", () => {
             "aliased-some": "some",
           },
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const { fileDependencies } = stats.compilation;
@@ -440,7 +440,7 @@ describe("loader", () => {
         "fixtures",
         "node_modules",
         "some",
-        "module.less"
+        "module.less",
       ),
     ];
 
@@ -470,7 +470,7 @@ describe("loader", () => {
         "fixtures",
         "node_modules",
         "some",
-        "module.less"
+        "module.less",
       ),
     ];
 
@@ -520,7 +520,7 @@ describe("loader", () => {
         "fixtures",
         "node_modules",
         "some",
-        "module.less"
+        "module.less",
       ),
     ];
 
@@ -548,7 +548,7 @@ describe("loader", () => {
         "fixtures",
         "node_modules",
         "package",
-        "style.less"
+        "style.less",
       ),
     ];
 
@@ -570,7 +570,7 @@ describe("loader", () => {
       {
         context: path.resolve(__dirname),
         entry: path.resolve(__dirname, "./fixtures", testId),
-      }
+      },
     );
     const stats = await compile(compiler);
 
@@ -592,11 +592,11 @@ describe("loader", () => {
             "/styles/style.less": path.resolve(
               __dirname,
               "fixtures",
-              "basic.less"
+              "basic.less",
             ),
           },
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -640,7 +640,7 @@ describe("loader", () => {
     config.resolve.alias[absolutePath] = path.resolve(
       __dirname,
       "fixtures",
-      "basic.less"
+      "basic.less",
     );
 
     const testId = "./generated-2.less";
@@ -665,11 +665,11 @@ describe("loader", () => {
               __dirname,
               "fixtures",
               "folder",
-              "some.file"
+              "some.file",
             ),
           },
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -915,7 +915,7 @@ describe("loader", () => {
             },
           },
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -973,7 +973,7 @@ describe("loader", () => {
               type: item.type,
               args: item.args,
             };
-          })
+          }),
         );
       }
     }
@@ -994,7 +994,7 @@ describe("loader", () => {
         resolve: {
           conditionNames: ["theme1", "..."],
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -1003,7 +1003,7 @@ describe("loader", () => {
       {},
       {
         packageExportsCustomConditionTestVariant: 1,
-      }
+      },
     );
 
     expect(codeFromBundle.css).toBe(codeFromLess.css);
@@ -1021,7 +1021,7 @@ describe("loader", () => {
         resolve: {
           conditionNames: ["theme2", "..."],
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const codeFromBundle = getCodeFromBundle(stats, compiler);
@@ -1030,7 +1030,7 @@ describe("loader", () => {
       {},
       {
         packageExportsCustomConditionTestVariant: 2,
-      }
+      },
     );
 
     expect(codeFromBundle.css).toBe(codeFromLess.css);
