@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.0.0](https://github.com/webpack-contrib/less-loader/compare/v11.1.4...v12.0.0) (2024-01-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* minimum supported Node.js version is `18.12.0` ([#533](https://github.com/webpack-contrib/less-loader/issues/533)) ([f70e832](https://github.com/webpack-contrib/less-loader/commit/f70e832485cc1b54bf2f57c9b707eb96aeaf52c8))
+
 ### [11.1.4](https://github.com/webpack-contrib/less-loader/compare/v11.1.3...v11.1.4) (2023-12-27)
 
 
