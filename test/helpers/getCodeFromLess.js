@@ -10,7 +10,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "some",
-    "css.css"
+    "css.css",
   ),
   "~some/css.css": path.resolve(
     __dirname,
@@ -18,7 +18,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "some",
-    "css.css"
+    "css.css",
   ),
   "some/module": path.resolve(
     __dirname,
@@ -26,7 +26,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "some",
-    "module.less"
+    "module.less",
   ),
   "~some/module": path.resolve(
     __dirname,
@@ -34,7 +34,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "some",
-    "module.less"
+    "module.less",
   ),
   "some/module.less": path.resolve(
     __dirname,
@@ -42,7 +42,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "some",
-    "module.less"
+    "module.less",
   ),
   "module.less": path.resolve(
     __dirname,
@@ -50,7 +50,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "some",
-    "module.less"
+    "module.less",
   ),
   "@scope/css.css": path.resolve(
     __dirname,
@@ -58,7 +58,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "@scope",
-    "css.css"
+    "css.css",
   ),
   "@scope/module": path.resolve(
     __dirname,
@@ -66,7 +66,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "@scope",
-    "module.less"
+    "module.less",
   ),
   "~fileAlias": path.resolve(__dirname, "..", "fixtures", "img.less"),
   fileAlias: path.resolve(__dirname, "..", "fixtures", "img.less"),
@@ -75,7 +75,7 @@ const pathMap = {
     __dirname,
     "..",
     "fixtures",
-    "import-absolute-target.less"
+    "import-absolute-target.less",
   ),
   "package/style.less": path.resolve(
     __dirname,
@@ -83,7 +83,7 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "package",
-    "style.less"
+    "style.less",
   ),
   "/styles/style.less": path.resolve(__dirname, "..", "fixtures", "basic.less"),
   "../../some.file": path.resolve(
@@ -91,7 +91,7 @@ const pathMap = {
     "..",
     "fixtures",
     "folder",
-    "some.file"
+    "some.file",
   ),
   "package-with-exports": path.resolve(
     __dirname,
@@ -99,21 +99,21 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "package-with-exports",
-    "style.less"
+    "style.less",
   ),
   preferAlias: path.resolve(
     __dirname,
     "..",
     "fixtures",
     "prefer-relative",
-    "index.less"
+    "index.less",
   ),
   "custom-main-files": path.resolve(
     __dirname,
     "..",
     "fixtures",
     "custom-main-files",
-    "custom.less"
+    "custom.less",
   ),
   "less-package-1/index.less": path.resolve(
     __dirname,
@@ -123,7 +123,7 @@ const pathMap = {
     "less-package-2",
     "node_modules",
     "less-package-1",
-    "index.less"
+    "index.less",
   ),
   "less-package-2": path.resolve(
     __dirname,
@@ -131,14 +131,14 @@ const pathMap = {
     "fixtures",
     "node_modules",
     "less-package-2",
-    "index.less"
+    "index.less",
   ),
   "./resolve-working-directory-a.less": path.resolve(
     __dirname,
     "..",
     "fixtures",
     "resolve-working-directory",
-    "resolve-working-directory-a.less"
+    "resolve-working-directory-a.less",
   ),
   "3rd/b.less": path.resolve(__dirname, "..", "fixtures", "3rd", "b.less"),
 };
@@ -184,14 +184,14 @@ async function getCodeFromLess(testId, options = {}, context = {}) {
       __dirname,
       "..",
       "fixtures",
-      "node_modules/package-with-exports-and-custom-condition/style-1.less"
+      "node_modules/package-with-exports-and-custom-condition/style-1.less",
     );
   } else if (context.packageExportsCustomConditionTestVariant === 2) {
     pathToFile = path.resolve(
       __dirname,
       "..",
       "fixtures",
-      "node_modules/package-with-exports-and-custom-condition/style-2.less"
+      "node_modules/package-with-exports-and-custom-condition/style-2.less",
     );
   } else {
     pathToFile = path.resolve(__dirname, "..", "fixtures", testId);
