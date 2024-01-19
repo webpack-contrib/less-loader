@@ -1,6 +1,6 @@
 {
   "name": "less-loader",
-  "version": "12.0.0",
+  "version": "12.1.0",
   "description": "A Less loader for webpack. Compiles Less to CSS.",
   "license": "MIT",
   "repository": "webpack-contrib/less-loader",

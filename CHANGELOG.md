@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.1.0](https://github.com/webpack-contrib/less-loader/compare/v12.0.0...v12.1.0) (2024-01-19)
+
+
+### Features
+
+* added the `lessLogAsWarnOrErr` option ([#536](https://github.com/webpack-contrib/less-loader/issues/536)) ([3c4e6e0](https://github.com/webpack-contrib/less-loader/commit/3c4e6e0293e268b76a22c203024fdf248980a893))
+
 ## [12.0.0](https://github.com/webpack-contrib/less-loader/compare/v11.1.4...v12.0.0) (2024-01-15)
 
 
