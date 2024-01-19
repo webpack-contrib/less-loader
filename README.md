@@ -66,7 +66,7 @@ And run `webpack` via your preferred method.
 - **[`sourceMap`](#sourcemap)**
 - **[`webpackImporter`](#webpackimporter)**
 - **[`implementation`](#implementation)**
-- **[`lessLogAsWarnAndErr`](#lesslogaswarnanderr)**
+- **[`lessLogAsWarnOrErr`](#lesslogaswarnorerr)**
 
 ### `lessOptions`
 
