@@ -84,6 +84,17 @@ exports[`loader should emit an error: errors 1`] = `
 
 exports[`loader should emit an error: warnings 1`] = `[]`;
 
+exports[`loader should emit less warning as webpack warning: css 1`] = `""`;
+
+exports[`loader should emit less warning as webpack warning: errors 1`] = `[]`;
+
+exports[`loader should emit less warning as webpack warning: warnings 1`] = `
+[
+  "ModuleWarning: Module Warning (from \`replaced original path\`):
+extend ' .body1' has no matches",
+]
+`;
+
 exports[`loader should get absolute path relative rootContext: css 1`] = `
 ".box {
   color: #fe33ac;

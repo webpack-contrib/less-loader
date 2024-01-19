@@ -30,6 +30,10 @@ describe("validate options", () => {
       success: [require("less"), "less"],
       failure: [true, false, () => {}, []],
     },
+    lessLogAsWarnOrErr: {
+      success: [true, false],
+      failure: ["string"],
+    },
     unknown: {
       success: [],
       failure: [1, true, false, "test", /test/, [], {}, { foo: "bar" }],
