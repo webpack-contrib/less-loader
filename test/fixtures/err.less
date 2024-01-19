@@ -1,0 +1,6 @@
+div {
+  .m(@x) when (default())    {}
+  .m(@x) when not(default()) {}
+
+  .m(1); // Error
+}

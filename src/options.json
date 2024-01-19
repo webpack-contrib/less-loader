@@ -48,6 +48,11 @@
           "type": "object"
         }
       ]
+    },
+    "lessLogAsWarnOrErr": {
+      "description": "Less warnings and errors will be webpack warnings or errors.",
+      "link": "https://github.com/webpack-contrib/less-loader#lesslogaswarnorerr",
+      "type": "boolean"
     }
   },
   "additionalProperties": false

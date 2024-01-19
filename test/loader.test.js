@@ -1047,4 +1047,17 @@ describe("loader", () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
+
+  it("should emit less warning as webpack warning", async () => {
+    const testId = "./warn.less";
+    const compiler = getCompiler(testId, {
+      lessLogAsWarnOrErr: true,
+    });
+    const stats = await compile(compiler);
+    const codeFromBundle = getCodeFromBundle(stats, compiler);
+
+    expect(codeFromBundle.css).toMatchSnapshot("css");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+  });
 });

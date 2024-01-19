@@ -52,12 +52,23 @@ async function lessLoader(source) {
   }
 
   const logger = this.getLogger("less-loader");
+  const loaderContext = this;
   const loggerListener = {
     error(message) {
-      logger.error(message);
+      // TODO enable by default in the next major release
+      if (options.lessLogAsWarnOrErr) {
+        loaderContext.emitError(new Error(message));
+      } else {
+        logger.error(message);
+      }
     },
     warn(message) {
-      logger.warn(message);
+      // TODO enable by default in the next major release
+      if (options.lessLogAsWarnOrErr) {
+        loaderContext.emitWarning(new Error(message));
+      } else {
+        logger.warn(message);
+      }
     },
     info(message) {
       logger.log(message);

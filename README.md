@@ -66,6 +66,7 @@ And run `webpack` via your preferred method.
 - **[`sourceMap`](#sourcemap)**
 - **[`webpackImporter`](#webpackimporter)**
 - **[`implementation`](#implementation)**
+- **[`lessLogAsWarnOrErr`](#lesslogaswarnorerr)**
 
 ### `lessOptions`
 
@@ -402,6 +403,52 @@ module.exports = {
             loader: "less-loader",
             options: {
               implementation: require.resolve("less"),
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+### `lessLogAsWarnOrErr`
+
+Type:
+
+```ts
+type lessLogAsWarnOrErr = boolean;
+```
+
+Default: `false`
+
+`Less` warnings and errors will be webpack warnings and errors, not just logs.
+
+**warning.less**
+
+```less
+div {
+  &:extend(.body1);
+}
+```
+
+If `lessLogAsWarnOrErr` is set to `false` it will be just a log and webpack will compile successfully, but if you set this option to `true` webpack will compile fail with a warning.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "less-loader",
+            options: {
+              lessLogAsWarnOrErr: true,
             },
           },
         ],
