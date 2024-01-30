@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.2.0](https://github.com/webpack-contrib/less-loader/compare/v12.1.0...v12.2.0) (2024-01-30)
+
+
+### Features
+
+* add `@rspack/core` as an optional peer dependency ([#537](https://github.com/webpack-contrib/less-loader/issues/537)) ([71dd711](https://github.com/webpack-contrib/less-loader/commit/71dd711fd1ac796d5c7d972c61acfe5036df3a40))
+
 ## [12.1.0](https://github.com/webpack-contrib/less-loader/compare/v12.0.0...v12.1.0) (2024-01-19)
 
 
