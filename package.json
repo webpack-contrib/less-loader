@@ -41,8 +41,17 @@
     "dist"
   ],
   "peerDependencies": {
+    "@rspack/core": "0.x || 1.x",
     "less": "^3.5.0 || ^4.0.0",
     "webpack": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@rspack/core": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@babel/cli": "^7.23.4",
