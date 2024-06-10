@@ -633,7 +633,7 @@ module.exports = {
 };
 ```
 
-> **Note**
+> [!NOTE]
 >
 > Access to the [loader context](https://webpack.js.org/api/loaders/#the-loader-context) inside the custom plugin can be done using the `pluginManager.webpackLoaderContext` property.
 
