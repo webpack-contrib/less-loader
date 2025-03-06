@@ -35,6 +35,12 @@ or
 pnpm add -D less less-loader
 ```
 
+or
+
+```console
+bun add -D less less-loader
+```
+
 Then add the loader to your `webpack` config. For example:
 
 **webpack.config.js**
