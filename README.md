@@ -346,6 +346,45 @@ module.exports = {
 };
 ```
 
+### `onlyWebpackImporter`
+
+Type:
+
+```ts
+type onlyWebpackImporter = boolean;
+```
+
+Default: `true`
+
+Enables/Disables the only use `webpack` importer.
+
+This can improve performance in some cases. Use it with caution because aliases and `@import` from [`node_modules`](https://webpack.js.org/configuration/resolve/#resolvemodules) will not work.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "less-loader",
+            options: {
+              webpackImporter: true,
+              onlyWebpackImporter: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
 ### `implementation`
 
 Type:
