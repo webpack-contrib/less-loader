@@ -238,7 +238,11 @@ exports[`validate options should throw an error on the "unknown" option with "tr
 
 exports[`validate options should throw an error on the "webpackImporter" option with "string" value 1`] = `
 "Invalid options object. Less Loader has been initialized using an options object that does not match the API schema.
- - options.webpackImporter should be a boolean.
+ - options.webpackImporter should be one of these:
+   boolean | "only"
    -> Enables/Disables default \`webpack\` importer.
-   -> Read more at https://github.com/webpack-contrib/less-loader#webpackimporter"
+   -> Read more at https://github.com/webpack-contrib/less-loader#webpackimporter
+   Details:
+    * options.webpackImporter should be a boolean.
+    * options.webpackImporter should be "only"."
 `;

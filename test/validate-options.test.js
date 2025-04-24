@@ -22,7 +22,7 @@ describe("validate options", () => {
       failure: ["string"],
     },
     webpackImporter: {
-      success: [true, false],
+      success: [true, false, "only"],
       failure: ["string"],
     },
     implementation: {

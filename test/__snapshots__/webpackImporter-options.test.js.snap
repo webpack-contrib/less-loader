@@ -36,6 +36,26 @@ exports[`"webpackImporter" option should work when value is "false": errors 1`] 
 
 exports[`"webpackImporter" option should work when value is "false": warnings 1`] = `[]`;
 
+exports[`"webpackImporter" option should work when value is "only": css 1`] = `
+"@import "some/css.css";
+@import "some/css.css";
+#it-works {
+  color: hotpink;
+}
+.modules-dir-some-module,
+#it-works {
+  background: hotpink;
+}
+#it-works {
+  margin: 10px;
+}
+"
+`;
+
+exports[`"webpackImporter" option should work when value is "only": errors 1`] = `[]`;
+
+exports[`"webpackImporter" option should work when value is "only": warnings 1`] = `[]`;
+
 exports[`"webpackImporter" option should work when value is "true": css 1`] = `
 "@import "some/css.css";
 @import "some/css.css";

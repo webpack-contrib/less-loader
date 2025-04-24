@@ -106,7 +106,10 @@ function createWebpackLessPlugin(loaderContext, implementation) {
       let result;
 
       try {
-        if (IS_SPECIAL_MODULE_IMPORT.test(filename) || lessOptions.onlyWebpackImporter) {
+        if (
+          IS_SPECIAL_MODULE_IMPORT.test(filename) ||
+          lessOptions.webpackImporter === "only"
+        ) {
           const error = new Error();
 
           error.type = "Next";
@@ -178,7 +181,8 @@ function getLessOptions(loaderContext, loaderOptions, implementation) {
 
   const plugins = lessOptions.plugins.slice();
   const shouldUseWebpackImporter =
-    typeof loaderOptions.webpackImporter === "boolean"
+    typeof loaderOptions.webpackImporter === "boolean" ||
+    loaderOptions.webpackImporter === "only"
       ? loaderOptions.webpackImporter
       : true;
 
