@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.3.0](https://github.com/webpack-contrib/less-loader/compare/v12.2.0...v12.3.0) (2025-05-01)
+
+
+### Features
+
+* add support for using only webpackImporter ([12839c8](https://github.com/webpack-contrib/less-loader/commit/12839c8c2af52662b79c54021d903ce88e68f894))
+
 ## [12.2.0](https://github.com/webpack-contrib/less-loader/compare/v12.1.0...v12.2.0) (2024-01-30)
 
 
