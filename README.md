@@ -313,7 +313,7 @@ module.exports = {
 Type:
 
 ```ts
-type webpackImporter = boolean;
+type webpackImporter = boolean | "only";
 ```
 
 Default: `true`
