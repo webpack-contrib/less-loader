@@ -13,7 +13,7 @@
 
 # less-loader
 
-A Less loader for webpack. Compiles Less to CSS.
+A Less loader for webpack that compiles Less files into CSS.
 
 ## Getting Started
 
@@ -35,7 +35,7 @@ or
 pnpm add -D less less-loader
 ```
 
-Then add the loader to your `webpack` config. For example:
+Then add the loader to your `webpack` configuration. For example:
 
 **webpack.config.js**
 
@@ -57,7 +57,7 @@ module.exports = {
 };
 ```
 
-And run `webpack` via your preferred method.
+Finally, run `webpack` using the method you normally use (e.g., via CLI or an npm script).
 
 ## Options
 
@@ -78,11 +78,13 @@ type lessOptions = import('less').options | ((loaderContext: LoaderContext) => i
 
 Default: `{ relativeUrls: true }`
 
-You can pass any Less specific options to the `less-loader` through the `lessOptions` property in the [loader options](https://webpack.js.org/configuration/module/#ruleoptions--rulequery). See the [Less documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options in dash-case. Since we're passing these options to Less programmatically, you need to pass them in camelCase here:
+You can pass any Less specific options to the `less-loader` through the `lessOptions` property in the [loader options](https://webpack.js.org/configuration/module/#ruleoptions--rulequery). See the [Less documentation](http://lesscss.org/usage/#command-line-usage-options) for all available options in dash-case.
+
+Since we're passing these options to Less programmatically, you need to pass them in camelCase here:
 
 #### `object`
 
-Use an object to pass options through to Less.
+Use an object to pass options directly to Less.
 
 **webpack.config.js**
 
@@ -116,7 +118,7 @@ module.exports = {
 
 #### `function`
 
-Allows setting the options passed through to Less based off of the loader context.
+Allows setting the Less options dynamically based on the loader context.
 
 ```js
 module.exports = {
@@ -166,10 +168,10 @@ type additionalData =
 
 Default: `undefined`
 
-Prepends/Appends `Less` code to the actual entry file.
+Prepends or Appends `Less` code to the actual entry file.
 In this case, the `less-loader` will not override the source but just **prepend** the entry's content.
 
-This is especially useful when some of your Less variables depend on the environment:
+This is especially useful when some of your Less variables depend on the environment.
 
 > Since you're injecting code, this will break the source mappings in your entry file. Often there's a simpler solution than this, like multiple Less entry files.
 
@@ -277,7 +279,8 @@ type sourceMap = boolean;
 
 Default: depends on the `compiler.devtool` value
 
-By default generation of source maps depends on the [`devtool`](https://webpack.js.org/configuration/devtool/) option. All values enable source map generation except `eval` and `false` value.
+By default generation of source maps depends on the [`devtool`](https://webpack.js.org/configuration/devtool/) option.
+All values enable source map generation except `eval` and `false` value.
 
 **webpack.config.js**
 
@@ -318,7 +321,7 @@ type webpackImporter = boolean | "only";
 
 Default: `true`
 
-Enables/Disables the default `webpack` importer.
+Enables or disables the default `webpack` importer.
 
 This can improve performance in some cases. Use it with caution because aliases and `@import` from [`node_modules`](https://webpack.js.org/configuration/resolve/#resolvemodules) will not work.
 
@@ -354,13 +357,15 @@ Type:
 type implementation = object | string;
 ```
 
-> less-loader compatible with Less 3 and 4 versions
+> less-loader compatible with both Less 3 and 4 versions
 
 The special `implementation` option determines which implementation of Less to use. Overrides the locally installed `peerDependency` version of `less`.
 
 **This option is only really useful for downstream tooling authors to ease the Less 3-to-4 transition.**
 
 #### `object`
+
+Example using a Less instance:
 
 **webpack.config.js**
 
@@ -387,6 +392,8 @@ module.exports = {
 ```
 
 #### `string`
+
+Example using a resolved Less module path:
 
 **webpack.config.js**
 
@@ -422,7 +429,7 @@ type lessLogAsWarnOrErr = boolean;
 
 Default: `false`
 
-`Less` warnings and errors will be webpack warnings and errors, not just logs.
+`Less` warnings and errors will be treated as webpack warnings and errors, instead of being logged silently.
 
 **warning.less**
 
@@ -432,7 +439,7 @@ div {
 }
 ```
 
-If `lessLogAsWarnOrErr` is set to `false` it will be just a log and webpack will compile successfully, but if you set this option to `true` webpack will compile fail with a warning.
+If `lessLogAsWarnOrErr` is set to `false` it will be just a log and webpack will compile successfully, but if you set this option to `true` webpack will compile fail with a warning(or error), and can break the build if configured accordingly.
 
 **webpack.config.js**
 
@@ -462,7 +469,7 @@ module.exports = {
 
 ### Normal usage
 
-Chain the `less-loader` with the [`css-loader`](https://github.com/webpack-contrib/css-loader) and the [`style-loader`](https://github.com/webpack-contrib/style-loader) to immediately apply all styles to the DOM.
+Chain the `less-loader` with [`css-loader`](https://github.com/webpack-contrib/css-loader) and [`style-loader`](https://github.com/webpack-contrib/style-loader) to immediately apply all styles to the DOM.
 
 **webpack.config.js**
 
@@ -474,13 +481,13 @@ module.exports = {
         test: /\.less$/i,
         use: [
           {
-            loader: "style-loader", // creates style nodes from JS strings
+            loader: "style-loader", // Creates style nodes from JS strings
           },
           {
-            loader: "css-loader", // translates CSS into CommonJS
+            loader: "css-loader", // Translates CSS into CommonJS
           },
           {
-            loader: "less-loader", // compiles Less to CSS
+            loader: "less-loader", // Compiles Less to CSS
           },
         ],
       },
@@ -529,7 +536,7 @@ If you want to edit the original Less files inside Chrome, [there's a good blog 
 
 ### In production
 
-Usually, it's recommended to extract the style sheets into a dedicated file in production using the [MiniCssExtractPlugin](https://github.com/webpack-contrib/mini-css-extract-plugin). This way your styles are not dependent on JavaScript.
+Usually, it's recommended to extract the style sheets into a dedicated file in production using the [MiniCssExtractPlugin](https://github.com/webpack-contrib/mini-css-extract-plugin). This way your styles are not dependent on JavaScript, improving performance and cacheability.
 
 ### Imports
 
@@ -545,7 +552,7 @@ Thus you can import your Less modules from `node_modules`.
 @import "bootstrap/less/bootstrap";
 ```
 
-Using `~` is deprecated and can be removed from your code (**we recommend it**), but we still support it for historical reasons.
+Using `~` prefix (e.g., @import "~bootstrap/less/bootstrap";) is deprecated and can be removed from your code (**we recommend it**), but we still support it for historical reasons.
 Why you can removed it? The loader will first try to resolve `@import` as relative, if it cannot be resolved, the loader will try to resolve `@import` inside [`node_modules`](https://webpack.js.org/configuration/resolve/#resolvemodules).
 
 Default resolver options can be modified by [`resolve.byDependency`](https://webpack.js.org/configuration/resolve/#resolvebydependency):
@@ -610,7 +617,7 @@ module.exports = {
 
 ### Plugins
 
-In order to use [plugins](http://lesscss.org/usage/#plugins), simply set the `plugins` option like this:
+In order to use [Less plugins](http://lesscss.org/usage/#plugins), simply set the `plugins` option like this:
 
 **webpack.config.js**
 
@@ -635,7 +642,7 @@ module.exports = {
 
 > [!NOTE]
 >
-> Access to the [loader context](https://webpack.js.org/api/loaders/#the-loader-context) inside the custom plugin can be done using the `pluginManager.webpackLoaderContext` property.
+> Access to the [loader context](https://webpack.js.org/api/loaders/#the-loader-context) inside a custom plugin can be done using the `pluginManager.webpackLoaderContext` property.
 
 ```js
 module.exports = {
@@ -651,7 +658,9 @@ module.exports = {
 
 ### Extracting style sheets
 
-Bundling CSS with webpack has some nice advantages like referencing images and fonts with hashed urls or [hot module replacement](https://webpack.js.org/concepts/hot-module-replacement/) in development. In production, on the other hand, it's not a good idea to apply your style sheets depending on JS execution. Rendering may be delayed or even a [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) might be visible. Thus it's often still better to have them as separate files in your final production build.
+Bundling CSS with webpack has some nice advantages like referencing images and fonts with hashed urls or [Hot Module Replacement(HMR)](https://webpack.js.org/concepts/hot-module-replacement/) in development.
+
+In production, on the other hand, it's not a good idea to apply your style sheets depending on JS execution. Rendering may be delayed or even a [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) might be visible. Thus it's often still better to have them as separate files in your final production build.
 
 There are two possibilities to extract a style sheet from the bundle:
 
@@ -660,11 +669,13 @@ There are two possibilities to extract a style sheet from the bundle:
 
 ### CSS modules gotcha
 
-There is a known problem with Less and [CSS modules](https://github.com/css-modules/css-modules) regarding relative file paths in `url(...)` statements. [See this issue for an explanation](https://github.com/webpack-contrib/less-loader/issues/109#issuecomment-253797335).
+There is a known problem when using Less with [CSS modules](https://github.com/css-modules/css-modules) regarding relative file paths in `url(...)` statements.
+[See this issue for an explanation](https://github.com/webpack-contrib/less-loader/issues/109#issuecomment-253797335).
 
 ## Contributing
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+We welcome all contributions!
+If you're new here, please take a moment to review our contributing guidelines before submitting issues or pull requests.
 
 [CONTRIBUTING](./.github/CONTRIBUTING.md)
 
