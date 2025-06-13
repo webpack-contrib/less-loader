@@ -91,7 +91,7 @@ exports[`loader should emit less warning as webpack warning: errors 1`] = `[]`;
 exports[`loader should emit less warning as webpack warning: warnings 1`] = `
 [
   "ModuleWarning: Module Warning (from \`replaced original path\`):
-extend ' .body1' has no matches",
+WARNING: extend ' .body1' has no matches",
 ]
 `;
 
@@ -561,7 +561,7 @@ exports[`loader should work and logging: logs 1`] = `
   [
     {
       "args": [
-        "extend ' .inline' has no matches",
+        "WARNING: extend ' .inline' has no matches",
       ],
       "type": "warn",
     },
