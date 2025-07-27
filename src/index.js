@@ -1,12 +1,12 @@
-import path from "path";
+import path from "node:path";
 
 import schema from "./options.json";
 import {
+  errorFactory,
+  getLessImplementation,
   getLessOptions,
   isUnsupportedUrl,
   normalizeSourceMap,
-  getLessImplementation,
-  errorFactory,
 } from "./utils";
 
 async function lessLoader(source) {
@@ -104,9 +104,9 @@ async function lessLoader(source) {
 
   const { css, imports } = result;
 
-  imports.forEach((item) => {
+  for (const item of imports) {
     if (isUnsupportedUrl(item)) {
-      return;
+      continue;
     }
 
     // `less` return forward slashes on windows when `webpack` resolver return an absolute windows path in `WebpackFileManager`
@@ -117,7 +117,7 @@ async function lessLoader(source) {
     if (path.isAbsolute(normalizedItem)) {
       this.addDependency(normalizedItem);
     }
-  });
+  }
 
   let map =
     typeof result.map === "string" ? JSON.parse(result.map) : result.map;

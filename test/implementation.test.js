@@ -11,7 +11,6 @@ describe('"implementation" option', () => {
   it("should work", async () => {
     const testId = "./basic.less";
     const compiler = getCompiler(testId, {
-      // eslint-disable-next-line global-require
       implementation: require("less"),
     });
     const stats = await compile(compiler);
@@ -50,7 +49,7 @@ describe('"implementation" option', () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  it("should throw error when unresolved package", async () => {
+  it("should throw error when implementation has error", async () => {
     const testId = "./basic.less";
     const compiler = getCompiler(testId, {
       implementation: require.resolve("./fixtures/implementation-error.js"),

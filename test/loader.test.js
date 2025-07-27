@@ -1,11 +1,8 @@
-import path from "path";
-
-import fs from "fs";
+import fs from "node:fs";
+import path from "node:path";
 
 import lessPluginGlob from "less-plugin-glob";
-
 import CustomImportPlugin from "./fixtures/folder/customImportPlugin";
-import CustomFileLoaderPlugin from "./fixtures/folder/customFileLoaderPlugin";
 
 import {
   compile,
@@ -16,6 +13,8 @@ import {
   getWarnings,
   validateDependencies,
 } from "./helpers";
+
+const CustomFileLoaderPlugin = require("./fixtures/folder/customFileLoaderPlugin");
 
 const nodeModulesPath = path.resolve(__dirname, "fixtures", "node_modules");
 
@@ -327,19 +326,6 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  // it('should delegate resolving (LESS) imports with URLs to "less" package', async () => {
-  //   const testId = "./import-keyword-url.less";
-  //   const compiler = getCompiler(testId);
-  //   const stats = await compile(compiler);
-  //   const codeFromBundle = getCodeFromBundle(stats, compiler);
-  //   const codeFromLess = await getCodeFromLess(testId);
-  //
-  //   expect(codeFromBundle.css).toBe(codeFromLess.css);
-  //   expect(codeFromBundle.css).toMatchSnapshot("css");
-  //   expect(getWarnings(stats)).toMatchSnapshot("warnings");
-  //   expect(getErrors(stats)).toMatchSnapshot("errors");
-  // });
-
   it("should allow to import non-less files", async () => {
     const testId = "./import-non-less.less";
     const compiler = getCompiler(testId);
@@ -408,9 +394,9 @@ describe("loader", () => {
       path.resolve(__dirname, "fixtures", "basic.less"),
     ];
 
-    fixtures.forEach((fixture) => {
+    for (const fixture of fixtures) {
       expect(fileDependencies.has(fixture)).toBe(true);
-    });
+    }
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
@@ -444,9 +430,9 @@ describe("loader", () => {
       ),
     ];
 
-    fixtures.forEach((fixture) => {
+    for (const fixture of fixtures) {
       expect(fileDependencies.has(fixture)).toBe(true);
-    });
+    }
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
@@ -474,9 +460,9 @@ describe("loader", () => {
       ),
     ];
 
-    fixtures.forEach((fixture) => {
+    for (const fixture of fixtures) {
       expect(fileDependencies.has(fixture)).toBe(true);
-    });
+    }
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
@@ -498,9 +484,9 @@ describe("loader", () => {
       path.resolve(__dirname, "fixtures", "error-syntax.less"),
     ];
 
-    fixtures.forEach((fixture) => {
+    for (const fixture of fixtures) {
       expect(fileDependencies.has(fixture)).toBe(true);
-    });
+    }
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
@@ -524,9 +510,9 @@ describe("loader", () => {
       ),
     ];
 
-    fixtures.forEach((fixture) => {
+    for (const fixture of fixtures) {
       expect(fileDependencies.has(fixture)).toBe(true);
-    });
+    }
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
@@ -552,9 +538,9 @@ describe("loader", () => {
       ),
     ];
 
-    fixtures.forEach((fixture) => {
+    for (const fixture of fixtures) {
       expect(fileDependencies.has(fixture)).toBe(true);
-    });
+    }
 
     expect(codeFromBundle.css).toBe(codeFromLess.css);
     expect(codeFromBundle.css).toMatchSnapshot("css");
@@ -681,28 +667,6 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  // it("should not add to dependencies imports with URLs", async () => {
-  //   const testId = "./import-url-deps.less";
-  //   const compiler = getCompiler(testId);
-  //   const stats = await compile(compiler);
-  //   const codeFromBundle = getCodeFromBundle(stats, compiler);
-  //   const codeFromLess = await getCodeFromLess(testId);
-  //   const { fileDependencies } = stats.compilation;
-  //
-  //   validateDependencies(fileDependencies);
-  //
-  //   Array.from(fileDependencies).forEach((item) => {
-  //     ["http", "https"].forEach((protocol) => {
-  //       expect(item.includes(protocol)).toBe(false);
-  //     });
-  //   });
-  //
-  //   expect(codeFromBundle.css).toBe(codeFromLess.css);
-  //   expect(codeFromBundle.css).toMatchSnapshot("css");
-  //   expect(getWarnings(stats)).toMatchSnapshot("warnings");
-  //   expect(getErrors(stats)).toMatchSnapshot("errors");
-  // });
-
   it("should add path to dependencies", async () => {
     // Create the file with absolute path
     const file = path.resolve(__dirname, "fixtures", "generated-3.less");
@@ -720,11 +684,11 @@ describe("loader", () => {
 
     let isAddedToDependencies = false;
 
-    Array.from(fileDependencies).forEach((item) => {
+    for (const item of fileDependencies) {
       if (item === absolutePath) {
         isAddedToDependencies = true;
       }
-    });
+    }
 
     expect(isAddedToDependencies).toBe(true);
     expect(codeFromBundle.css).toMatchSnapshot("css");
@@ -801,7 +765,6 @@ describe("loader", () => {
     let contextInClass = false;
     let contextInObject = false;
 
-    // eslint-disable-next-line global-require
     class Plugin extends require("less").FileManager {
       constructor(less, pluginManager) {
         super();
@@ -813,7 +776,6 @@ describe("loader", () => {
     }
 
     class CustomClassPlugin {
-      // eslint-disable-next-line class-methods-use-this
       install(less, pluginManager) {
         pluginManager.addFileManager(new Plugin(less, pluginManager));
       }
@@ -888,20 +850,6 @@ describe("loader", () => {
     process.chdir(oldCwd);
   });
 
-  // TODO bug on windows
-  it.skip("should work with circular imports", async () => {
-    const testId = "./circular.less";
-    const compiler = getCompiler(testId);
-    const stats = await compile(compiler);
-    const codeFromBundle = getCodeFromBundle(stats, compiler);
-    const codeFromLess = await getCodeFromLess(testId);
-
-    expect(codeFromBundle.css).toBe(codeFromLess.css);
-    expect(codeFromBundle.css).toMatchSnapshot("css");
-    expect(getWarnings(stats)).toMatchSnapshot("warnings");
-    expect(getErrors(stats)).toMatchSnapshot("errors");
-  });
-
   it("should work and respect the 'resolve.byDependency.less' option", async () => {
     const testId = "./by-dependency.less";
     const compiler = getCompiler(
@@ -968,12 +916,10 @@ describe("loader", () => {
     for (const [name, value] of stats.compilation.logging) {
       if (/less-loader/.test(name)) {
         logs.push(
-          value.map((item) => {
-            return {
-              type: item.type,
-              args: item.args,
-            };
-          }),
+          value.map((item) => ({
+            type: item.type,
+            args: item.args,
+          })),
         );
       }
     }
@@ -985,7 +931,7 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  it(`should work with a package with "sass" and "exports" fields and a custom condition (theme1)`, async () => {
+  it('should work with a package with "sass" and "exports" fields and a custom condition (theme1)', async () => {
     const testId = "./import-package-with-exports-and-custom-condition.less";
     const compiler = getCompiler(
       testId,
@@ -1012,7 +958,7 @@ describe("loader", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
   });
 
-  it(`should work with a package with "sass" and "exports" fields and a custom condition (theme2)`, async () => {
+  it('should work with a package with "sass" and "exports" fields and a custom condition (theme2)', async () => {
     const testId = "./import-package-with-exports-and-custom-condition.less";
     const compiler = getCompiler(
       testId,
