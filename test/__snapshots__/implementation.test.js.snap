@@ -1,4 +1,13 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`"implementation" option should throw error when implementation has error: errors 1`] = `
+[
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The Less implementation "/test/fixtures/implementation-error.js" not found",
+]
+`;
+
+exports[`"implementation" option should throw error when implementation has error: warnings 1`] = `[]`;
 
 exports[`"implementation" option should throw error when unresolved package: errors 1`] = `
 [
@@ -7,16 +16,7 @@ NonErrorEmittedError: (Emitted value instead of an instance of Error) Error: Can
 ]
 `;
 
-exports[`"implementation" option should throw error when unresolved package: errors 2`] = `
-[
-  "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The Less implementation "/test/fixtures/implementation-error.js" not found",
-]
-`;
-
 exports[`"implementation" option should throw error when unresolved package: warnings 1`] = `[]`;
-
-exports[`"implementation" option should throw error when unresolved package: warnings 2`] = `[]`;
 
 exports[`"implementation" option should work when implementation option is string: css 1`] = `
 ".box {
