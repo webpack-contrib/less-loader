@@ -1,5 +1,5 @@
-import path from "path";
-import fs from "fs";
+import fs from "node:fs";
+import path from "node:path";
 
 import {
   compile,
@@ -29,7 +29,7 @@ describe('"sourceMap" options', () => {
 
       return path
         .relative(path.resolve(__dirname, ".."), source)
-        .replace(/\\/g, "/");
+        .replaceAll("\\", "/");
     });
 
     expect(css).toBe(codeFromLess.css);
@@ -61,7 +61,7 @@ describe('"sourceMap" options', () => {
 
       return path
         .relative(path.resolve(__dirname, ".."), source)
-        .replace(/\\/g, "/");
+        .replaceAll("\\", "/");
     });
 
     expect(css).toBe(codeFromLess.css);
@@ -95,7 +95,7 @@ describe('"sourceMap" options', () => {
 
       return path
         .relative(path.resolve(__dirname, ".."), source)
-        .replace(/\\/g, "/");
+        .replaceAll("\\", "/");
     });
 
     expect(css).toBe(codeFromLess.css);
@@ -125,7 +125,7 @@ describe('"sourceMap" options', () => {
 
       return path
         .relative(path.resolve(__dirname, ".."), source)
-        .replace(/\\/g, "/");
+        .replaceAll("\\", "/");
     });
 
     expect(css).toBe(codeFromLess.css);

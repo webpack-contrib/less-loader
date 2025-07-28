@@ -1,4 +1,4 @@
-import vm from "vm";
+import vm from "node:vm";
 
 import readAsset from "./readAsset";
 
@@ -25,7 +25,6 @@ function getCodeFromBundle(stats, compiler, asset) {
     },
   );
 
-  // eslint-disable-next-line no-underscore-dangle
   return result.__esModule ? result.default : result;
 }
 

@@ -1,5 +1,5 @@
-import path from "path";
-import fs from "fs";
+import fs from "node:fs";
+import path from "node:path";
 
 import less from "less";
 
@@ -156,7 +156,6 @@ class ResolvePlugin extends less.FileManager {
     return true;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   supportsSync() {
     return false;
   }
@@ -170,7 +169,6 @@ class ResolvePlugin extends less.FileManager {
 }
 
 class CustomImportPlugin {
-  // eslint-disable-next-line class-methods-use-this
   install(lessInstance, pluginManager) {
     pluginManager.addFileManager(new ResolvePlugin());
   }

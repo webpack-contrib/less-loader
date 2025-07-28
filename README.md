@@ -72,6 +72,8 @@ Finally, run `webpack` using the method you normally use (e.g., via CLI or an np
 
 Type:
 
+<!-- eslint-skip -->
+
 ```ts
 type lessOptions = import('less').options | ((loaderContext: LoaderContext) => import('less').options})
 ```
@@ -221,10 +223,10 @@ module.exports = {
                 const relativePath = path.relative(rootContext, resourcePath);
 
                 if (relativePath === "styles/foo.less") {
-                  return "@value: 100px;" + content;
+                  return `@value: 100px;${content}`;
                 }
 
-                return "@value: 200px;" + content;
+                return `@value: 200px;${content}`;
               },
             },
           },
@@ -255,10 +257,10 @@ module.exports = {
                 const relativePath = path.relative(rootContext, resourcePath);
 
                 if (relativePath === "styles/foo.less") {
-                  return "@value: 100px;" + content;
+                  return `@value: 100px;${content}`;
                 }
 
-                return "@value: 200px;" + content;
+                return `@value: 200px;${content}`;
               },
             },
           },
@@ -621,6 +623,8 @@ In order to use [Less plugins](http://lesscss.org/usage/#plugins), simply set th
 
 **webpack.config.js**
 
+<!-- eslint-skip -->
+
 ```js
 const CleanCSSPlugin = require('less-plugin-clean-css');
 
@@ -646,12 +650,14 @@ module.exports = {
 
 ```js
 module.exports = {
-  install: function (less, pluginManager, functions) {
-    functions.add("pi", function () {
-      // Loader context is available in `pluginManager.webpackLoaderContext`
+  install(less, pluginManager, functions) {
+    functions.add(
+      "pi",
+      () =>
+        // Loader context is available in `pluginManager.webpackLoaderContext`
 
-      return Math.PI;
-    });
+        Math.PI,
+    );
   },
 };
 ```

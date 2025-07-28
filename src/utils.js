@@ -1,6 +1,5 @@
-import path from "path";
+import path from "node:path";
 
-/* eslint-disable class-methods-use-this */
 const trailingSlash = /[/\\]$/;
 
 // This somewhat changed in Less 3.x. Now the file name comes without the
@@ -82,7 +81,7 @@ function createWebpackLessPlugin(loaderContext, implementation) {
 
     async resolveRequests(context, possibleRequests) {
       if (possibleRequests.length === 0) {
-        return Promise.reject();
+        throw new Error("No possible requests to resolve");
       }
 
       let result;
@@ -110,7 +109,7 @@ function createWebpackLessPlugin(loaderContext, implementation) {
           IS_SPECIAL_MODULE_IMPORT.test(filename) ||
           lessOptions.webpackImporter === "only"
         ) {
-          const error = new Error();
+          const error = new Error("Next");
 
           error.type = "Next";
 
@@ -120,18 +119,18 @@ function createWebpackLessPlugin(loaderContext, implementation) {
         result = await super.loadFile(filename, ...args);
       } catch (error) {
         if (error.type !== "File" && error.type !== "Next") {
-          return Promise.reject(error);
+          throw error;
         }
 
         try {
           result = await this.resolveFilename(filename, ...args);
-        } catch (webpackResolveError) {
+        } catch (err) {
           error.message =
             `Less resolver error:\n${error.message}\n\n` +
-            `Webpack resolver error details:\n${webpackResolveError.details}\n\n` +
-            `Webpack resolver error missing:\n${webpackResolveError.missing}\n\n`;
+            `Webpack resolver error details:\n${err.details}\n\n` +
+            `Webpack resolver error missing:\n${err.missing}\n\n`;
 
-          return Promise.reject(error);
+          throw error;
         }
 
         loaderContext.addDependency(result);
@@ -179,7 +178,7 @@ function getLessOptions(loaderContext, loaderOptions, implementation) {
     ...options,
   };
 
-  const plugins = lessOptions.plugins.slice();
+  const plugins = [...lessOptions.plugins];
   const shouldUseWebpackImporter =
     typeof loaderOptions.webpackImporter === "boolean" ||
     loaderOptions.webpackImporter === "only"
@@ -192,7 +191,6 @@ function getLessOptions(loaderContext, loaderOptions, implementation) {
 
   plugins.unshift({
     install(lessProcessor, pluginManager) {
-      // eslint-disable-next-line no-param-reassign
       pluginManager.webpackLoaderContext = loaderContext;
 
       lessOptions.pluginManager = pluginManager;
@@ -220,14 +218,13 @@ function normalizeSourceMap(map) {
 
   // map.file is an optional property that provides the output filename.
   // Since we don't know the final filename in the webpack build chain yet, it makes no sense to have it.
-  // eslint-disable-next-line no-param-reassign
+
   delete newMap.file;
 
-  // eslint-disable-next-line no-param-reassign
   newMap.sourceRoot = "";
 
   // `less` returns POSIX paths, that's why we need to transform them back to native paths.
-  // eslint-disable-next-line no-param-reassign
+
   newMap.sources = newMap.sources.map((source) => path.normalize(source));
 
   return newMap;
@@ -239,11 +236,9 @@ function getLessImplementation(loaderContext, implementation) {
   if (!implementation || typeof implementation === "string") {
     const lessImplPkg = implementation || "less";
 
-    // eslint-disable-next-line import/no-dynamic-require, global-require
     resolvedImplementation = require(lessImplPkg);
   }
 
-  // eslint-disable-next-line consistent-return
   return resolvedImplementation;
 }
 
@@ -259,7 +254,7 @@ function getFileExcerptIfPossible(error) {
     excerpt.shift();
   }
 
-  excerpt.push(`${new Array(column).join(" ")}^`);
+  excerpt.push(`${" ".repeat(column)}^`);
 
   return excerpt;
 }
@@ -284,9 +279,9 @@ function errorFactory(error) {
 }
 
 export {
+  errorFactory,
+  getLessImplementation,
   getLessOptions,
   isUnsupportedUrl,
   normalizeSourceMap,
-  getLessImplementation,
-  errorFactory,
 };

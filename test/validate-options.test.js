@@ -1,15 +1,13 @@
-import { getCompiler, compile } from "./helpers/index";
+import { compile, getCompiler } from "./helpers/index";
 
 describe("validate options", () => {
   const tests = {
     lessOptions: {
       success: [
         { strictMath: true },
-        () => {
-          return {
-            strictMath: true,
-          };
-        },
+        () => ({
+          strictMath: true,
+        }),
       ],
       failure: [1, true, false, "test", []],
     },
@@ -26,7 +24,6 @@ describe("validate options", () => {
       failure: ["string"],
     },
     implementation: {
-      // eslint-disable-next-line global-require
       success: [require("less"), "less"],
       failure: [true, false, () => {}, []],
     },
